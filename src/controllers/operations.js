@@ -61,7 +61,7 @@ const find = ({ table, key = {} }) => new Promise((resolve, reject) => {
   delete key?.query;
   const args = [key, ...noPaginate ? [null] : [], options];
   // May break
-  resolve(table[method](...args)[noPaginate ? 'populate' : 'then'](populate))
+  table[method](...args)[noPaginate ? 'populate' : 'then'](populate)
     .then(res => resolve(res))
     .catch(e => reject(e));
 });
@@ -130,6 +130,7 @@ const update = async ({ table, key }) => {
   try {
     if (key.id) key._id = key.id; delete key.id;
     const element = await table.findOne(key);
+    console.log(element);
     if (!element) return Promise.resolve(element);
     Object.keys(key.body || {}).forEach(param => element[param] = key.body[param]);
     const res = await element.save();

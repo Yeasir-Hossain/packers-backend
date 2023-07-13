@@ -5,7 +5,7 @@ import User from './user.schema';
 /**
  * these are the set to validate the request body or query.
  */
-const createAllowed = new Set(['firstName', 'lastName', 'userName', 'email', 'password', 'role', 'gender', 'workingDays', 'dob', 'workingHours', 'maxProjectLimit', 'skillsets', 'status']);
+const createAllowed = new Set(['firstName', 'lastName', 'userName', 'email', 'password', 'role']);
 const allowedQuery = new Set(['firstName', 'lastName', 'username', 'page', 'limit', 'id', 'paginate', 'role']);
 const ownUpdateAllowed = new Set(['firstName', 'lastName', 'phone', 'avatar', 'passwordChange', 'data']);
 
@@ -24,7 +24,7 @@ export const register = ({ db }) => async (req, res) => {
     if (!valid) return res.status(400).send('Bad request');
     req.body.password = await bcrypt.hash(req.body.password, 8);
     // const user = await db.create({ table: User, key: { ...req.body } });
-    db.create({ table: User, key: { ...req.body, remainigTime: req?.body?.workingHours } })
+    db.create({ table: User, key: { ...req.body } })
       .then(async user => {
         await db.save(user);
         res.status(200).send(user);
