@@ -1,4 +1,4 @@
-import { getAllProducts, getSingleProduct, registerProduct, removeProduct } from './product.entity';
+import { getAllProducts, getSingleProduct, registerProduct, removeProduct, updateProduct } from './product.entity';
 
 export default function product() {
 
@@ -24,9 +24,16 @@ export default function product() {
   this.route.get('/products/:id', getSingleProduct(this));
 
   /**
-   * GET /products/:id
+ * POST /products/:id
+ * @description this route is used to update a single product.
+ * @response the product that has been updated.
+ */
+  this.route.post('/products/:id', updateProduct(this));
+
+  /**
+   * GET /deleteproduct/:id
    * @description this route is used to delete a single product.
    * @response success or failed
    */
-  this.route.get('/products/:id', removeProduct(this));
+  this.route.get('/deleteproduct/:id', removeProduct(this));
 }

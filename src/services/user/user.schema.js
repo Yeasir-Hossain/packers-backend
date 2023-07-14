@@ -2,14 +2,11 @@ import { Schema, model } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 
 const schema = new Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  fullName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  avatar: { type: String },
-  role: { type: String, required: true, enum: ['super-admin', 'admin', 'staff', 'user'] },
-  userName: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  gender: { type: String, enum: ['male', 'female', 'others'] },
+  avatar: { type: String },
+  role: { type: String, enum: ['super-admin', 'admin', 'staff', 'user'], default:'user' },
   phone: { type: Number },
   address: { type: String }
 }, { timestamps: true });

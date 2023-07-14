@@ -1,5 +1,5 @@
 import { auth, checkRole } from '../middlewares';
-import { getAll, login, logout, me, register, remove, updateOwn, updateUser, userProfile } from './user.entity';
+import { getAll, login, logout, me, register, remove, resetpassword, sendOTP, updateOwn, updateUser, userProfile, verifyOTP } from './user.entity';
 
 export default function user() {
 
@@ -60,9 +60,30 @@ export default function user() {
   this.route.patch('/user/:id', auth, checkRole(['admin']), updateUser(this));
 
   /**
-* DELETE ‘/user/:id’
-* @description this route is used to delte user profile.
-* @response {Object} 200 - the user.
-*/
+   * DELETE ‘/user/:id’
+   * @description this route is used to delte user profile.
+   * @response {Object} 200 - the user.
+   */
   this.route.delete('/user/:id', auth, checkRole(['admin', 'super-admin']), remove(this));
+
+  /**
+   * POST ‘/user/sendotp
+   * @description this route is used to send OTP.
+   * @response {Object} 200 - the user.
+   */
+  this.route.post('/user/sendotp', sendOTP(this));
+
+  /**
+   * POST ‘/user/verifyotp
+   * @description this route is used to verify OTP.
+   * @response {Object} 200 - the user.
+   */
+  this.route.post('/user/verifyotp', verifyOTP());
+
+  /**
+ * PATCH ‘/user/resetpassword
+ * @description this route is used to reset password.
+ * @response {Object} 200 - the user.
+ */
+  this.route.post('/user/resetpassword', resetpassword(this));
 }

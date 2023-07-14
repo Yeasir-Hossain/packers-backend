@@ -1,4 +1,4 @@
-import { getAllOrders, getSingleOrder, registerOrder, removeOrder } from './order.entity';
+import { getAllOrders, getSingleOrder, registerOrder, removeOrder, updateOrder } from './order.entity';
 
 export default function order() {
 
@@ -16,17 +16,24 @@ export default function order() {
    */
   this.route.get('/order', getAllOrders(this));
 
-  // /**
-  //  * GET /order/:id
-  //  * @description this route is used to get a single order.
-  //  * @response the order that the user is looking for.
-  //  */
+  /**
+   * GET /order/:id
+   * @description this route is used to get a single order.
+   * @response the order that the user is looking for.
+   */
   this.route.get('/order/:id', getSingleOrder(this));
 
   /**
-   * GET /products/:id
+   * POST /order/:id
+   * @response the order that has been updated.
+   * @description this route is used to update a single order.
+   */
+  this.route.post('/order/:id', updateOrder(this));
+
+  /**
+   * GET /deleteorder/:id
    * @description this route is used to delete a single product.
    * @response success or failed
    */
-  this.route.get('/order/:id', removeOrder(this));
+  this.route.get('/deleteorder/:id', removeOrder(this));
 }

@@ -5,9 +5,9 @@ import User from './user.schema';
 /**
  * these are the set to validate the request body or query.
  */
-const createAllowed = new Set(['firstName', 'lastName', 'userName', 'email', 'password', 'role']);
-const allowedQuery = new Set(['firstName', 'lastName', 'username', 'page', 'limit', 'id', 'paginate', 'role']);
-const ownUpdateAllowed = new Set(['firstName', 'lastName', 'phone', 'avatar', 'passwordChange', 'data']);
+const createAllowed = new Set(['fullName', 'email', 'password']);
+const allowedQuery = new Set(['fullName', 'page', 'limit', 'id', 'paginate', 'role']);
+const ownUpdateAllowed = new Set(['fullName', 'phone', 'avatar', 'passwordChange']);
 
 /**
  * Creates a new user in the database with the specified properties in the request body.
@@ -142,7 +142,7 @@ export const getAll = ({ db }) => async (req, res) => {
  */
 export const userProfile = ({ db }) => async (req, res) => {
   try {
-    const user = await db.findOne({ table: User, key: { id: req.params.id, populate: { path: 'role', select: 'name department' } } });
+    const user = await db.findOne({ table: User, key: { id: req.params.id } });
     if (!user) return res.status(404).send('No result found');
     res.status(200).send(user);
   }
@@ -219,11 +219,86 @@ export const remove = ({ db }) => async (req, res) => {
   try {
     const { id } = req.params;
     const user = await db.remove({ table: User, key: { id } });
-    if (!user) return res.status(404).send({ messae: 'User not found' });
+    if (!user) return res.status(404).send({ message: 'User not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   }
   catch (err) {
     console.log(err);
     res.status(500).send({ message: 'Something went wrong' });
+  }
+};
+
+/**
+ * This function is used to send OTP to the user.
+ * @param {Object} req This is the request object.
+ * @param {Object} res this is the response object
+ * @returns a temporary encrypted token and id of the user.
+ */
+export const sendOTP = ({ db }) => async (req, res) => {
+  try {
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    if (!validobj) return res.status(400).send('Bad request');
+    const { email } = req.body;
+    const user = await db.findOne({ table: User, key: { email } });
+    if (!user) res.status(404).send({ message: 'User not found' });
+    var otp = Math.floor(1000 + Math.random() * 9000);
+    console.log(otp);
+    const token = await bcrypt.hash(otp.toString(), 8);
+    res.status(200).send({ token: token, id: user.id });
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
+ * This function is used to send OTP to the user.
+ * @param {otp, token, time} req This is the request object.
+ * @param time will be the creation time of the OTP
+ * @param {Object} res this is the response object
+ * @returns successful or failed validation of OTP.
+ */
+export const verifyOTP = () => async (req, res) => {
+  try {
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    if (!validobj) return res.status(400).send('Bad request');
+    const { otp, token, time } = req.body;
+    const fiveMin = 1000 * 60 * 5;
+    const isValid = await bcrypt.compare(otp, token);
+    if (!isValid) return res.status(401).send('Wrong OTP');
+    const isValidTime = new Date() - time < fiveMin;
+    if (!isValidTime) return res.status(401).send('Time Expired');
+    res.status(200).send({ success: true });
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
+ * This function is used to send OTP to the user.
+ * @param {id, newpassword,otp, token, time} req This is the request object.
+ * @param time will be the creation time of the OTP
+ * @param {Object} res this is the response object
+ * @returns successful or failed validation of OTP.
+ */
+export const resetpassword = ({ db }) => async (req, res) => {
+  try {
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    if (!validobj) return res.status(400).send('Bad request');
+    const { id, newpassword, otp, token, time } = req.body;
+    const sevenMin = 1000 * 60 * 7;
+    const isValid = await bcrypt.compare(otp, token);
+    const isValidTime = new Date() - time < sevenMin;
+    if (!isValidTime || !isValid) return res.status(401).send('Time Expired');
+    const password = await bcrypt.hash(newpassword, 8);
+    await db.update({ table: User, key: { id: id, body: { password } } });
+    res.status(200).send({ success: true });
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
   }
 };

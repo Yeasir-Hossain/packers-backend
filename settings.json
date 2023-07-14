@@ -8,5 +8,6 @@
   "SMTP_PASSWORD": "",
   "EMAIL_NAME": "",
   "EMAIL_FROM": "from@example.com",
-  "MONGODB_URL": "mongodb+srv://yeasirhossain:cvY9FEPZLIubEfwf@packerscluster.qksweok.mongodb.net/?retryWrites=true&w=majority"
+  "MONGODB_URL": "mongodb+srv://yeasirhossain:cvY9FEPZLIubEfwf@packerscluster.qksweok.mongodb.net/?retryWrites=true&w=majority",
+  "secret": "coredevs"
 }

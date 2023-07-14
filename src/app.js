@@ -11,6 +11,7 @@ import actuator from 'express-actuator';
 import { readFileSync } from 'fs';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import 'dotenv/config';
 // import http2 from 'spdy';
 
 // Local Services

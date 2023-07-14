@@ -9,12 +9,23 @@ const schema = new Schema({
     },
     quantity: { type: Number, required: true },
   }],
-  status: { type: String, enum: ['saved', 'processing', 'completed', 'refund-processing', 'refund'] },
+  number: { type: String },
+  deliveredon: {
+    from: { type: Date },
+    to: { type: Date }
+  },
+  status: { type: String, enum: ['pending', 'processing', 'completed', 'shipping', 'refund', 'canceled'], default: 'pending' },
   address: { type: String },
+  alternativephone: { type: String },
+  instructions: { type: String },
   totalprice: { type: Number },
   trxID: { type: String }
 });
 
 schema.plugin(paginate);
+schema.methods.toJSON = function () {
+  const obj = this.toObject();
+  return JSON.parse(JSON.stringify(obj).replace(/_id/g, 'id'));
+};
 
 export default model('Orders', schema);
