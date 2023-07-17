@@ -41,6 +41,29 @@ export const register = ({ db }) => async (req, res) => {
   }
 };
 
+/**
+ * Creates a new user in the database with the specified properties in the request body.
+ * The 'role' property is automatically set to 'user', and the 'password' property is hashed using bcrypt.
+ *
+ * @param {Object} req - The request object containing the properties for the new user.
+ * @param {Object} db - The database object for interacting with the database.
+ * @returns {Object} The created user object, including the JWT token.
+ * @throws {Error} If the request body includes properties other than those allowed or if there is an error during the database operation.
+ */
+export const registerStaff = ({ db }) => async (req, res) => {
+  try {
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    if (!validobj) res.status(400).send('Bad request');
+    req.body.password = await bcrypt.hash(req.body.password, 8);
+    const staff = await db.create({ table: User, key: { ...req.body } });
+    if (!staff) return res.status(400).send('Bad request');
+    res.status(200).send(staff);
+  }
+  catch (e) {
+    console.log(e);
+    res.status(500).send('Something went wrong.');
+  }
+};
 
 
 /**
@@ -197,7 +220,7 @@ export const updateOwn = ({ db, imageUp }) => async (req, res) => {
  */
 export const updateUser = ({ db, imageUp }) => async (req, res) => {
   try {
-    req.body = JSON.parse(req.body.data || '{}');
+    if (req.body?.data) req.body = JSON.parse(req.body.data || '{}');
     if (req.files?.avatar?.path) {
       req.body.avatar = await imageUp(req.files?.avatar.path);
     }

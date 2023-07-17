@@ -6,7 +6,8 @@ const schema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   avatar: { type: String },
-  role: { type: String, enum: ['super-admin', 'admin', 'staff', 'user'], default:'user' },
+  role: { type: String, enum: ['super-admin', 'admin', 'staff', 'user'], default: 'user' },
+  access: { type: String, enum: ['livechat', 'product', 'order', 'request'] },
   phone: { type: Number },
   address: { type: String }
 }, { timestamps: true });

@@ -50,13 +50,13 @@ export const getAllOrders = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param getSingleOrder function is used to get a single order from the products collection
+ * @param getSingleOrder function is used to get a single order from the orders collection
  * @param req.params.id This is the id of the order.
  * @returns the product
  */
 export const getSingleOrder = ({ db }) => async (req, res) => {
   try {
-    const order = await db.findOne({ table: Orders, key: { id: req.params.id } });
+    const order = await db.findOne({ table: Orders, key: { id: req.params.id, populate: { path: 'user products.product' } } });
     res.status(200).send(order);
   }
   catch (err) {
@@ -66,7 +66,7 @@ export const getSingleOrder = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param updateProduct function updates the single product by id
+ * @param updateOrder function updates the single order by id
  * @param req.params.id is the id of the product sent in the params
  * @returns the product after update
  */
@@ -88,7 +88,7 @@ export const removeOrder = ({ db }) => async (req, res) => {
   try {
     const { id } = req.params;
     const order = await db.remove({ table: Orders, key: { id } });
-    if (!order) return res.status(404).send({ message: 'Orde not found' });
+    if (!order) return res.status(404).send({ message: 'Order not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   } catch (err) {
     console.log(err);

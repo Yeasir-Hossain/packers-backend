@@ -8,8 +8,7 @@ const schema = new Schema({
   images: [{ type: String, required: true }],
   quantity: { type: Number, required: true },
   price: { type: Number, required: true },
-  category: { type: String, required: true, enum: ['electronics', 'shoe', 'watch', 'beauty', 'accessories', 'budgetshopping'] },
-  subcategory: { type: String, required: true, enum: ['electronics', 'shoe', 'watch', 'beauty', 'accessories', 'budgetshopping'] },
+  category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
   tags: { type: String, required: true },
   link: { type: String, required: true },
   status: { type: String, enum: ['active', 'draft', 'archived'], default: 'active' }
@@ -18,6 +17,7 @@ const schema = new Schema({
 schema.plugin(paginate);
 schema.methods.toJSON = function () {
   const obj = this.toObject();
+  delete obj.__v;
   return JSON.parse(JSON.stringify(obj).replace(/_id/g, 'id'));
 };
 

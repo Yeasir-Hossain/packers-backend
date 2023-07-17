@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 
 const schema = new Schema({
+  orderNumber: { type: String },
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   products: [{
     product: {
@@ -14,7 +15,7 @@ const schema = new Schema({
     from: { type: Date },
     to: { type: Date }
   },
-  status: { type: String, enum: ['pending', 'processing', 'completed', 'shipping', 'refund', 'canceled'], default: 'pending' },
+  status: { type: String, enum: ['pending', 'processing', 'completed', 'shipping', 'refund','refund-processing','canceled'], default: 'pending' },
   address: { type: String },
   alternativephone: { type: String },
   instructions: { type: String },
@@ -25,6 +26,7 @@ const schema = new Schema({
 schema.plugin(paginate);
 schema.methods.toJSON = function () {
   const obj = this.toObject();
+  delete obj.__v;
   return JSON.parse(JSON.stringify(obj).replace(/_id/g, 'id'));
 };
 

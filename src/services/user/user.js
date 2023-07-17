@@ -1,5 +1,5 @@
 import { auth, checkRole } from '../middlewares';
-import { getAll, login, logout, me, register, remove, resetpassword, sendOTP, updateOwn, updateUser, userProfile, verifyOTP } from './user.entity';
+import { getAll, login, logout, me, register, registerStaff, remove, resetpassword, sendOTP, updateOwn, updateUser, userProfile, verifyOTP } from './user.entity';
 
 export default function user() {
 
@@ -9,6 +9,13 @@ export default function user() {
   * @response {Object} 200 - the new user.
   */
   this.route.post('/user', register(this));
+
+  /**
+  * POST /staff
+  * @description This route is used to create a staff.
+  * @response {Object} 200 - the new staff.
+  */
+  this.route.post('/user/staff', registerStaff(this));
 
   /**
   * POST /user/login

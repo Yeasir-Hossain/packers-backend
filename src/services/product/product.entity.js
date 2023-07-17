@@ -16,11 +16,15 @@ export const registerProduct = ({ db, imageUp }) => async (req, res) => {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' && req.body.data[k] !== null);
     if (!validobj) res.status(400).send('Bad request');
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
-    if (req.files?.images) {
+    if (req.files?.images?.length >1) {
       for (const image of req.files.images) {
         const img = await imageUp(image.path);
         req.body.images = [...(req.body.images || []), img];
       }
+    }
+    else {
+      const img = await imageUp(req.files?.images.path);
+      req.body.images = [...(req.body.images || []), img];
     }
     const product = await db.create({ table: Products, key: req.body });
     if (!product) return res.status(400).send('Bad request');
@@ -33,14 +37,15 @@ export const registerProduct = ({ db, imageUp }) => async (req, res) => {
 };
 
 /**
- * @param getAllProducts function is used to get all the products from the products collection
- * there is page query for this function which page of the data it need to show
+ * @param getAllProducts function is used to get all the products to the products collection
+ * there is page query and other queries for this function which page of the data it need to show
  * @returns all the products
  */
 export const getAllProducts = ({ db }) => async (req, res) => {
   try {
-    const products = await db.find({ table: Products, key: { query: req.query, allowedQuery: allowedQuery, paginate: true } });
-    res.status(200).send(products);
+    const products = await db.find({ table: Products, key: { query: req.query, allowedQuery: allowedQuery, paginate: true, populate: { path: 'category' } } });
+    if (!products) return res.status(400).send('Bad request');
+    return res.status(200).send(products);
   }
   catch (err) {
     console.log(err);
@@ -55,8 +60,9 @@ export const getAllProducts = ({ db }) => async (req, res) => {
  */
 export const getSingleProduct = ({ db }) => async (req, res) => {
   try {
-    const product = await db.findOne({ table: Products, key: { id: req.params.id } });
-    res.status(200).send(product);
+    const product = await db.findOne({ table: Products, key: { id: req.params.id, populate: { path: 'category' } } });
+    if (!product) return res.status(400).send('Bad request');
+    return res.status(200).send(product);
   }
   catch (err) {
     console.log(err);
@@ -69,12 +75,19 @@ export const getSingleProduct = ({ db }) => async (req, res) => {
  * @param req.params.id is the id of the product sent in the params
  * @returns the product after update
  */
-export const updateProduct = ({ db }) => async (req, res) => {
+export const updateProduct = ({ db, imageUp }) => async (req, res) => {
   try {
     const { id } = req.params;
-    const { body } = req;
-    const product = await db.update({ table: Products, key: { id: id, body: body } });
-    res.status(200).send(product);
+    if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
+    if (req.files?.images) {
+      for (const image of req.files.images) {
+        const img = await imageUp(image.path);
+        req.body.images = [...(req.body.images || []), img];
+      }
+    }
+    const product = await db.update({ table: Products, key: { id: id, body: req.body } });
+    if (!product) return res.status(400).send('Bad request');
+    return res.status(200).send(product);
   }
   catch (err) {
     console.log(err);
