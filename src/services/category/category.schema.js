@@ -2,8 +2,12 @@ import { Schema, model } from 'mongoose';
 
 const schema = new Schema({
   category: { type: String, reqired: true },
-  slug: { type: String, required: true },
-  subCategory: { type: String }
+  categorySlug: { type: String, required: true },
+  subCategory: [{
+    subCategoryName: { type: String },
+    subCategorySlug: { type: String }
+  }]
+
 });
 
 schema.methods.toJSON = function () {

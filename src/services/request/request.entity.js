@@ -23,7 +23,7 @@ export const registerRequest = ({ db, imageUp }) => async (req, res) => {
         req.body.images = [...(req.body.images || []), img];
       }
     }
-    else {
+    else if (req.files?.images) {
       const img = await imageUp(req.files?.images.path);
       req.body.images = [img];
     }
@@ -90,7 +90,7 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
         req.body.images = [...(req.body.images || []), img];
       }
     }
-    else {
+    else if (req.files?.images) {
       const img = await imageUp(req.files?.images.path);
       req.body.images = [img];
     }

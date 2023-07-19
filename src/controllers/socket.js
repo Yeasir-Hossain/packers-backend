@@ -57,4 +57,5 @@ export function listen(io, events, ...middlewares) {
     console.log('=> Registered all event handlers');
   })
     .catch(e => console.log(`[-] ${e.message}`));
+
 }

@@ -130,8 +130,8 @@ const update = async ({ table, key }) => {
   try {
     if (key.id) key._id = key.id; delete key.id;
     const element = await table.findOne(key);
-    console.log(element);
     if (!element) return Promise.resolve(element);
+    console.log(key.body);
     Object.keys(key.body || {}).forEach(param => element[param] = key.body[param]);
     const res = await element.save();
     key.populate && await res.populate(key.populate?.path, key.populate?.select?.split(' '));
