@@ -2,12 +2,12 @@
   "port": 4000,
   "origin": [],
   "useHTTP2": false,
-  "SMTP_HOST": "",
-  "SMTP_PORT": "",
-  "SMTP_USER": "",
-  "SMTP_PASSWORD": "",
-  "EMAIL_NAME": "",
-  "EMAIL_FROM": "from@example.com",
+  "SMTP_HOST": "smtp.gmail.com",
+  "SMTP_PORT": "465",
+  "SMTP_USER": "f0493409@gmail.com",
+  "SMTP_PASSWORD": "krlvlruwshfymdxl",
+  "EMAIL_NAME": "f0493409@gmail.com",
+  "EMAIL_FROM": "f0493409@gmail.com",
   "MONGODB_URL": "mongodb+srv://yeasirhossain:cvY9FEPZLIubEfwf@packerscluster.qksweok.mongodb.net/?retryWrites=true&w=majority",
   "secret": "coredevs"
 }

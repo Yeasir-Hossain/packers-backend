@@ -257,7 +257,7 @@ export const remove = ({ db }) => async (req, res) => {
  * @param {Object} res this is the response object
  * @returns a temporary encrypted token and id of the user.
  */
-export const sendOTP = ({ db }) => async (req, res) => {
+export const sendOTP = ({ db, mail }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
     if (!validobj) return res.status(400).send('Bad request');
@@ -265,7 +265,8 @@ export const sendOTP = ({ db }) => async (req, res) => {
     const user = await db.findOne({ table: User, key: { email } });
     if (!user) res.status(404).send({ message: 'User not found' });
     var otp = Math.floor(1000 + Math.random() * 9000);
-    console.log(otp);
+    const sendmail = await mail({ receiver: 'yeasir06@gmail.com', subject: 'OTP', body: otp +'', type: 'text' });
+    if (!sendmail) return res.status(400).send('Bad request');
     const token = await bcrypt.hash(otp.toString(), 8);
     res.status(200).send({ token: token, id: user.id });
   }
