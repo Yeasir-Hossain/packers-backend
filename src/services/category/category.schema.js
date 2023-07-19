@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 const schema = new Schema({
   category: { type: String, reqired: true },
   categorySlug: { type: String, required: true },
-  subCategory: [{
+  subCategory: [{ 
     subCategoryName: { type: String },
     subCategorySlug: { type: String }
   }]
