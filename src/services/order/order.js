@@ -8,14 +8,14 @@ export default function order() {
    * @description this route is insert a order
    * @response the order.
    */
-  this.route.post('/order', auth, checkAccess('staff', 'order'), registerOrder(this));
+  this.route.post('/order', auth, registerOrder(this));
 
   /**
    * GET /order
    * @description this route is used to get all orders.
    * @response all the orders.
    */
-  this.route.get('/order', auth, checkAccess('staff', 'order'), getAllOrders(this));
+  this.route.get('/order', auth, getAllOrders(this));
 
   /**
    * GET /order/:id

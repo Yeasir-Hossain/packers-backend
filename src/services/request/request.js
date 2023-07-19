@@ -7,21 +7,21 @@ export default function request() {
   /**
    * POST /request
    * @description this route is insert a request.
-   * @response the product.
+   * @response the request.
    */
-  this.route.post('/request', auth, checkAccess('staff', 'request'), registerRequest(this));
+  this.route.post('/request', auth, registerRequest(this));
 
   /**
    * GET /request
    * @description this route is used to get all requests.
-   * @response all the products.
+   * @response all the requests.
    */
-  this.route.get('/request', auth, checkAccess('staff', 'request'), getAllRequests(this));
+  this.route.get('/request', auth, getAllRequests(this));
 
   /**
    * GET /request/:id
    * @description this route is used to get a single request.
-   * @response the product that the user is looking for.
+   * @response the request that the user is looking for.
    */
   this.route.get('/request/:id', auth, getSingleRequest(this));
 

@@ -3,7 +3,7 @@ import Products from './product.schema';
 /**
  * these are the set to validate the request query.
  */
-const allowedQuery = new Set(['page', 'limit', 'id', 'paginate', 'sort', 'category', 'subcategory', 'tags']);
+const allowedQuery = new Set(['page', 'limit', 'id', 'paginate', 'sort', 'category', 'subcategory', 'productName', 'tags']);
 
 /**
  * @param registerProduct function is used to register a product from the products collection
@@ -16,7 +16,7 @@ export const registerProduct = ({ db, imageUp }) => async (req, res) => {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' && req.body.data[k] !== null);
     if (!validobj) res.status(400).send('Bad request');
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
-    if (req.files?.images?.length >1) {
+    if (req.files?.images?.length > 1) {
       for (const image of req.files.images) {
         const img = await imageUp(image.path);
         req.body.images = [...(req.body.images || []), img];
@@ -24,7 +24,7 @@ export const registerProduct = ({ db, imageUp }) => async (req, res) => {
     }
     else {
       const img = await imageUp(req.files?.images.path);
-      req.body.images = [...(req.body.images || []), img];
+      req.body.images = [img];
     }
     const product = await db.create({ table: Products, key: req.body });
     if (!product) return res.status(400).send('Bad request');
@@ -79,11 +79,15 @@ export const updateProduct = ({ db, imageUp }) => async (req, res) => {
   try {
     const { id } = req.params;
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
-    if (req.files?.images) {
+    if (req.files?.images?.length > 1) {
       for (const image of req.files.images) {
         const img = await imageUp(image.path);
         req.body.images = [...(req.body.images || []), img];
       }
+    }
+    else {
+      const img = await imageUp(req.files?.images.path);
+      req.body.images = [img];
     }
     const product = await db.update({ table: Products, key: { id: id, body: req.body } });
     if (!product) return res.status(400).send('Bad request');

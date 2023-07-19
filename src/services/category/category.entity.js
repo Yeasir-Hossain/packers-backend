@@ -1,6 +1,5 @@
 import Category from './category.schema';
 
-
 /**
  * @param registerCategoty function is used to register a category to the catrgory collection
  * @param {Object} req This is the req object.

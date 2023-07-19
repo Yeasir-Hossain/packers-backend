@@ -6,17 +6,24 @@ const schema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   products: [{
     product: {
-      type: Schema.Types.ObjectId, ref: 'Products', required: true,
+      type: Schema.Types.ObjectId, ref: 'Products',
     },
-    quantity: { type: Number, required: true },
+    productQuantity: { type: Number },
   }],
-  number: { type: String },
+  requests: [{
+    request: {
+      type: Schema.Types.ObjectId, ref: 'Request'
+    },
+    requestQuantity: { type: Number },
+  }],
   deliveredon: {
     from: { type: Date },
     to: { type: Date }
   },
-  status: { type: String, enum: ['pending', 'processing', 'completed', 'shipping', 'refund','refund-processing','canceled'], default: 'pending' },
+  insideDhaka: { type: Boolean, default: true },
+  status: { type: String, enum: ['pending', 'processing', 'completed', 'shipping', 'refund', 'refund-processing', 'canceled'], default: 'pending' },
   address: { type: String },
+  phone: { type: String },
   alternativephone: { type: String },
   instructions: { type: String },
   totalprice: { type: Number },

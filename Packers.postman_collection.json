@@ -680,6 +680,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "updaterequest",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"sent\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/request/64b62c00082e962eaa412dd7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"request",
+								"64b62c00082e962eaa412dd7"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -831,6 +861,77 @@
 									"key": "code",
 									"value": "HELLO20"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adondondiscount",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/abandoniscount?code=HELLO20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"abandoniscount"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "HELLO20"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "getusercart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update or add cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"cart"
 							]
 						}
 					},

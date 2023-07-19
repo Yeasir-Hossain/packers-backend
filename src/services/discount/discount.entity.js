@@ -55,7 +55,7 @@ export const removeDiscount = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param useDiscount function removes the single discount by id
+ * @param useDiscount function add the single discount by code
  * @param {Object} req This is the req object.
  * @returns percentage or amount
  */
@@ -77,7 +77,7 @@ export const useDiscount = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param useDiscount function removes the single discount by id
+ * @param useDiscount function removes the single discount by code
  * @param {Object} req This is the req object.
  * @returns percentage or amount
  */
@@ -85,7 +85,9 @@ export const abandonDiscount = ({ db }) => async (req, res) => {
   try {
     const { code } = req.query;
     const discount = await db.findOne({ table: Discount, key: { code: code, paginate: false } });
-    discount.usedBy.filter((user) => user.id !== req.user.id);
+    const newUsedBy = discount.usedBy.filter((user) => { return user.user.toString() !== req.user.id; });
+    discount.usedBy = newUsedBy;
+    discount.save();
     return res.status(200).send({ success: true, message: 'Coupon removed' });
   } catch (err) {
     console.log(err);

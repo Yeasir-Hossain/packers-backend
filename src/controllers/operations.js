@@ -6,7 +6,7 @@
  *   - allowedQuery (Set): A set of allowed query keys. If any provided query key is not in this set, the function will reject with an error.
  *   - paginate (boolean): If true, the function will return a paginated result. If false, it will return all matching documents.
  *   - populate (Object): An object with the following properties:
- *     - path (string): The field to populate.
+ *     - path (string): The field to populate. A space-separated string fields to populate multi fields
  *     - select (string): A space-separated string of fields to select.
  *   - query (Object): An object with key-value pairs representing queries to filter the search by.
  *     - sortBy (string): A string in the format "field:order", where "field" is the field to sort by and "order" is either "asc" or "desc".

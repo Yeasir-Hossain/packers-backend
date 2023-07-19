@@ -3,8 +3,8 @@ import Request from './request.schema';
 /**
  * these are the set to validate the request body or query.
  */
-const createAllowed = new Set(['user', 'name', 'link', 'note', 'quantity']);
-const allowedQuery = new Set(['fullName', 'page', 'limit', 'id', 'paginate', 'role']);
+const createAllowed = new Set(['name', 'link', 'note', 'quantity']);
+const allowedQuery = new Set(['page', 'limit', 'id', 'paginate', 'requestNumber']);
 
 /**
  * @param registerRequest function is used to register a request to the request collection
@@ -14,15 +14,20 @@ const allowedQuery = new Set(['fullName', 'page', 'limit', 'id', 'paginate', 'ro
  */
 export const registerRequest = ({ db, imageUp }) => async (req, res) => {
   try {
-    const valid = Object.keys(req.body.data).every(k => createAllowed.has(k)) || Object.keys(req.body).every(k => createAllowed.has(k));
-    if (!valid) return res.status(400).send('Bad request');
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
-    if (req.files?.images) {
+    const valid = Object.keys(req.body).every(k => createAllowed.has(k));
+    if (!valid) return res.status(400).send('Bad request');
+    if (req.files?.images?.length > 1) {
       for (const image of req.files.images) {
         const img = await imageUp(image.path);
         req.body.images = [...(req.body.images || []), img];
       }
     }
+    else {
+      const img = await imageUp(req.files?.images.path);
+      req.body.images = [img];
+    }
+    req.body.user = req.user.id;
     const request = await db.create({ table: Request, key: req.body });
     if (!request) return res.status(400).send('Bad request');
     return res.status(200).send(request);
@@ -41,7 +46,9 @@ export const registerRequest = ({ db, imageUp }) => async (req, res) => {
  */
 export const getAllRequests = ({ db }) => async (req, res) => {
   try {
-    const requests = await db.find({ table: Request, key: { query: req.query, allowedQuery: allowedQuery, paginate: true, populate: { path: 'user' } } });
+    const requests = await db.find({
+      table: Request, key: { query: req.query, allowedQuery: allowedQuery, paginate: true, populate: { path: 'user', select: 'fullName email phone address' } }
+    });
     if (!requests) return res.status(400).send('Bad request');
     return res.status(200).send(requests);
   }
@@ -77,11 +84,15 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
   try {
     const { id } = req.params;
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
-    if (req.files?.images) {
+    if (req.files?.images?.length > 1) {
       for (const image of req.files.images) {
         const img = await imageUp(image.path);
         req.body.images = [...(req.body.images || []), img];
       }
+    }
+    else {
+      const img = await imageUp(req.files?.images.path);
+      req.body.images = [img];
     }
     const request = await db.update({ table: Request, key: { id: id, body: req.body } });
     if (!request) return res.status(400).send('Bad request');

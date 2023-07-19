@@ -165,7 +165,7 @@ export const getAll = ({ db }) => async (req, res) => {
  */
 export const userProfile = ({ db }) => async (req, res) => {
   try {
-    const user = await db.findOne({ table: User, key: { id: req.params.id } });
+    const user = await db.findOne({ table: User, key: { id: req.params.id, } });
     if (!user) return res.status(404).send('No result found');
     res.status(200).send(user);
   }
