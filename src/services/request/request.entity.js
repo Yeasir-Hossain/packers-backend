@@ -17,7 +17,7 @@ export const registerRequest = ({ db, imageUp }) => async (req, res) => {
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
     const valid = Object.keys(req.body).every(k => createAllowed.has(k));
     if (!valid) return res.status(400).send('Bad request');
-    if (req.files?.images?.length > 1) {
+    if (req.files?.images.length > 1) {
       for (const image of req.files.images) {
         const img = await imageUp(image.path);
         req.body.images = [...(req.body.images || []), img];

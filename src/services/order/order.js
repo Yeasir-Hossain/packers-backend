@@ -36,5 +36,5 @@ export default function order() {
    * @description this route is used to delete a single product.
    * @response success or failed
    */
-  this.route.get('/deleteorder/:id', auth, checkRole('admin', 'super-admin'), removeOrder(this));
+  this.route.delete('/deleteorder/:id', auth, checkRole('admin', 'super-admin'), removeOrder(this));
 }

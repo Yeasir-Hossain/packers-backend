@@ -36,7 +36,91 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "registeruser",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"fullName\": \"Pujon Das\",\n    \"email\": \"pujon@mail.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "745"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "95"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5f-EsMiO9MLxPB2QGQCqfbYoR9JTJk\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:05:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"fullName\": \"Pujon Das\",\n    \"email\": \"pujon@mail.com\",\n    \"role\": \"user\",\n    \"id\": \"64b92308bef927cbe4da903f\"\n}"
+						}
+					]
 				},
 				{
 					"name": "userlogin",
@@ -66,7 +150,96 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "userlogin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"pujon@mail.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "97"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "724"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "coredevs=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjkyMzA4YmVmOTI3Y2JlNGRhOTAzZiIsImlhdCI6MTY4OTg1NDc1MH0.JyifwxqHeZM2D7uwvEGpnfpDUAih6HW3-71d0_MdmG0; Path=/; Expires=Sat, 22 Jul 2023 12:05:50 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "95"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5f-lqt87mHD1p/b8TEUAEwSdIrMAXs\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:05:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b92308bef927cbe4da903f\",\n    \"fullName\": \"Pujon Das\",\n    \"email\": \"pujon@mail.com\",\n    \"role\": \"user\"\n}"
+						}
+					]
 				},
 				{
 					"name": "logout",
@@ -87,7 +260,87 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "logout",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/user/logout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "96"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "717"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "coredevs=; Path=/; Expires=Thu, 20 Jul 2023 12:05:57 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "17"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"11-ySujtfR9Cze0O6SZeToJuqlOW50\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:05:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Logout successful"
+						}
+					]
 				},
 				{
 					"name": "getalluser",
@@ -117,7 +370,82 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "getalluser",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "92"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "675"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "421"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a5-I6B9oPNxZBISfkR1QOLluMfHujU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:06:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n        \"fullName\": \"Yeasir Hossain\",\n        \"email\": \"yeasir@mail.com\",\n        \"role\": \"admin\"\n    },\n    {\n        \"id\": \"64b4cbcbbb769ae707dbfb52\",\n        \"fullName\": \"Staff\",\n        \"email\": \"staff@mail.com\",\n        \"role\": \"staff\",\n        \"access\": \"order\"\n    },\n    {\n        \"id\": \"64b52fb6bcffedfa50cbd15c\",\n        \"fullName\": \"Staff\",\n        \"email\": \"staff1@mail.com\",\n        \"role\": \"staff\",\n        \"access\": \"order\"\n    },\n    {\n        \"id\": \"64b92308bef927cbe4da903f\",\n        \"fullName\": \"Pujon Das\",\n        \"email\": \"pujon@mail.com\",\n        \"role\": \"user\"\n    }\n]"
+						}
+					]
 				},
 				{
 					"name": "userprofile",
@@ -139,7 +467,84 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "userprofile",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/user/profile/64b4cbc2bb769ae707dbfb4f",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user",
+										"profile",
+										"64b4cbc2bb769ae707dbfb4f"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "91"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "666"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"66-o/aq34bYO3hvdojeNpi3S2TuTk0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:06:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"fullName\": \"Yeasir Hossain\",\n    \"email\": \"yeasir@mail.com\",\n    \"role\": \"admin\"\n}"
+						}
+					]
 				},
 				{
 					"name": "updateownprofile",
@@ -164,7 +569,92 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "updateownprofile",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"fullName\": \"Yeasir Hossain\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/user/me",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user",
+										"me"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "89"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "579"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"66-o/aq34bYO3hvdojeNpi3S2TuTk0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:08:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"fullName\": \"Yeasir Hossain\",\n    \"email\": \"yeasir@mail.com\",\n    \"role\": \"admin\"\n}"
+						}
+					]
 				},
 				{
 					"name": "sendOTP",
@@ -194,7 +684,92 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "sendOTP",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\" : \"yeasir@mail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/user/sendotp",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user",
+										"sendotp"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "88"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "570"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "104"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"68-Xv4aK1BiQoldwsiL2qWAxQDhDOA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:08:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"$2b$08$jU4FKgQPf7sww5HopMdYo.JFk3yDh2MemG4mF2QG9XrMXCFwVYd9C\",\n    \"id\": \"64b4cbc2bb769ae707dbfb4f\"\n}"
+						}
+					]
 				},
 				{
 					"name": "verifyOTP",
@@ -224,7 +799,92 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "verifyOTP",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"otp\":\"4015\",\n    \"token\":\"$2b$08$jU4FKgQPf7sww5HopMdYo.JFk3yDh2MemG4mF2QG9XrMXCFwVYd9C\",\n    \"time\":\"1689854984410\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/user/verifyOTP",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user",
+										"verifyOTP"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "87"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "473"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:10:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "resetpassword",
@@ -254,7 +914,92 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "resetpassword",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"64b118e7c73996b3585a2586\",\n    \"newpassword\": \"123456\",\n    \"otp\": \"4015\",\n    \"token\": \"$2b$08$jU4FKgQPf7sww5HopMdYo.JFk3yDh2MemG4mF2QG9XrMXCFwVYd9C\",\n    \"time\": \"1689854984410\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/user/resetpassword",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user",
+										"resetpassword"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "86"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "418"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:10:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "updateuser",
@@ -284,7 +1029,92 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "updateuser",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"role\": \"staff\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/user/64b52fb6bcffedfa50cbd15c",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user",
+										"64b52fb6bcffedfa50cbd15c"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "84"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "356"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "110"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6e-9hYPaK0WyEMHx6mazMYt1Pk5sOw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:11:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b52fb6bcffedfa50cbd15c\",\n    \"fullName\": \"Staff\",\n    \"email\": \"staff1@mail.com\",\n    \"role\": \"staff\",\n    \"access\": \"order\"\n}"
+						}
+					]
 				},
 				{
 					"name": "registerstaff",
@@ -314,7 +1144,92 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "registerstaff",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"fullName\": \"Staff2\",\n    \"email\": \"staff2@mail.com\",\n    \"password\": \"123456\",\n    \"role\":\"staff\",\n    \"access\":\"request\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/user/staff",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"user",
+										"staff"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "82"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "314"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "113"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"71-bSMrUeBJS/QDi2WkLVS+IRWzlI4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:12:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"fullName\": \"Staff2\",\n    \"email\": \"staff2@mail.com\",\n    \"role\": \"staff\",\n    \"access\": \"request\",\n    \"id\": \"64b924b8bef927cbe4da905a\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -348,7 +1263,91 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "registercategory",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"category\": \"Electronics\",\n    \"categorySlug\": \"electronics\",\n    \"subCategory\": [\n        {\n            \"subCategoryName\": \"Mobile Accessories\",\n            \"subCategorySlug\": \"mobileaccessories\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/category",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"category"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "81"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "277"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "214"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d6-/K0alGNTNQGsx7lmcE/eqYEb9cY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:13:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"category\": \"Electronics\",\n    \"categorySlug\": \"electronics\",\n    \"subCategory\": [\n        {\n            \"subCategoryName\": \"Mobile Accessories\",\n            \"subCategorySlug\": \"mobileaccessories\",\n            \"id\": \"64b924ddbef927cbe4da905e\"\n        }\n    ],\n    \"id\": \"64b924ddbef927cbe4da905d\"\n}"
+						}
+					]
 				},
 				{
 					"name": "allcategory",
@@ -368,7 +1367,82 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "allcategory",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/category",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"category"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "80"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "254"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "432"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b0-pR3Uh5EzHBLHa6yZ56iy8vAxZ3s\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:13:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"64b7967036ecd422ea03b121\",\n        \"category\": \"Electronics\",\n        \"categorySlug\": \"electronics\",\n        \"subCategory\": [\n            {\n                \"subCategoryName\": \"Molbile Accessories\",\n                \"subCategorySlug\": \"mobileaccessories\",\n                \"id\": \"64b7967036ecd422ea03b122\"\n            }\n        ]\n    },\n    {\n        \"id\": \"64b924ddbef927cbe4da905d\",\n        \"category\": \"Electronics\",\n        \"categorySlug\": \"electronics\",\n        \"subCategory\": [\n            {\n                \"subCategoryName\": \"Mobile Accessories\",\n                \"subCategorySlug\": \"mobileaccessories\",\n                \"id\": \"64b924ddbef927cbe4da905e\"\n            }\n        ]\n    }\n]"
+						}
+					]
 				},
 				{
 					"name": "deletecategory",
@@ -389,7 +1463,83 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "deletecategory",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/deletecategory/64b924ddbef927cbe4da905d",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"deletecategory",
+										"64b924ddbef927cbe4da905d"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "78"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "203"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-wmImqKFgzbbcOEFwrLz/+1xyFsI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:14:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Deleted Successfully\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -432,7 +1582,100 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "productregister",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "data",
+											"value": "{\n  \"productName\": \"Sample Product 1\",\n  \"description\": \"This is a sample product description.\",\n  \"origin\": \"Sample Origin\",\n  \"quantity\": 10,\n  \"price\": 29.99,\n\"category\":\"64b50f4388fa4145b4678a39\",\n  \"tags\": \"sample, shoe, electronics\",\n  \"link\": \"https://example.com/sample-product\",\n  \"status\": \"active\"\n}\n",
+											"type": "text"
+										},
+										{
+											"key": "images",
+											"type": "file",
+											"src": [
+												"/home/common/Downloads/dummyimages/oneplus-11-never-settle.webp",
+												"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg"
+											]
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "862"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "412"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"19c-sAsFfqX/qZO/MDMDz4Sk6NjAiIc\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:17:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"productName\": \"Sample Product 1\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/2099c6d996f51578627928e77110b40e.webp\",\n        \"images/13b8409a0c65582956f56f52748735ae.jpg\"\n    ],\n    \"quantity\": 10,\n    \"price\": 29.99,\n    \"category\": \"64b50f4388fa4145b4678a39\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\",\n    \"id\": \"64b925e8aa2c88a0866e49aa\"\n}"
+						}
+					]
 				},
 				{
 					"name": "allproducts",
@@ -458,7 +1701,88 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "allproducts",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/products?page=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"products"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "457"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3917"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f4d-DauRdYsTDdboktr9cV49mPG7vRA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 07:51:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"docs\": [\n        {\n            \"id\": \"64b530c0f53b754f99f651e1\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/b3157c9852580367425ade44bb239158.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b530cf20fb2dda57f447b2\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b5303bceb55727690a91eb\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/3c6ccc17ba151d4adbf4364afec50ac4.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b530a5db5be2e4f0f44cbd\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/6297bd113ca1d73f5c47578c74fc8163.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b5305d13ab4a56cc660fc4\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/00593054d1244b7e901ee3795c118c6f.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b52ff9bcffedfa50cbd165\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/511fc6bb56fa5678d429b842f8b84f43.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b5105410d900608033789c\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/253457677b8784164087ba65313a0d34.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b104a01feb47555623d9cd\",\n            \"productName\": \"Sample Product\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/2b298231f64df75fc32007b0d366a382.jpg\",\n                \"images/348c013c9965d6bee382df6f776794b6.webp\",\n                \"images/d89a7b958585f0850f0aee511d7aef2e.jpeg\"\n            ],\n            \"quantity\": 5,\n            \"price\": 29.99,\n            \"category\": {\n                \"id\": \"64b7967036ecd422ea03b121\",\n                \"category\": \"Electronics\",\n                \"categorySlug\": \"electronics\",\n                \"subCategory\": [\n                    {\n                        \"subCategoryName\": \"Molbile Accessories\",\n                        \"subCategorySlug\": \"mobileaccessories\",\n                        \"id\": \"64b7967036ecd422ea03b122\"\n                    }\n                ],\n                \"__v\": 0\n            },\n            \"subcategory\": \"shoe\",\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b52e8ebcffedfa50cbd153\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/0a8637dfbdc44744e72e7f9de3087bed.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b53079b8994e75e6311560\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/554040458ce71a3e6cf4257622a437b2.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        }\n    ],\n    \"totalDocs\": 14,\n    \"limit\": 10,\n    \"totalPages\": 2,\n    \"page\": 1,\n    \"pagingCounter\": 1,\n    \"hasPrevPage\": false,\n    \"hasNextPage\": true,\n    \"prevPage\": null,\n    \"nextPage\": 2\n}"
+						}
+					]
 				},
 				{
 					"name": "singleproduct",
@@ -479,7 +1803,83 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "singleproduct",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/products/64b104a01feb47555623d9cd",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"products",
+										"64b104a01feb47555623d9cd"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "98"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "846"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "674"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a2-sweeO3S/hmPkEH+/fGhKD/eqMHE\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:18:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b104a01feb47555623d9cd\",\n    \"productName\": \"Sample Product\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/2b298231f64df75fc32007b0d366a382.jpg\",\n        \"images/348c013c9965d6bee382df6f776794b6.webp\",\n        \"images/d89a7b958585f0850f0aee511d7aef2e.jpeg\"\n    ],\n    \"quantity\": 5,\n    \"price\": 29.99,\n    \"category\": {\n        \"id\": \"64b7967036ecd422ea03b121\",\n        \"category\": \"Electronics\",\n        \"categorySlug\": \"electronics\",\n        \"subCategory\": [\n            {\n                \"subCategoryName\": \"Molbile Accessories\",\n                \"subCategorySlug\": \"mobileaccessories\",\n                \"id\": \"64b7967036ecd422ea03b122\"\n            }\n        ],\n        \"__v\": 0\n    },\n    \"subcategory\": \"shoe\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\"\n}"
+						}
+					]
 				},
 				{
 					"name": "deleteproduct",
@@ -500,7 +1900,83 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "deleteproduct",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/deleteproduct/64b925e8aa2c88a0866e49aa",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"deleteproduct",
+										"64b925e8aa2c88a0866e49aa"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "97"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "820"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-wmImqKFgzbbcOEFwrLz/+1xyFsI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:18:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Deleted Successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "updateproduct",
@@ -530,7 +2006,92 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "updateproduct",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"category\":\"64b7967036ecd422ea03b121\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/products/64b104a01feb47555623d9cd",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"products",
+										"64b104a01feb47555623d9cd"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "96"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "808"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "477"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1dd-Wqz+vtPwhjCD/1fzEvJO7sUFV8s\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:18:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b104a01feb47555623d9cd\",\n    \"productName\": \"Sample Product\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/2b298231f64df75fc32007b0d366a382.jpg\",\n        \"images/348c013c9965d6bee382df6f776794b6.webp\",\n        \"images/d89a7b958585f0850f0aee511d7aef2e.jpeg\"\n    ],\n    \"quantity\": 5,\n    \"price\": 29.99,\n    \"category\": \"64b7967036ecd422ea03b121\",\n    \"subcategory\": \"shoe\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -573,7 +2134,100 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "requestregister",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "data",
+											"value": "{\n  \"name\": \"Sample Request\",\n  \"link\": \"This is a sample req link.\",\n  \"note\": \"Sample Origin\",\n  \"quantity\": 2\n}",
+											"type": "text"
+										},
+										{
+											"key": "images",
+											"type": "file",
+											"src": [
+												"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg",
+												"/home/common/Downloads/dummyimages/oneplus-11-never-settle.webp"
+											]
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/request",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"request"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "894"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "286"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"11e-iKET7I2IVEXNkVF7BKQ7zjPUKGY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:20:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"name\": \"Sample Request\",\n    \"link\": \"This is a sample req link.\",\n    \"note\": \"Sample Origin\",\n    \"images\": [\n        \"images/867b902237d0c297ab7e4ae2b9bc3332.jpg\",\n        \"images/fd1122cfce92d2448d966c77b6e9076e.webp\"\n    ],\n    \"quantity\": 2,\n    \"status\": \"pending\",\n    \"id\": \"64b9267a1bf33daa5887c232\"\n}"
+						}
+					]
 				},
 				{
 					"name": "allrequests",
@@ -599,7 +2253,88 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "allrequests",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/request?page=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"request"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "98"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "883"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1098"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"44a-6SMvmVFHonfWahxkWoZ1USzjgV4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:20:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"docs\": [\n        {\n            \"id\": \"64b62c00082e962eaa412dd7\",\n            \"user\": {\n                \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n                \"fullName\": \"Yeasir Hossain\",\n                \"email\": \"yeasir@mail.com\"\n            },\n            \"name\": \"Sample Request\",\n            \"link\": \"This is a sample req link.\",\n            \"note\": \"Sample Origin\",\n            \"images\": [\n                \"images/3b4c01652c7815ee74cd87eb9b6fb180.webp\",\n                \"images/99fada89a51f4788932002f5e147cf99.jpg\"\n            ],\n            \"quantity\": 2,\n            \"status\": \"sent\"\n        },\n        {\n            \"id\": \"64b92652aa2c88a0866e49b7\",\n            \"user\": {\n                \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n                \"fullName\": \"Yeasir Hossain\",\n                \"email\": \"yeasir@mail.com\"\n            },\n            \"name\": \"Sample Request\",\n            \"link\": \"This is a sample req link.\",\n            \"note\": \"Sample Origin\",\n            \"images\": [],\n            \"quantity\": 2,\n            \"status\": \"pending\"\n        },\n        {\n            \"id\": \"64b9267a1bf33daa5887c232\",\n            \"user\": {\n                \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n                \"fullName\": \"Yeasir Hossain\",\n                \"email\": \"yeasir@mail.com\"\n            },\n            \"name\": \"Sample Request\",\n            \"link\": \"This is a sample req link.\",\n            \"note\": \"Sample Origin\",\n            \"images\": [\n                \"images/867b902237d0c297ab7e4ae2b9bc3332.jpg\",\n                \"images/fd1122cfce92d2448d966c77b6e9076e.webp\"\n            ],\n            \"quantity\": 2,\n            \"status\": \"pending\"\n        }\n    ],\n    \"totalDocs\": 3,\n    \"limit\": 10,\n    \"totalPages\": 1,\n    \"page\": 1,\n    \"pagingCounter\": 1,\n    \"hasPrevPage\": false,\n    \"hasNextPage\": false,\n    \"prevPage\": null,\n    \"nextPage\": null\n}"
+						}
+					]
 				},
 				{
 					"name": "singlerequest",
@@ -620,7 +2355,83 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "singlerequest",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/request/64b92652aa2c88a0866e49b7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"request",
+										"64b92652aa2c88a0866e49b7"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "97"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "870"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "194"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c2-OcvGOoz7gWhyPbSLRtk+1XZGYOU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:20:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b92652aa2c88a0866e49b7\",\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"name\": \"Sample Request\",\n    \"link\": \"This is a sample req link.\",\n    \"note\": \"Sample Origin\",\n    \"images\": [],\n    \"quantity\": 2,\n    \"status\": \"pending\"\n}"
+						}
+					]
 				},
 				{
 					"name": "deleterequest",
@@ -641,7 +2452,83 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "deleterequest",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/deleterequest/64b92652aa2c88a0866e49b7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"deleterequest",
+										"64b92652aa2c88a0866e49b7"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "96"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "857"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-wmImqKFgzbbcOEFwrLz/+1xyFsI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:20:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Deleted Successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "updaterequest",
@@ -671,7 +2558,92 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "updaterequest",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"processing\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/request/64b62c00082e962eaa412dd7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"request",
+										"64b62c00082e962eaa412dd7"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "95"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "840"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "289"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"121-k9Fn3rRAXPC33Bz7HBhCQrqTDG0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:21:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b62c00082e962eaa412dd7\",\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"name\": \"Sample Request\",\n    \"link\": \"This is a sample req link.\",\n    \"note\": \"Sample Origin\",\n    \"images\": [\n        \"images/3b4c01652c7815ee74cd87eb9b6fb180.webp\",\n        \"images/99fada89a51f4788932002f5e147cf99.jpg\"\n    ],\n    \"quantity\": 2,\n    \"status\": \"processing\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -696,7 +2668,86 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "getusercart",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/cart",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "94"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "771"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "532"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"214-pGlMSyIWYet0I6eedHDiYQkaxlk\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:22:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b67a42551c4d4dfb9289c3\",\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"products\": [\n        {\n            \"product\": {\n                \"id\": \"64b530c0f53b754f99f651e1\",\n                \"productName\": \"Sample Product 1\",\n                \"description\": \"This is a sample product description.\",\n                \"origin\": \"Sample Origin\",\n                \"images\": [\n                    \"images/b3157c9852580367425ade44bb239158.jpg\"\n                ],\n                \"quantity\": 10,\n                \"price\": 29.99,\n                \"category\": \"64b50f4388fa4145b4678a39\",\n                \"tags\": \"sample, shoe, electronics\",\n                \"link\": \"https://example.com/sample-product\",\n                \"status\": \"active\",\n                \"__v\": 0\n            },\n            \"productQuantity\": 6,\n            \"id\": \"64b67c67fd3401eb613555ed\"\n        }\n    ],\n    \"requests\": []\n}"
+						}
+					]
 				},
 				{
 					"name": "update or add cart",
@@ -725,7 +2776,91 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "update or add cart",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"products\": [{\"product\": \"64b530c0f53b754f99f651e1\",\"productQuantity\": 3}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/cart",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "93"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "750"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "185"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b9-ylcCdSNQoJUrvxQmUR3TCLBJHcY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:22:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b67a42551c4d4dfb9289c3\",\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"products\": [\n        {\n            \"product\": \"64b530c0f53b754f99f651e1\",\n            \"productQuantity\": 3,\n            \"id\": \"64b67c67fd3401eb613555ed\"\n        }\n    ],\n    \"requests\": []\n}"
+						}
+					]
 				}
 			]
 		},
@@ -759,7 +2894,91 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "registerorder",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n  \"products\": [{ \"product\":\"64b104a01feb47555623d9cd\",  \"productQuantity\": 2}],\n  \"address\": \"123 Main Street, City, Country\",\n  \"totalprice\": 19.99,\n  \"trxID\": \"transaction_123\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"order"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "92"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "723"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "292"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"124-RgBV03DakrA+gTrGvlxuxuSznuM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:23:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"products\": [\n        {\n            \"product\": \"64b104a01feb47555623d9cd\",\n            \"productQuantity\": 2,\n            \"id\": \"64b927241bf33daa5887c24a\"\n        }\n    ],\n    \"insideDhaka\": true,\n    \"status\": \"pending\",\n    \"address\": \"123 Main Street, City, Country\",\n    \"trxID\": \"transaction_123\",\n    \"id\": \"64b927241bf33daa5887c249\",\n    \"requests\": []\n}"
+						}
+					]
 				},
 				{
 					"name": "getallorders",
@@ -792,7 +3011,92 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "getallorders",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/order?page=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"order"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "91"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "710"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1729"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6c1-lTxfGNz6x+sM6OPRNuXu/hSWoPo\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:23:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"docs\": [\n        {\n            \"insideDhaka\": true,\n            \"id\": \"64b62c36082e962eaa412de4\",\n            \"user\": {\n                \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n                \"fullName\": \"Yeasir Hossain\",\n                \"email\": \"yeasir@mail.com\"\n            },\n            \"products\": [\n                {\n                    \"product\": {\n                        \"id\": \"64b104a01feb47555623d9cd\",\n                        \"productName\": \"Sample Product\",\n                        \"description\": \"This is a sample product description.\",\n                        \"origin\": \"Sample Origin\",\n                        \"images\": [\n                            \"images/2b298231f64df75fc32007b0d366a382.jpg\",\n                            \"images/348c013c9965d6bee382df6f776794b6.webp\",\n                            \"images/d89a7b958585f0850f0aee511d7aef2e.jpeg\"\n                        ],\n                        \"quantity\": 3,\n                        \"price\": 29.99,\n                        \"category\": \"64b7967036ecd422ea03b121\",\n                        \"tags\": \"sample, shoe, electronics\",\n                        \"link\": \"https://example.com/sample-product\",\n                        \"status\": \"active\"\n                    },\n                    \"quantity\": 5,\n                    \"id\": \"64b62c36082e962eaa412de5\"\n                }\n            ],\n            \"status\": \"pending\",\n            \"address\": \"123 Main Street, City, Country\",\n            \"totalprice\": 19.99,\n            \"trxID\": \"transaction_123\",\n            \"requests\": []\n        },\n        {\n            \"id\": \"64b927241bf33daa5887c249\",\n            \"user\": {\n                \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n                \"fullName\": \"Yeasir Hossain\",\n                \"email\": \"yeasir@mail.com\"\n            },\n            \"products\": [\n                {\n                    \"product\": {\n                        \"id\": \"64b104a01feb47555623d9cd\",\n                        \"productName\": \"Sample Product\",\n                        \"description\": \"This is a sample product description.\",\n                        \"origin\": \"Sample Origin\",\n                        \"images\": [\n                            \"images/2b298231f64df75fc32007b0d366a382.jpg\",\n                            \"images/348c013c9965d6bee382df6f776794b6.webp\",\n                            \"images/d89a7b958585f0850f0aee511d7aef2e.jpeg\"\n                        ],\n                        \"quantity\": 3,\n                        \"price\": 29.99,\n                        \"category\": \"64b7967036ecd422ea03b121\",\n                        \"tags\": \"sample, shoe, electronics\",\n                        \"link\": \"https://example.com/sample-product\",\n                        \"status\": \"active\"\n                    },\n                    \"productQuantity\": 2,\n                    \"id\": \"64b927241bf33daa5887c24a\"\n                }\n            ],\n            \"insideDhaka\": true,\n            \"status\": \"pending\",\n            \"address\": \"123 Main Street, City, Country\",\n            \"trxID\": \"transaction_123\",\n            \"requests\": []\n        }\n    ],\n    \"totalDocs\": 2,\n    \"limit\": 10,\n    \"totalPages\": 1,\n    \"page\": 1,\n    \"pagingCounter\": 1,\n    \"hasPrevPage\": false,\n    \"hasNextPage\": false,\n    \"prevPage\": null,\n    \"nextPage\": null\n}"
+						}
+					]
 				},
 				{
 					"name": "singleorder",
@@ -813,15 +3117,91 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "singleorder",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/order/64b62c36082e962eaa412de4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"order",
+										"64b62c36082e962eaa412de4"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "89"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "684"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "999"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3e7-uyhJfvcHIqAyFYEWtmWdil7N+7I\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:23:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"insideDhaka\": true,\n    \"id\": \"64b62c36082e962eaa412de4\",\n    \"user\": {\n        \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n        \"fullName\": \"Yeasir Hossain\",\n        \"email\": \"yeasir@mail.com\",\n        \"password\": \"$2b$08$bZrwvyGfI2TdUq03pH6X7uWE3I3OuujveKhstRasYjR9oLQyEuL8i\",\n        \"role\": \"admin\",\n        \"createdAt\": \"2023-07-17T05:04:02.508Z\",\n        \"updatedAt\": \"2023-07-17T12:04:16.671Z\",\n        \"__v\": 0\n    },\n    \"products\": [\n        {\n            \"product\": {\n                \"id\": \"64b104a01feb47555623d9cd\",\n                \"productName\": \"Sample Product\",\n                \"description\": \"This is a sample product description.\",\n                \"origin\": \"Sample Origin\",\n                \"images\": [\n                    \"images/2b298231f64df75fc32007b0d366a382.jpg\",\n                    \"images/348c013c9965d6bee382df6f776794b6.webp\",\n                    \"images/d89a7b958585f0850f0aee511d7aef2e.jpeg\"\n                ],\n                \"quantity\": 3,\n                \"price\": 29.99,\n                \"category\": \"64b7967036ecd422ea03b121\",\n                \"subcategory\": \"shoe\",\n                \"tags\": \"sample, shoe, electronics\",\n                \"link\": \"https://example.com/sample-product\",\n                \"status\": \"active\",\n                \"__v\": 0\n            },\n            \"quantity\": 5,\n            \"id\": \"64b62c36082e962eaa412de5\"\n        }\n    ],\n    \"status\": \"pending\",\n    \"address\": \"123 Main Street, City, Country\",\n    \"totalprice\": 19.99,\n    \"trxID\": \"transaction_123\",\n    \"requests\": []\n}"
+						}
+					]
 				},
 				{
 					"name": "deleteorder",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/deleteorder/64b104b21feb47555623d9d2",
+							"raw": "http://localhost:4000/api/deleteorder/64b62c36082e962eaa412de4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -830,11 +3210,87 @@
 							"path": [
 								"api",
 								"deleteorder",
-								"64b104b21feb47555623d9d2"
+								"64b62c36082e962eaa412de4"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "deleteorder",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/deleteorder/64b62c36082e962eaa412de4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"deleteorder",
+										"64b62c36082e962eaa412de4"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "900"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-wmImqKFgzbbcOEFwrLz/+1xyFsI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:24:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Deleted Successfully\"\n}"
+						}
+					]
 				},
 				{
 					"name": "updateorder",
@@ -864,7 +3320,92 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "updateorder",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n     \"status\": \"completed\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/order/64b927241bf33daa5887c249",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"order",
+										"64b927241bf33daa5887c249"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "95"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "824"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "294"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"126-9uXrN/s/zlZ3w5AwgFbA7lHSGUo\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:25:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b927241bf33daa5887c249\",\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"products\": [\n        {\n            \"product\": \"64b104a01feb47555623d9cd\",\n            \"productQuantity\": 2,\n            \"id\": \"64b927241bf33daa5887c24a\"\n        }\n    ],\n    \"insideDhaka\": true,\n    \"status\": \"completed\",\n    \"address\": \"123 Main Street, City, Country\",\n    \"trxID\": \"transaction_123\",\n    \"requests\": []\n}"
+						}
+					]
 				}
 			]
 		},
@@ -898,7 +3439,91 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "registerdiscount",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"code\": \"hello50\",\n    \"category\": \"64b50f4388fa4145b4678a39\",\n    \"amount\": 50,\n    \"expiry_date\": \"10/12/2023\",\n    \"limit\": 20\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/discount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"discount"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "94"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "799"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "164"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a4-QJAv4cUxxiDmXNM+362YOmK7xWc\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:25:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": \"HELLO50\",\n    \"category\": \"64b50f4388fa4145b4678a39\",\n    \"amount\": 50,\n    \"expiry_date\": \"2023-10-11T18:00:00.000Z\",\n    \"limit\": 20,\n    \"id\": \"64b927d78f0392e6e8fbe40b\",\n    \"usedBy\": []\n}"
+						}
+					]
 				},
 				{
 					"name": "getalldiscount",
@@ -918,7 +3543,82 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "getalldiscount",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/discount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"discount"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "93"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "786"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "590"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24e-k9i2CcmAWLPvE5KNZjYk3nhIUXQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:26:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"64b53b0b14261e24a5e41739\",\n        \"code\": \"HELLO20\",\n        \"category\": null,\n        \"amount\": 20,\n        \"expiry_date\": \"2023-10-11T18:00:00.000Z\",\n        \"limit\": 20,\n        \"usedBy\": [\n            {\n                \"user\": {\n                    \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n                    \"fullName\": \"Yeasir Hossain\",\n                    \"email\": \"yeasir@mail.com\",\n                    \"password\": \"$2b$08$bZrwvyGfI2TdUq03pH6X7uWE3I3OuujveKhstRasYjR9oLQyEuL8i\",\n                    \"role\": \"admin\",\n                    \"createdAt\": \"2023-07-17T05:04:02.508Z\",\n                    \"updatedAt\": \"2023-07-17T12:04:16.671Z\",\n                    \"__v\": 0\n                },\n                \"id\": \"64b7d2ae111c4d02eb665eb9\"\n            }\n        ]\n    },\n    {\n        \"id\": \"64b927d78f0392e6e8fbe40b\",\n        \"code\": \"HELLO50\",\n        \"category\": null,\n        \"amount\": 50,\n        \"expiry_date\": \"2023-10-11T18:00:00.000Z\",\n        \"limit\": 20,\n        \"usedBy\": []\n    }\n]"
+						}
+					]
 				},
 				{
 					"name": "usediscount",
@@ -944,7 +3644,88 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "usediscount",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/usediscount?code=HELLO50",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"usediscount"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "HELLO50"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "894"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "13"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d-ghsvZvW03TKJheGAllH5LUTFRpw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:27:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"amount\": 50\n}"
+						}
+					]
 				},
 				{
 					"name": "adondondiscount",
@@ -970,7 +3751,88 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "adondondiscount",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/abandoniscount?code=HELLO50",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"abandoniscount"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "HELLO50"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "98"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "879"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-9jSnK8otPdqMYMVH4EjylAyP/6U\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:28:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Coupon removed\"\n}"
+						}
+					]
 				}
 			]
 		}
