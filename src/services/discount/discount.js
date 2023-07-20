@@ -22,7 +22,7 @@ export default function discount() {
    * @description this route is used to delete a single discount.
    * @response success or failed
    */
-  this.route.get('/deletediscount/:id', auth, checkAccess('staff', 'product'), removeDiscount(this));
+  this.route.delete('/deletediscount/:id', auth, checkAccess('staff', 'product'), removeDiscount(this));
 
   /**
    * GET /usediscount

@@ -37,5 +37,5 @@ export default function request() {
    * @description this route is used to delete a single request.
    * @response success or failed
    */
-  this.route.get('/deleterequest/:id', auth, checkRole('admin', 'super-admin'), removeRequest(this));
+  this.route.delete('/deleterequest/:id', auth, checkRole('admin', 'super-admin'), removeRequest(this));
 }

@@ -14,12 +14,12 @@ export default function category() {
    * @description this route is used to get all category.
    * @response all the categories.
    */
-  this.route.get('/category', auth, checkAccess('staff', 'product'), getAllCategory(this));
+  this.route.get('/category', auth, getAllCategory(this));
 
   /**
  * GET /deletecategory/:id
  * @description this route is used to delete a single category.
  * @response success or failed
  */
-  this.route.get('/deletecategory/:id', auth, checkAccess('staff', 'product'), removeCategory(this));
+  this.route.delete('/deletecategory/:id', auth, checkAccess('staff', 'product'), removeCategory(this));
 }
