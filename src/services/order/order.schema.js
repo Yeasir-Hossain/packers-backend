@@ -26,7 +26,6 @@ const schema = new Schema({
   phone: { type: String },
   alternativephone: { type: String },
   instructions: { type: String },
-  totalprice: { type: Number },
   trxID: { type: String }
 });
 
