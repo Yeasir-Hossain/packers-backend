@@ -65,6 +65,7 @@ export const useDiscount = ({ db }) => async (req, res) => {
     const discount = await db.findOne({ table: Discount, key: { code: code, paginate: false } });
     if (!discount) return res.status(404).send({ message: 'Coupon not found' });
     if (new Date(discount.expiry_date) < new Date()) return res.status(404).send({ message: 'Coupon expired' });
+    if (discount.limit > discount.usedBy.length) return res.status(404).send({ message: 'Coupon expired' });
     const used = discount.usedBy.find(user => { return user.user.toString() === req.user.id; });
     if (used) return res.status(404).send({ message: 'Bad request' });
     discount.usedBy.push({ user: req.user.id });
