@@ -7,114 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "Products",
-			"item": [
-				{
-					"name": "productregister",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "data",
-									"value": "{\n  \"productName\": \"Sample Product 1\",\n  \"description\": \"This is a sample product description.\",\n  \"origin\": \"Sample Origin\",\n  \"quantity\": 10,\n  \"price\": 29.99,\n\"category\":\"64b50f4388fa4145b4678a39\",\n  \"tags\": \"sample, shoe, electronics\",\n  \"link\": \"https://example.com/sample-product\",\n  \"status\": \"active\"\n}\n",
-									"type": "text"
-								},
-								{
-									"key": "images",
-									"type": "file",
-									"src": "/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:4000/api/products",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"products"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "allproducts",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:4000/api/products?page=1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"products"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "singleproduct",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:4000/api/products/64b1019d155c553c2de73ddb",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"products",
-								"64b1019d155c553c2de73ddb"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteproduct",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:4000/api/deleteproduct/64af914dc2fdbb156e20fc73",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"deleteproduct",
-								"64af914dc2fdbb156e20fc73"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Users",
 			"item": [
 				{
@@ -427,16 +319,16 @@
 			]
 		},
 		{
-			"name": "Order",
+			"name": "Category",
 			"item": [
 				{
-					"name": "registerorder",
+					"name": "registercategory",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"user\": \"64afb518df3c66e5042ef233\",\n  \"products\": [{ \"product\":\"64b104a01feb47555623d9cd\",  \"quantity\": 5}],\n  \"address\": \"123 Main Street, City, Country\",\n  \"totalprice\": 19.99,\n  \"trxID\": \"transaction_123\"\n}\n",
+							"raw": "{\n    \"category\": \"Electronics\",\n    \"categorySlug\": \"electronics\",\n    \"subCategory\": [\n        {\n            \"subCategoryName\": \"Molbile Accessories\",\n            \"subCategorySlug\": \"mobileaccessories\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -444,7 +336,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/order",
+							"raw": "http://localhost:4000/api/category",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -452,26 +344,19 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"order"
+								"category"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getallorders",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "allcategory",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://localhost:4000/api/order?page",
+							"raw": "http://localhost:4000/api/category",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -479,12 +364,96 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"order"
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletecategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/deletecategory/64b50f4388fa4145b4678a39",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"deletecategory",
+								"64b50f4388fa4145b4678a39"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "productregister",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{\n  \"productName\": \"Sample Product 1\",\n  \"description\": \"This is a sample product description.\",\n  \"origin\": \"Sample Origin\",\n  \"quantity\": 10,\n  \"price\": 29.99,\n\"category\":\"64b50f4388fa4145b4678a39\",\n  \"tags\": \"sample, shoe, electronics\",\n  \"link\": \"https://example.com/sample-product\",\n  \"status\": \"active\"\n}\n",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": [
+										"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg",
+										"/home/common/Downloads/dummyimages/oneplus-11-never-settle.webp"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allproducts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/products?page=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"products"
 							],
 							"query": [
 								{
 									"key": "page",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -492,12 +461,12 @@
 					"response": []
 				},
 				{
-					"name": "singleorder",
+					"name": "singleproduct",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/order/64b104b21feb47555623d9d2",
+							"raw": "http://localhost:4000/api/products/64b104a01feb47555623d9cd",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -505,20 +474,20 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"order",
-								"64b104b21feb47555623d9d2"
+								"products",
+								"64b104a01feb47555623d9cd"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "deleteorder",
+					"name": "deleteproduct",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/deleteorder/:id",
+							"raw": "http://localhost:4000/api/deleteproduct/64af914dc2fdbb156e20fc73",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -526,27 +495,21 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"deleteorder",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": null
-								}
+								"deleteproduct",
+								"64af914dc2fdbb156e20fc73"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "updateorder",
+					"name": "updateproduct",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n     \"status\": \"completed\"\n}",
+							"raw": "{\n    \"category\":\"64b7967036ecd422ea03b121\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -554,7 +517,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/order/64b104b21feb47555623d9d2",
+							"raw": "http://localhost:4000/api/products/64b104a01feb47555623d9cd",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -562,8 +525,8 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"order",
-								"64b104b21feb47555623d9d2"
+								"products",
+								"64b104a01feb47555623d9cd"
 							]
 						}
 					},
@@ -584,16 +547,15 @@
 							"formdata": [
 								{
 									"key": "data",
-									"value": "{\n  \"productName\": \"Sample Product\",\n  \"description\": \"This is a sample product description.\",\n  \"origin\": \"Sample Origin\",\n  \"quantity\": 10,\n  \"price\": 29.99,\n  \"category\": \"electronics\",\n  \"subcategory\": \"shoe\",\n  \"tags\": \"sample, shoe, electronics\",\n  \"link\": \"https://example.com/sample-product\",\n  \"status\": \"active\"\n}\n",
+									"value": "{\n  \"name\": \"Sample Request\",\n  \"link\": \"This is a sample req link.\",\n  \"note\": \"Sample Origin\",\n  \"quantity\": 2\n}",
 									"type": "text"
 								},
 								{
 									"key": "images",
 									"type": "file",
 									"src": [
-										"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg",
 										"/home/common/Downloads/dummyimages/oneplus-11-never-settle.webp",
-										"/home/common/Downloads/dummyimages/download.jpeg"
+										"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg"
 									]
 								}
 							]
@@ -666,7 +628,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/deleterequest/64af914dc2fdbb156e20fc73",
+							"raw": "http://localhost:4000/api/deleterequest/64b62564abc84548ae7fec9e",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -675,7 +637,7 @@
 							"path": [
 								"api",
 								"deleterequest",
-								"64af914dc2fdbb156e20fc73"
+								"64b62564abc84548ae7fec9e"
 							]
 						}
 					},
@@ -714,16 +676,36 @@
 			]
 		},
 		{
-			"name": "Category",
+			"name": "Cart",
 			"item": [
 				{
-					"name": "registercategory",
+					"name": "getusercart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update or add cart",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"category\": \"Electronics\",\n    \"slug\": \"electronics\",\n    \"subCategory\": \"Mobile\"\n}",
+							"raw": "{\"products\": [{\"product\": \"64b530c0f53b754f99f651e1\",\"productQuantity\": 6}]}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -731,7 +713,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/category",
+							"raw": "http://localhost:4000/api/cart",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -739,19 +721,60 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"category"
+								"cart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "registerorder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n  \"products\": [{ \"product\":\"64b104a01feb47555623d9cd\",  \"productQuantity\": 5}],\n  \"address\": \"123 Main Street, City, Country\",\n  \"totalprice\": 19.99,\n  \"trxID\": \"transaction_123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"order"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "allcategory",
+					"name": "getallorders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "http://localhost:4000/api/category",
+							"raw": "http://localhost:4000/api/order?page=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -759,19 +782,25 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"category"
+								"order"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "deletecategory",
+					"name": "singleorder",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/deletecategory/64b53ac314261e24a5e41735",
+							"raw": "http://localhost:4000/api/order/64b104b21feb47555623d9d2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -779,8 +808,59 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"deletecategory",
-								"64b53ac314261e24a5e41735"
+								"order",
+								"64b104b21feb47555623d9d2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteorder",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/deleteorder/64b104b21feb47555623d9d2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"deleteorder",
+								"64b104b21feb47555623d9d2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateorder",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n     \"status\": \"completed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/order/64b104b21feb47555623d9d2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"order",
+								"64b104b21feb47555623d9d2"
 							]
 						}
 					},
@@ -887,51 +967,6 @@
 									"key": "code",
 									"value": "HELLO20"
 								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Cart",
-			"item": [
-				{
-					"name": "getusercart",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:4000/api/cart",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"cart"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update or add cart",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:4000/api/cart",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"cart"
 							]
 						}
 					},
