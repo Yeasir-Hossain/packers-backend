@@ -14,7 +14,6 @@ export default function (settings) {
 
   passport.serializeUser(function (user, cb) {
     process.nextTick(function () {
-      console.log('user', user);
       return cb(null, user);
     });
   });
