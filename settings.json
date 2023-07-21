@@ -9,5 +9,12 @@
   "EMAIL_NAME": "f0493409@gmail.com",
   "EMAIL_FROM": "f0493409@gmail.com",
   "MONGODB_URL": "mongodb+srv://yeasirhossain:cvY9FEPZLIubEfwf@packerscluster.qksweok.mongodb.net/?retryWrites=true&w=majority",
-  "secret": "coredevs"
+  "secret": "coredevs",
+  "oauth": {
+    "google": {
+      "clientID": "34420131839-07omclhoji3bgp2tl5mft3n0lphefaic.apps.googleusercontent.com",
+      "clientSecret": "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",
+      "callbackURL": "http://localhost:4000/api/google/callback"
+    }
+  }
 }
