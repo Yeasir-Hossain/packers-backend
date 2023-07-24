@@ -25,6 +25,10 @@ export const registerOrder = ({ db }) => async (req, res) => {
       await element.save();
     });
     const order = await db.create({ table: Orders, key: req.body });
+    /**
+    const sendmail = await mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html page, type: 'text' });
+     *
+     */
     if (!order) return res.status(400).send('Bad request');
     return res.status(200).send(order);
   }

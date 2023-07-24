@@ -15,6 +15,11 @@
       "clientID": "34420131839-07omclhoji3bgp2tl5mft3n0lphefaic.apps.googleusercontent.com",
       "clientSecret": "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",
       "callbackURL": "http://localhost:4000/api/google/callback"
+    },
+    "facebook": {
+      "appID": "613842847587596",
+      "appSecret": "8205ddaac657345bf7d327d176302f80",
+      "callbackURL": "http://localhost:4000/api/facebook/callback"
     }
   }
 }

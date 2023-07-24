@@ -96,6 +96,32 @@ export const login = ({ db, settings }) => async (req, res) => {
   }
 };
 
+// /**
+//  * This function is used for login a user with passport.
+//  * @param {Object} req This is the request object.
+//  * @param {Object} res this is the response object
+//  * @returns It returns the data for success response. Otherwise it will through an error.
+//  */
+// export const socialLogin = (settings, user) => async (req, res) => {
+//   try {
+//     console.log(settings, 'user', user);
+//     const token = jwt.sign({ id: user.id }, settings.secret);
+//     res.cookie(settings.secret, token, {
+//       httpOnly: true,
+//       ...settings.useHTTP2 && {
+//         sameSite: 'None',
+//         secure: true,
+//         expires: new Date(Date.now() + 172800000/*2 days*/)
+//       },
+//     });
+//     res.status(200).send(user);
+//   }
+//   catch (err) {
+//     console.log(err);
+//     res.status(500).send('Something went wrong');
+//   }
+// };
+
 
 /**
  * This function is used for load a user profile from request header.
@@ -130,6 +156,7 @@ export const logout = ({ settings }) => async (req, res) => {
       },
       expires: new Date(Date.now())
     });
+    if (req.session) { req.logout(); req.session.destroy(); }
     return res.status(200).send('Logout successful');
   }
   catch (err) {
@@ -265,7 +292,7 @@ export const sendOTP = ({ db, mail }) => async (req, res) => {
     const user = await db.findOne({ table: User, key: { email } });
     if (!user) res.status(404).send({ message: 'User not found' });
     var otp = Math.floor(1000 + Math.random() * 9000);
-    const sendmail = await mail({ receiver: 'yeasir06@gmail.com', subject: 'OTP', body: otp +'', type: 'text' });
+    const sendmail = await mail({ receiver: 'yeasir06@gmail.com', subject: 'OTP', body: otp + '', type: 'text' });
     if (!sendmail) return res.status(400).send('Bad request');
     const token = await bcrypt.hash(otp.toString(), 8);
     res.status(200).send({ token: token, id: user.id });

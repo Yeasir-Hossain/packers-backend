@@ -29,6 +29,8 @@ import settings from '../settings.json';
 import { imageUp } from './controllers/imageUp';
 import gracefullShutdown from './controllers/gracefullShutdown';
 import { driverCache } from './controllers/driverCache';
+import session from 'express-session';
+import passport from 'passport';
 
 export default class App {
   constructor({ deps } = {}) {
@@ -76,7 +78,32 @@ export default class App {
       cors({
         origin: this.config.origin,
         credentials: true
-      }));
+      })
+    );
+
+    //passport middle wares
+    this.express.use(session({
+      secret: this.config.secret,
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        secure: false,
+        maxAge: 360000,
+      }
+    }));
+
+    this.express.use((req, res, next) => {
+      var msgs = req.session.messages || [];
+      res.locals.messages = msgs;
+      res.locals.hasMessages = !!msgs.length;
+      req.session.messages = [];
+      next();
+    });
+
+
+    // Initialize passport auth
+    this.express.use(passport.initialize());
+    this.express.use(passport.authenticate('session'));
     this.express.use(morgan('common')); // Logger
     this.express.use(actuator({ infoGitMode: 'full' })); // Health Checker
     this.express.use(json()); // Parse JSON response

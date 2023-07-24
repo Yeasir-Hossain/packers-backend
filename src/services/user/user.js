@@ -1,29 +1,12 @@
 import passport from 'passport';
-import session from 'express-session';
+import jwt from 'jsonwebtoken';
 // Internal
 import { auth, checkRole } from '../middlewares';
 import { getAll, login, logout, me, register, registerStaff, remove, resetpassword, sendOTP, updateOwn, updateUser, userProfile, verifyOTP } from './user.entity';
 import passportAuth from './user.passportauth';
 
 export default function user() {
-
-  // express e ja kichu ace shob kichu this er moddhe pabo
-  this.use(session({
-    secret: 'keyboard cat',
-    resave: false, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
-  }));
-  this.use((req, res, next) => {
-    var msgs = req.session.messages || [];
-    res.locals.messages = msgs;
-    res.locals.hasMessages = !!msgs.length;
-    req.session.messages = [];
-    next();
-  });
-
-  // Initialize passport auth
-  passportAuth(this.settings);
-  this.use(passport.authenticate('session'));
+  passportAuth(this);
 
   /**
   * POST /user
@@ -110,26 +93,54 @@ export default function user() {
   this.route.post('/user/verifyotp', verifyOTP());
 
   /**
- * PATCH ‘/user/resetpassword
- * @description this route is used to reset password.
- * @response {Object} 200 - the user.
- */
+   * PATCH ‘/user/resetpassword
+   * @description this route is used to reset password.
+   * @response {Object} 200 - the user.
+   */
   this.route.post('/user/resetpassword', resetpassword(this));
 
-  this.route.get('/login/federated/google', passport.authenticate('google'));
+  /**
+   * GET ‘/login/google
+   * @description this route is used to login with google.
+   * @response {Object} 200 - the user.
+   */
+  this.route.get('/login/google', passport.authenticate('google'));
 
+  /**
+   * GET ‘/login/facebook
+   * @description this route is used to login with facebook.
+   * @response {Object} 200 - the user.
+   */
+  this.route.get('/login/facebook', passport.authenticate('facebook'));
+
+  /**
+   * The below routes are callbacks for social authentication, successful login and failed login
+  */
   this.route.get('/google/callback', passport.authenticate('google', {
-    session:false,
-    successReturnToOrRedirect: '/api/google/success',
-    failureRedirect: '/api/google/failure'
+    successReturnToOrRedirect: '/api/social/success',
+    failureRedirect: '/api/social/failure'
   }));
 
-  this.route.get('/google/success', (req, res) => {
-    console.log(req.user);
+  this.route.get('/facebook/callback', passport.authenticate('facebook', {
+    successReturnToOrRedirect: '/api/social/success',
+    failureRedirect: '/api/social/failure'
+  }));
+
+  this.route.get('/social/success', (req, res) => {
+    const token = jwt.sign({ id: req.user.id }, this.settings.secret);
+    res.cookie(this.settings.secret, token, {
+      httpOnly: true,
+      ...this.settings.useHTTP2 && {
+        sameSite: 'None',
+        secure: true,
+      },
+      expires: new Date(Date.now() + 172800000/*2 days*/)
+      
+    });
     res.status(200).send(req.user);
   });
 
-  this.route.get('/google/failure', (req, res) => {
+  this.route.get('/social/failure', (req, res) => {
     res.status(404).send('Something went wrong');
   });
 
