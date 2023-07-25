@@ -1,5 +1,5 @@
 import { auth, checkAccess, checkRole } from '../middlewares';
-import { getAllOrders, getSingleOrder, registerOrder, removeOrder, updateOrder } from './order.entity';
+import { getAllOrders, getSingleOrder, getUserOrder, registerOrder, removeOrder, updateOrder } from './order.entity';
 
 export default function order() {
 
@@ -23,6 +23,13 @@ export default function order() {
    * @response the order that the user is looking for.
    */
   this.route.get('/order/:id', auth, getSingleOrder(this));
+
+  /**
+   * GET /userorder/:id
+   * @description this route is used to get order of a user.
+   * @response all the orders user is looking for.
+   */
+  this.route.get('/userorder/:id', auth, getUserOrder(this));
 
   /**
    * PATCH /order/:id

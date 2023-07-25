@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Order Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .order-details {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .order-details th,
+    .order-details td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    .accept-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 4px;
+    }
+
+    .product-image {
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Order Details</h2>
+  <table class="order-details">
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <!-- <th>Request Quantity</th> -->
+    </tr>images
+    <!-- Loop through the products and requests in the order and dynamically populate the table -->
+    <% for (let i=0; i < order.products.length; i++) { %>
+      <tr>
+        <td>
+          <img class="product-image" src="<%= serverLink + order.products[i].product.images[0] %>"
+            alt="<%= order.products[i].product.productName %>">
+          <%= serverLink + order.products[i].product.images[0] %>
+            <%= order.products[i].product.productName %>
+        </td>
+        <td>
+          <%= order.products[i].productQuantity %>
+        </td>
+        <td>$<%= order.products[i].product.price * order.products[i].productQuantity %>
+        </td>
+        <!-- <td>
+          <%= order.requests[i] ? order.requests[i].requestQuantity : '-' %>
+        </td> -->
+      </tr>
+      <% } %>
+  </table>
+  <!-- Add the accept button with a dynamic link to your backend API -->
+  <a class="accept-button" href="<%= homeLink %>">Keep Shopping With Us</a>
+</body>
+
+</html>

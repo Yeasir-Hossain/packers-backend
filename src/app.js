@@ -92,6 +92,7 @@ export default class App {
       }
     }));
 
+    //passport session
     this.express.use((req, res, next) => {
       var msgs = req.session.messages || [];
       res.locals.messages = msgs;
