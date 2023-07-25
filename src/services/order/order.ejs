@@ -51,9 +51,9 @@
     <% for (let i=0; i < order.products.length; i++) { %>
       <tr>
         <td>
-          <img class="product-image" src="<%= serverLink + order.products[i].product.images[0] %>"
+          <img class="product-image" src="<%= serverLink + 'api/' + order.products[i].product.images[0] %>"
             alt="<%= order.products[i].product.productName %>">
-          <%= serverLink + order.products[i].product.images[0] %>
+          <%= serverLink + 'api/' + order.products[i].product.images[0] %>
             <%= order.products[i].product.productName %>
         </td>
         <td>

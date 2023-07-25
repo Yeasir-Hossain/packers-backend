@@ -117,7 +117,7 @@ export default function user() {
    * The below routes are callbacks for social authentication, successful login and failed login
   */
   this.route.get('/google/callback', passport.authenticate('google', {
-    successReturnToOrRedirect: '/api/social/success',
+    successReturnToOrRedirect: 'http://localhost:5173/',
     failureRedirect: '/api/social/failure'
   }));
 
@@ -135,13 +135,18 @@ export default function user() {
         secure: true,
       },
       expires: new Date(Date.now() + 172800000/*2 days*/)
-      
+
     });
-    res.status(200).send(req.user);
+    res.status(200).send({ user: req.user });
   });
 
   this.route.get('/social/failure', (req, res) => {
     res.status(404).send('Something went wrong');
+  });
+  this.route.get('/get-user-data', (req, res) => {
+    console.log(req.user);
+    const userData = req.user;
+    res.status(200).json({ user: userData });
   });
 
 }

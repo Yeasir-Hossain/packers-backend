@@ -75,10 +75,7 @@ export default class App {
 
     // Load the middlewwares
     this.express.use(
-      cors({
-        origin: this.config.origin,
-        credentials: true
-      })
+      cors()
     );
 
     //passport middle wares

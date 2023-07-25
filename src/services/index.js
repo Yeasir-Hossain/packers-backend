@@ -2,6 +2,7 @@ import cart from './cart/cart';
 import category from './category/category';
 import demo from './demo/demo';
 import discount from './discount/discount';
+import image from './image/image';
 import order from './order/order';
 import product from './product/product';
 import request from './request/request';
@@ -16,4 +17,5 @@ export const services = (app) => {
   app.configure(request);
   app.configure(category);
   app.configure(discount);
+  app.configure(image);
 };

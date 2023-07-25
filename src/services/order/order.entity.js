@@ -44,8 +44,7 @@ export const registerOrder = ({ db, mail }) => async (req, res) => {
     };
     const html = generateMailTemplate(emailTemplate, options);
     // req.user.email is need to be put into the reciever
-    const sendMail = await mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
-    if (!sendMail) return res.status(400).send('Mail error');
+    mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
     return res.status(200).send(order);
   }
   catch (err) {

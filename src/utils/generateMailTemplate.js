@@ -8,7 +8,6 @@ import ejs from 'ejs';
  * @returns the generated email template
  */
 export default function generateMailTemplate(file, options) {
-  console.log(options);
   const renderedEmail = ejs.render(file, options);
   return renderedEmail;
 }
