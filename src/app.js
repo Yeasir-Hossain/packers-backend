@@ -31,6 +31,7 @@ import gracefullShutdown from './controllers/gracefullShutdown';
 import { driverCache } from './controllers/driverCache';
 import session from 'express-session';
 import passport from 'passport';
+import { passportMiddleware } from './services/middlewares';
 
 export default class App {
   constructor({ deps } = {}) {
@@ -43,6 +44,7 @@ export default class App {
     this.db = operations;
     this.events = {};
     this.wsMiddlewares = [];
+    this.passport = passport;
 
     if (deps) {
       let promises = deps.map(({ method, args }) => new Promise((resolve, reject) => method(...args).then(r => resolve(r)).catch((err) => reject(err))));
@@ -82,26 +84,19 @@ export default class App {
       })
     );
 
-    //passport middle wares
+    //passport session
     this.express.use(session({
       secret: this.config.secret,
       resave: false,
       saveUninitialized: true,
       cookie: {
         secure: false,
-        maxAge: 360000,
+        expires: new Date(Date.now() + 172800000/*2 days*/),
       }
     }));
 
     //passport session
-    this.express.use((req, res, next) => {
-      var msgs = req.session.messages || [];
-      res.locals.messages = msgs;
-      res.locals.hasMessages = !!msgs.length;
-      req.session.messages = [];
-      next();
-    });
-
+    this.express.use(passportMiddleware);
 
     // Initialize passport auth
     this.express.use(passport.initialize());
@@ -177,7 +172,8 @@ export default class App {
       lyra: this.search,
       db: this.db,
       mail: this.mail,
-      settings: this.config
+      settings: this.config,
+      passport: this.passport
     });
   }
 
@@ -197,7 +193,8 @@ export default class App {
         lyra: this.search,
         db: this.db,
         mail: this.mail,
-        settings: this.config
+        settings: this.config,
+        passport: this.passport
       }
     };
   }

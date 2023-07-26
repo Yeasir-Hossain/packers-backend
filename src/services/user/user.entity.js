@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from './user.schema';
+import decodeAuthToken from '../../utils/decodeAuthToken';
 
 /**
  * these are the set to validate the request body or query.
@@ -96,31 +97,36 @@ export const login = ({ db, settings }) => async (req, res) => {
   }
 };
 
-// /**
-//  * This function is used for login a user with passport.
-//  * @param {Object} req This is the request object.
-//  * @param {Object} res this is the response object
-//  * @returns It returns the data for success response. Otherwise it will through an error.
-//  */
-// export const socialLogin = (settings, user) => async (req, res) => {
-//   try {
-//     console.log(settings, 'user', user);
-//     const token = jwt.sign({ id: user.id }, settings.secret);
-//     res.cookie(settings.secret, token, {
-//       httpOnly: true,
-//       ...settings.useHTTP2 && {
-//         sameSite: 'None',
-//         secure: true,
-//         expires: new Date(Date.now() + 172800000/*2 days*/)
-//       },
-//     });
-//     res.status(200).send(user);
-//   }
-//   catch (err) {
-//     console.log(err);
-//     res.status(500).send('Something went wrong');
-//   }
-// };
+/**
+ * This function is used send user data to the frontend after social login.
+ * @param {Object} req This is the request object.
+ * @param {Object} res this is the response object
+ * @returns the user.
+ */
+export const socialSuccess = ({ settings }) => async (req, res) => {
+  try {
+    if (!req.user && !req.cookies[settings.secret]) return res.status(400).send('Bad request');
+    if (req.user) {
+      const token = jwt.sign({ id: req.user.id }, settings.secret);
+      res.cookie(settings.secret, token, {
+        httpOnly: true,
+        ...settings.useHTTP2 && {
+          sameSite: 'None',
+          secure: true,
+        },
+        expires: new Date(Date.now() + 172800000/*2 days*/),
+      });
+      return res.status(200).send(req.user);
+    }
+    const token = req.cookies[settings.secret];
+    const user = await decodeAuthToken(token);
+    res.status(200).send(user);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
 
 
 /**

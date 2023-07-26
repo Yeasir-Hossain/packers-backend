@@ -10,6 +10,13 @@ export const registerCategory = ({ db }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
     if (!validobj) res.status(400).send('Bad request');
+    const exist = await db.findOne({ table: Category, key: { slug: req.body.slug } });
+    if (exist) return res.status(400).send('Bad request');
+    if (req.body.parent) {
+      const parentId = await db.findOne({ table: Category, key: { slug: req.body.parent } });
+      req.body.parent = parentId.id;
+      req.body.ancestor = [...(parentId.ancestor || []), parentId.id];
+    }
     const category = await db.create({ table: Category, key: req.body });
     if (!category) return res.status(400).send('Bad request');
     return res.status(200).send(category);
@@ -27,7 +34,7 @@ export const registerCategory = ({ db }) => async (req, res) => {
  */
 export const getAllCategory = ({ db }) => async (req, res) => {
   try {
-    const categories = await db.find({ table: Category, key: { paginate: false } });
+    const categories = await db.find({ table: Category, key: { paginate: false, populate: { path: 'parent ancestor' } } });
     if (!categories) return res.status(400).send('Bad request');
     return res.status(200).send(categories);
   }

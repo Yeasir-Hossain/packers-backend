@@ -57,3 +57,15 @@ export async function auth(req, res, next) {
     res.status(401).send({ status: 401, reason: 'Unauthorized' });
   }
 }
+
+/**
+ * This function is the middleware of passport.
+ * This is used to store the session of passport
+ */
+export async function passportMiddleware(req, res, next) {
+  var msgs = req.session.messages || [];
+  res.locals.messages = msgs;
+  res.locals.hasMessages = !!msgs.length;
+  req.session.messages = [];
+  next();
+}
