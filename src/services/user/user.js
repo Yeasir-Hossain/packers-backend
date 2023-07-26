@@ -79,35 +79,35 @@ export default function user() {
   this.route.delete('/user/:id', auth, checkRole(['admin', 'super-admin']), remove(this));
 
   /**
-   * POST ‘/user/sendotp
+   * POST ‘/user/sendotp'
    * @description this route is used to send OTP.
    * @response {Object} 200 - the user.
    */
   this.route.post('/user/sendotp', sendOTP(this));
 
   /**
-   * POST ‘/user/verifyotp
+   * POST ‘/user/verifyotp'
    * @description this route is used to verify OTP.
    * @response {Object} 200 - the user.
    */
   this.route.post('/user/verifyotp', verifyOTP());
 
   /**
-   * PATCH ‘/user/resetpassword
+   * PATCH ‘/user/resetpassword'
    * @description this route is used to reset password.
    * @response {Object} 200 - the user.
    */
   this.route.post('/user/resetpassword', resetpassword(this));
 
   /**
-   * GET ‘/login/google
+   * GET ‘/login/google'
    * @description this route is used to login with google.
    * @response {Object} 200 - the user.
    */
   this.route.get('/login/google', passport.authenticate('google'));
 
   /**
-   * GET ‘/login/facebook
+   * GET ‘/login/facebook'
    * @description this route is used to login with facebook.
    * @response {Object} 200 - the user.
    */
@@ -115,7 +115,7 @@ export default function user() {
 
   /**
    * The below routes are callbacks for social authentication, successful login and failed login
-  */
+   */
   this.route.get('/google/callback', passport.authenticate('google', {
     successReturnToOrRedirect: 'http://localhost:5173/',
     failureRedirect: '/api/social/failure'
@@ -126,6 +126,11 @@ export default function user() {
     failureRedirect: '/api/social/failure'
   }));
 
+  /**
+   * GET ‘/social/success'
+   * @description this route is send the user data after social login
+   * @response {Object} 200 - the user.
+   */
   this.route.get('/social/success', (req, res) => {
     // const token = jwt.sign({ id: req.user.id }, this.settings.secret);
     // res.cookie(this.settings.secret, token, {
@@ -146,14 +151,9 @@ export default function user() {
       //   cookies: req.cookies
     });
   });
-  
+
   this.route.get('/social/failure', (req, res) => {
     res.status(404).send('Something went wrong');
-  });
-  this.route.get('/get-user-data', (req, res) => {
-    console.log(req.user);
-    const userData = req.user;
-    res.status(200).json({ user: userData });
   });
 
 }
