@@ -1,5 +1,5 @@
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
 // Internal
 import { auth, checkRole } from '../middlewares';
 import { getAll, login, logout, me, register, registerStaff, remove, resetpassword, sendOTP, updateOwn, updateUser, userProfile, verifyOTP } from './user.entity';
@@ -122,24 +122,31 @@ export default function user() {
   }));
 
   this.route.get('/facebook/callback', passport.authenticate('facebook', {
-    successReturnToOrRedirect: '/api/social/success',
+    successReturnToOrRedirect: 'http://localhost:5173/',
     failureRedirect: '/api/social/failure'
   }));
 
   this.route.get('/social/success', (req, res) => {
-    const token = jwt.sign({ id: req.user.id }, this.settings.secret);
-    res.cookie(this.settings.secret, token, {
-      httpOnly: true,
-      ...this.settings.useHTTP2 && {
-        sameSite: 'None',
-        secure: true,
-      },
-      expires: new Date(Date.now() + 172800000/*2 days*/)
+    // const token = jwt.sign({ id: req.user.id }, this.settings.secret);
+    // res.cookie(this.settings.secret, token, {
+    //   httpOnly: true,
+    //   ...this.settings.useHTTP2 && {
+    //     sameSite: 'None',
+    //     secure: true,
+    //   },
+    //   expires: new Date(Date.now() + 172800000/*2 days*/)
 
+    // });
+    // res.status(200).send({ user: req.user })
+    if (!req.user) return res.status(400).send('Bad request');
+    res.status(200).json({
+      success: true,
+      message: 'successfull',
+      user: req.user,
+      //   cookies: req.cookies
     });
-    res.status(200).send({ user: req.user });
   });
-
+  
   this.route.get('/social/failure', (req, res) => {
     res.status(404).send('Something went wrong');
   });

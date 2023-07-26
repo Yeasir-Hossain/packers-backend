@@ -75,7 +75,11 @@ export default class App {
 
     // Load the middlewwares
     this.express.use(
-      cors()
+      cors({
+        origin: 'http://localhost:5173',
+        methods: 'GET,POST,PUT,DELETE',
+        credentials: true,
+      })
     );
 
     //passport middle wares
