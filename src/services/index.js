@@ -1,3 +1,4 @@
+import blog from './blog/blog';
 import cart from './cart/cart';
 import category from './category/category';
 import demo from './demo/demo';
@@ -18,4 +19,5 @@ export const services = (app) => {
   app.configure(category);
   app.configure(discount);
   app.configure(image);
+  app.configure(blog);
 };
