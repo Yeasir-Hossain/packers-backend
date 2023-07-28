@@ -1,9 +1,8 @@
-import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth2';
 import FacebookStrategy from 'passport-facebook';
 import socialLogin from '../../utils/socialLogin';
 
-export default function ({ settings, db }) {
+export default function ({ settings, db, passport }) {
   passport.use(new GoogleStrategy({
     clientID: settings.oauth.google.clientID,
     clientSecret: settings.oauth.google.clientSecret,

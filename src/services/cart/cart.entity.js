@@ -1,7 +1,7 @@
 import Cart from './cart.schema';
 
 /**
- * @param registerCategoty function is used to register cart
+ * @param userCart function is used to register cart
  * @param {Object} req This is the req object.
  * @returns the cart
  */

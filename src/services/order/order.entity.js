@@ -29,16 +29,11 @@ export const registerOrder = ({ db, mail }) => async (req, res) => {
       await element.save();
     });
     req.body.user = req.user.id;
-    const order = await db.create({ table: Orders, key: req.body });
+    const order = await db.create({ table: Orders, key: { body: req.body, populate: { path: 'user products.product requests.request', } } });
     if (!order) return res.status(400).send('Bad request');
-    const data = await db.findOne({
-      table: Orders, key: {
-        id: order.id.toString(), populate: { path: 'user products.product requests.request', }
-      }
-    });
     const emailTemplate = fs.readFileSync(path.join(__dirname, 'order.ejs'), 'utf-8');
     const options = {
-      order: data,
+      order: order,
       serverLink: 'http://localhost:4000/',
       homeLink: 'http://localhost:4000/'
     };
