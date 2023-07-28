@@ -3,8 +3,9 @@ import paginate from 'mongoose-paginate-v2';
 
 const schema = new Schema({
   code: { type: String, uppercase: true, required: true, unique: true },
-  usedBy: [{ user: { type: Schema.Types.ObjectId, ref: 'User'} }],
+  usedBy: [{ user: { type: Schema.Types.ObjectId, ref: 'User' } }],
   category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+  subcategory: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
   amount: { type: Number },
   percentage: { type: String },
   expiry_date: { type: Date, required: true },

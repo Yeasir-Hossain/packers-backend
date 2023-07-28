@@ -1,45 +1,40 @@
 import Cart from './cart.schema';
 
 /**
- * @param registerCategoty function is used to register a category to the catrgory collection
+ * @param registerCategoty function is used to register cart
  * @param {Object} req This is the req object.
- * @throws {Error} If the request body includes properties other than those allowed or if there is an error during the database operation.
- * @returns
+ * @returns the cart
  */
 export const userCart = ({ db }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
     if (!validobj) res.status(400).send('Bad request');
-    // email theke jokhon invoice accept korbe tokhon kivabe user pabe??
     const previousCart = await db.findOne({ table: Cart, key: { user: req.user.id, paginate: false } });
     if (previousCart) {
       if (req.body.products) {
         for (const product of req.body.products) {
           const itemIndex = previousCart.products.findIndex((item) => item.product == product.product);
-          //update the existing product
           if (itemIndex > -1) {
             product.productQuantity < 1 ? previousCart.products.splice(itemIndex, 1) : previousCart.products[itemIndex].productQuantity = product.productQuantity;
           }
-          //insert the new product in the cart
           else {
             previousCart.products = [...(previousCart.products || []), product];
           }
         }
       }
-      //this will be accessed only from admin panel
-      if (req.body.requests) {
-        for (const request of req.body.requests) {
-          const itemIndex = previousCart.requests.findIndex((item) => item.request == request.request);
-          //update the existing request
-          if (itemIndex > -1) {
-            request.requestQuantity < 1 ? previousCart.requests.splice(itemIndex, 1) : previousCart.requests[itemIndex].requestQuantity = request.requestQuantity;
-          }
-          //insert the new request in the cart
-          else {
-            previousCart.requests = [...(previousCart.requests || []), request];
-          }
-        }
-      }
+      // if (req.body.requests) {
+      //   for (const request of req.body.requests) {
+      //     const itemIndex = previousCart.requests.findIndex((item) => item.request == request.request);
+      //     //update the existing request
+      //     if (itemIndex > -1) {
+      //       request.requestQuantity < 1 ? previousCart.requests.splice(itemIndex, 1) : previousCart.requests[itemIndex].requestQuantity = request.requestQuantity;
+      //     }
+      //     //insert the new request in the cart
+      //     else {
+      //       previousCart.requests = [...(previousCart.requests || []), request];
+      //     }
+      //   }
+      // }
       previousCart.save();
       return res.status(200).send(previousCart);
     }
@@ -54,6 +49,11 @@ export const userCart = ({ db }) => async (req, res) => {
   }
 };
 
+/**
+ * @param getUserCart function is used to get user cart
+ * @param {Object} req This is the req object.
+ * @returns the cart
+ */
 export const getUserCart = ({ db }) => async (req, res) => {
   try {
     const cart = await db.findOne({ table: Cart, key: { user: req.user.id, paginate: false, populate: { path: 'products.product requests.request' } } });

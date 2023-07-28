@@ -94,8 +94,6 @@ export default class App {
         expires: new Date(Date.now() + 172800000/*2 days*/),
       }
     }));
-
-    //passport session
     this.express.use(passportMiddleware);
 
     // Initialize passport auth
