@@ -24,17 +24,9 @@ export const register = ({ db }) => async (req, res) => {
     const valid = Object.keys(req.body).every(k => createAllowed.has(k));
     if (!valid) return res.status(400).send('Bad request');
     req.body.password = await bcrypt.hash(req.body.password, 8);
-    // const user = await db.create({ table: User, key: { ...req.body } });
-    db.create({ table: User, key: { ...req.body } })
-      .then(async user => {
-        await db.save(user);
-        res.status(200).send(user);
-      })
-      .catch(({ message }) => res.status(400).send({ message }));
-
-    // if (!user) return res.status(400).send('Bad request');
-    // await db.save(user);
-    // return res.status(200).send(user);
+    const user = await db.create({ table: User, key: { ...req.body } });
+    if (!user) return res.status(400).send('Bad request');
+    return res.status(200).send(user);
   }
   catch (e) {
     console.log(e);
@@ -211,8 +203,10 @@ export const userProfile = ({ db }) => async (req, res) => {
 
 const setPassword = async ({ oldPass, newPass, user }) => {
   if (!oldPass || !newPass) throw ({ status: 400, reason: 'bad request' });
-  const isValid = await bcrypt.compare(oldPass, user.password);
-  if (!isValid) throw ({ status: 401, reason: 'Invalid old Password' });
+  if (oldPass) {
+    const isValid = await bcrypt.compare(oldPass, user.password);
+    if (!isValid) throw ({ status: 401, reason: 'Invalid old Password' });
+  }
   return await bcrypt.hash(newPass, 8);
 };
 

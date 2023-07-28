@@ -1,6 +1,5 @@
 import User from '../services/user/user.schema';
 
-
 /**
  * email permissions in facebook developer is needed to access the email from facebook profile
  * @param {*} all the params are the required felds in the user schema

@@ -4,7 +4,7 @@ import Products from './product.schema';
 /**
  * these are the set to validate the request query.
  */
-const allowedQuery = new Set(['page', 'limit', 'id', 'paginate', 'sort', 'category', 'ancestor', 'productName', 'tags']);
+const allowedQuery = new Set(['page', 'limit', 'id', 'paginate', 'sort', 'category', 'subcategory', 'productName', 'tags']);
 
 /**
  * @param registerProduct function is used to register a product from the products collection
@@ -44,11 +44,7 @@ export const registerProduct = ({ db, imageUp }) => async (req, res) => {
  */
 export const getAllProducts = ({ db }) => async (req, res) => {
   try {
-    // query by ancestor left
-    // const searchAncestor = new mongoose.Types.ObjectId(req.query?.ancestor);
-    // const products = await Products.find({ 'category.ancestor': { $in: [req.query?.ancestor] } });
-    // console.log(products?.docs?.filter(product => { return product.category?.ancestor.includes(searchAncestor); }));
-    const products = await db.find({ table: Products, key: { query: req.query, allowedQuery: allowedQuery, populate: { path: 'category' } } });
+    const products = await db.find({ table: Products, key: { query: req.query, allowedQuery: allowedQuery, populate: { path: 'category subcategory'} } });
     if (!products) return res.status(400).send('Bad request');
     return res.status(200).send(products);
   }

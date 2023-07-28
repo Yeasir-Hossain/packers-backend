@@ -11,10 +11,9 @@ import { Schema, model } from 'mongoose';
 // });
 
 const schema = new Schema({
-  category: { type: String, reqired: true },
+  name: { type: String, reqired: true },
   slug: { type: String, required: true, unique: true },
-  ancestor: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
-  parent: { type: Schema.Types.ObjectId, ref: 'Category', default: null }
+  subcategory: [{ type: Schema.Types.ObjectId, ref: 'Category', default: null }]
 });
 
 schema.methods.toJSON = function () {

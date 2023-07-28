@@ -10,14 +10,29 @@ export const registerCategory = ({ db }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
     if (!validobj) res.status(400).send('Bad request');
-    const exist = await db.findOne({ table: Category, key: { slug: req.body.slug } });
-    if (exist) return res.status(400).send('Bad request');
-    if (req.body.parent) {
-      const parentId = await db.findOne({ table: Category, key: { slug: req.body.parent } });
-      req.body.parent = parentId.id;
-      req.body.ancestor = [...(parentId.ancestor || []), parentId.id];
+    let newcategory = {
+      name: req.body.categoryname,
+      slug: req.body.categoryslug,
+    };
+    let subcategory = {
+      name: req.body.subcategoryname,
+      slug: req.body.subcategoryslug,
+    };
+    const exist = await db.findOne({ table: Category, key: { slug: req.body.categoryslug } });
+    if (exist) {
+      const newsubcategory = await db.create({ table: Category, key: subcategory });
+      if (!newsubcategory) return res.status(400).send('Bad request');
+      exist.subcategory = [...(exist.subcategory || []), newsubcategory.id];
+      console.log(exist);
+      exist.save();
+      return res.status(200).send(exist);
     }
-    const category = await db.create({ table: Category, key: req.body });
+    if (subcategory.slug) {
+      const newsubcategory = await db.create({ table: Category, key: subcategory });
+      if (!newsubcategory) return res.status(400).send('Bad request');
+      newcategory = { ...newcategory, subcategory: [newsubcategory.id] };
+    }
+    const category = await db.create({ table: Category, key: newcategory });
     if (!category) return res.status(400).send('Bad request');
     return res.status(200).send(category);
   }
@@ -34,7 +49,24 @@ export const registerCategory = ({ db }) => async (req, res) => {
  */
 export const getAllCategory = ({ db }) => async (req, res) => {
   try {
-    const categories = await db.find({ table: Category, key: { paginate: false, populate: { path: 'parent ancestor' } } });
+    const categories = await db.find({ table: Category, key: { paginate: false, populate: { path: 'subcategory' } } });
+    if (!categories) return res.status(400).send('Bad request');
+    return res.status(200).send(categories);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
+ * @param getAllCategory function is used to get all the categories from the category collection
+ * there is page query and other queries for this function which page of the data it need to show
+ * @returns all the categories
+ */
+export const updateCategory = ({ db }) => async (req, res) => {
+  try {
+    const categories = await db.update({ table: Category, key: { id: req.param.id, body: req.body } });
     if (!categories) return res.status(400).send('Bad request');
     return res.status(200).send(categories);
   }
