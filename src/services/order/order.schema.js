@@ -4,7 +4,7 @@ import paginate from 'mongoose-paginate-v2';
 const schema = new Schema({
   orderNumber: { type: String },
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  email: { type: String },
+  email: { type: String, require: true },
   products: [{
     product: {
       type: Schema.Types.ObjectId, ref: 'Products',
@@ -17,13 +17,14 @@ const schema = new Schema({
     },
     requestQuantity: { type: Number },
   }],
+  total: { type: Number },
   deliveredon: {
     from: { type: Date },
     to: { type: Date }
   },
   date: { type: Date, default: Date.now },
   insideDhaka: { type: Boolean, default: true },
-  status: { type: String, enum: ['pending', 'processing', 'completed', 'shipping', 'cancel'], default: 'pending' },
+  status: { type: String, enum: ['pending', 'paid', 'processing', 'completed', 'shipping', 'cancel'], default: 'pending' },
   shippingaddress: {
     name: { type: String },
     address: { type: String, required: true },
@@ -38,13 +39,15 @@ const schema = new Schema({
     area: { type: String },
     zip: { type: String },
   },
-  phone: { type: String },
+  phone: { type: String, required: true },
   alternativephone: { type: String },
   instructions: { type: String },
   discountApplied: { type: String },
   val_id: { type: String },
   sessionkey: { type: String },
-  trxID: { type: String }
+  trxID: { type: String },
+  bankTranid: { type: String },
+  failedReason: { type: String }
 });
 
 schema.plugin(paginate);

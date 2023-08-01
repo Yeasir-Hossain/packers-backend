@@ -1,5 +1,5 @@
 import { auth, checkAccess, checkRole } from '../middlewares';
-import { getAllOrders, getSingleOrder, getUserOrder, registerOrder, removeOrder, updateOrder } from './order.entity';
+import { getAllOrders, getSingleOrder, getUserOrder, orderFail, orderSuccess, registerOrder, removeOrder, updateOrder } from './order.entity';
 
 export default function order() {
 
@@ -8,14 +8,16 @@ export default function order() {
    * @description this route is insert a order
    * @response the order.
    */
-  this.route.get('/order', registerOrder(this));
-  this.route.post('/ordersuccess', async (req, res) => {
-    console.log(req.body);
-    // if (req.body.val_id) {
-    //   res.redirect('http://localhost:3000/success');
-    // }
-    res.json(req.body.value_a);
-  });
+  this.route.post('/order', auth, registerOrder(this));
+
+  /**
+   * the below POST routes are for ssl commerz post request
+   * @description this routes updates the order or deletes them if transaction fails
+   * @response the order.
+   */
+  this.route.post('/ordersuccess/:id', orderSuccess(this));
+
+  this.route.post('/orderfail', orderFail(this));
 
   /**
    * GET /order

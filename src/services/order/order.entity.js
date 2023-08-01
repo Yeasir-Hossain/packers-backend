@@ -1,5 +1,8 @@
 import generateMailTemplate from '../../utils/generateMailTemplate';
 import Products from '../product/product.schema';
+import Request from '../request/request.schema';
+import Discount from '../discount/discount.schema';
+import Cart from '../cart/cart.schema';
 // import User from '../user/user.schema';
 import Orders from './order.schema';
 import fs from 'fs';
@@ -11,77 +14,102 @@ import path from 'path';
 const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber']);
 
 /**
+ * @param preparedata function prepares the total product category and product name for ssl commerz
+ * @param {price,tax,fee,quantity,productname, productcategory}
+ * after order the selected item quantity is subtracted from the main product collection
+ */
+
+/**
  * This function is for payment through ssl commerz
+ * Discount conditions are checked if there are any
+ * @param discountItemsTotal calculates the total price of the items where discount is applicable
+ * @param nondiscountItemsTotal calculates the total price of the items where discount is not applicable
  * @param {Object} req - The request object have the information about the order, userid and productid.
  * after order the selected item quantity is subtracted from the main product collection
  * @redirects to the success, fail or cancel url
  */
-export const registerOrder = ({ db, mail, sslcz }) => async (req, res) => {
+export const registerOrder = ({ db, sslcz }) => async (req, res) => {
   try {
-    // const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
-    // if (!validobj) res.status(400).send('Bad request');
-    // req.body?.products?.map(async (product) => {
-    //   const element = await db.findOne({ table: Products, key: { id: product.product } });
-    //   if (element.quantity < product.productQuantity) return res.status(400).send(`${element.name} is out of stock.`);
-    //   const newquantity = element.quantity - product.productQuantity;
-    //   element.quantity = newquantity;
-    //   await element.save();
-    // });
-    // req.body.user = req.user.id;
-    const test = {
-      name: 'hello',
-      value: 'world',
-    };
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    if (!validobj) return res.status(400).send('Bad request');
+    let discount;
+    if (req.body.discountApplied) {
+      discount = await db.findOne({ table: Discount, key: { code: req.body.discountApplied, paginate: false } });
+      if (!discount) return res.status(404).send({ message: 'Coupon not found' });
+      if (new Date(discount.expiry_date) < new Date()) return res.status(404).send({ message: 'Coupon expired' });
+      if (discount.limit < discount.usedBy.length) return res.status(404).send({ message: 'Coupon expired' });
+      const used = discount.usedBy.find(user => { return user.user.toString() === req.user.id; });
+      if (used) return res.status(404).send({ message: 'Bad request' });
+    }
+    let productNames = [];
+    let productCategories = [];
+    let totalPrice = 0, discountItemsTotal = 0, nondiscountItemsTotal = 0;
+    if (req.body?.products) {
+      for (const product of req.body.products) {
+        const element = await db.findOne({ table: Products, key: { id: product.product } });
+        if (element.quantity < product.productQuantity) return res.status(400).send(`${element.name} is out of stock.`);
+        discount && element.category.toString() == discount.category && element.subcategory.toString() == discount.subcategory
+          ? (discountItemsTotal += (element.price + element.tax + element.fee) * product.productQuantity)
+          : (nondiscountItemsTotal += (element.price + element.tax + element.fee) * product.productQuantity);
+        productNames.push(element.name);
+        productCategories.push(element.category.name);
+        const newQuantity = element.quantity - product.productQuantity;
+        element.quantity = newQuantity;
+        await element.save();
+      }
+    }
+    !discount ? totalPrice = nondiscountItemsTotal : discount.percentage ? totalPrice = ((discountItemsTotal * (100 - discount.percentage)) / 100) + nondiscountItemsTotal : totalPrice = (discountItemsTotal - discount.amount) + nondiscountItemsTotal;
+    if (req.body?.requests) {
+      for (const request of req.body.requests) {
+        const element = await db.findOne({ table: Request, key: { id: request.request } });
+        productNames.push(element.name);
+        productCategories.push('request');
+        totalPrice += (element.price + element.tax + element.fee) * request.requestQuantity;
+      }
+    }
+    req.body.user = req.user.id;
+    req.body.insideDhaka ? totalPrice += 99 : totalPrice += 150;
+    const order = await db.create({ table: Orders, key: req.body });
+    if (!order) return res.status(400).send('Bad request');
     const data = {
-      total_amount: 100,
+      total_amount: totalPrice.toFixed(2),
       currency: 'BDT',
-      tran_id: 'REF1234', // use unique tran_id for each api call
-      success_url: 'http://localhost:4000/api/ordersuccess',
-      fail_url: 'http://localhost:3000/fail',
-      cancel_url: 'http://localhost:3000/cancel',
-      ipn_url: 'http://localhost:4000/api/ipn',
+      tran_id: `${'PP' + Date.now().toString(36).toUpperCase()}`,
+      success_url: `http://localhost:4000/api/ordersuccess/${order.id}`,
+      fail_url: 'http://localhost:4000/api/orderfail',
+      cancel_url: 'http://localhost:4000/api/orderfail',
+      ipn_url: 'http://localhost:4000/api/orderipn',
       shipping_method: 'Courier',
-      product_name: 'Computer.',
-      product_category: 'Electronic',
+      product_name: `${productNames.join()}`,
+      product_category: `${productCategories.join()}`,
       product_profile: 'general',
-      cus_name: 'Customer Name',
-      cus_email: 'customer@example.com',
-      cus_add1: 'Dhaka',
-      cus_add2: 'Dhaka',
-      cus_city: 'Dhaka',
-      cus_state: 'Dhaka',
-      cus_postcode: '1000',
+      cus_name: `${order.shippingaddress.name ? order.shippingaddress.name : req.user.name}`,
+      cus_email: `${order.email}`,
+      cus_add1: `${order.shippingaddress.address}`,
+      cus_add2: `${order.shippingaddress.address}`,
+      cus_city: `${order.shippingaddress.city}`,
+      cus_state: `${order.shippingaddress.city}`,
+      cus_postcode: `${order.shippingaddress.zip}`,
       cus_country: 'Bangladesh',
-      cus_phone: '01711111111',
-      cus_fax: '01711111111',
-      ship_name: 'Customer Name',
-      ship_add1: 'Dhaka',
-      ship_add2: 'Dhaka',
-      ship_city: 'Dhaka',
-      ship_state: 'Dhaka',
-      ship_postcode: 1000,
+      cus_phone: `${order.phone}`,
+      ship_name: `${order.shippingaddress.name ? order.shippingaddress.name : req.user.fullName}`,
+      ship_add1: `${order.shippingaddress.address}`,
+      ship_add2: `${order.shippingaddress.address}`,
+      ship_city: `${order.shippingaddress.city}`,
+      ship_state: `${order.shippingaddress.city}`,
+      ship_postcode: `${order.shippingaddress.zip}`,
       ship_country: 'Bangladesh',
       emi_option: 0,
-      value_a: `${test}`
+      value_a: `${req.body.cart}`,
     };
+    console.log(data);
     sslcz.init(data).then(apiResponse => {
       let GatewayPageURL = apiResponse.GatewayPageURL;
-      res.redirect(GatewayPageURL);
-      console.log('Redirecting to: ', GatewayPageURL);
+      order.sessionkey = apiResponse.sessionkey;
+      order.total = totalPrice;
+      order.save();
+      res.send({ url: GatewayPageURL });
     });
-    // // payment method needs to be added here // order price discount calculation
-    // const order = await db.create({ table: Orders, key: { body: req.body, populate: { path: 'user products.product requests.request', } } });
-    // if (!order) return res.status(400).send('Bad request');
-    // const emailTemplate = fs.readFileSync(path.join(__dirname, 'order.ejs'), 'utf-8');
-    // const options = {
-    //   order: order,
-    //   serverLink: 'http://localhost:4000/',
-    //   homeLink: 'http://localhost:4000/'
-    // };
-    // const html = generateMailTemplate(emailTemplate, options);
-    // // req.user.email is need to be put into the reciever
-    // mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
-    // return res.status(200).send(order);
   }
   catch (err) {
     console.log(err);
@@ -90,10 +118,68 @@ export const registerOrder = ({ db, mail, sslcz }) => async (req, res) => {
 };
 
 /**
- * This function registers the order after successful payment
- * @param {Object} req - The request object have the information about page and any other filter.
- * @returns {Object} all the orders
+ * This function updates status of the order and clears the user cart after successful payment
+ * @param {Object} req - The request object have the response from ssl commerz.
+ * @returns {Object} the order
  */
+// eslint-disable-next-line no-unused-vars
+export const orderSuccess = ({ db, mail }) => async (req, res) => {
+  try {
+    const order = await db.update({
+      table: Orders, key: {
+        id: req.params.id, body: {
+          val_id: req.body.val_id,
+          trxID: req.body.tran_id,
+          bankTranid: req.body.bank_tran_id,
+          status: 'paid'
+        }, populate: { path: 'products.product requests.request' }
+      }
+    });
+    // need to update cart
+    // const cart = await db.update({ table: Cart, key: { id: req.body.value_a, } });
+    const emailTemplate = fs.readFileSync(path.join(__dirname, 'order.ejs'), 'utf-8');
+    const options = {
+      order: order,
+      serverLink: 'http://localhost:4000/',
+      homeLink: 'http://localhost:5173/'
+    };
+    // eslint-disable-next-line no-unused-vars
+    const html = generateMailTemplate(emailTemplate, options);
+    // order.email is need to be put into the reciever
+    // mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
+    // if (req.body.val_id) {
+    //   res.redirect('http://localhost:5173');
+    // }
+    res.send(order);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
+ * This function deletes the order after failed payment
+ * @param {Object} req - The request object have the information about page and any other filter.
+ * @returns {Object} the order
+ */
+export const orderFail = ({ db }) => async (req, res) => {
+  try {
+    const order = await db.update({
+      table: Orders, key: {
+        id: req.params.id, body: {
+          failedReason: req.body.failedreason
+        }, populate: { path: 'products.product requests.request' }
+      }
+    });
+    console.log(order);
+    res.send(order);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
 
 /**
  * This function gets all the orders in the database

@@ -1,5 +1,4 @@
 import Products from './product.schema';
-// import mongoose from 'mongoose';
 
 /**
  * these are the set to validate the request query.
