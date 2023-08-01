@@ -9,8 +9,7 @@ const schema = new Schema({
   quantity: { type: Number, required: true },
   price: { type: Number, required: true },
   category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
-  subcategory: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
-  // category: [{ type: String, required: true }],
+  subcategory: { type: Schema.Types.ObjectId, ref: 'Category'},
   tags: { type: String, required: true },
   link: { type: String, required: true },
   status: { type: String, enum: ['active', 'draft', 'archived'], default: 'active' }

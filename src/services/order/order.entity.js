@@ -11,42 +11,89 @@ import path from 'path';
 const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber']);
 
 /**
- * Creates a new  order in the database.
+ * This function is for payment through ssl commerz
  * @param {Object} req - The request object have the information about the order, userid and productid.
  * after order the selected item quantity is subtracted from the main product collection
- * @returns {Object} The created order.
- * @throws {Error} If the request body does not have any value in any key then it will throw error.
+ * @redirects to the success, fail or cancel url
  */
-export const registerOrder = ({ db, mail }) => async (req, res) => {
+export const registerOrder = ({ db, mail, sslcz }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
-    if (!validobj) res.status(400).send('Bad request');
-    req.body?.products?.map(async (product) => {
-      const element = await db.findOne({ table: Products, key: { id: product.product } });
-      if (element.quantity < product.productQuantity) return res.status(400).send(`${element.name} is out of stock.`);
-      const newquantity = element.quantity - product.productQuantity;
-      element.quantity = newquantity;
-      await element.save();
-    });
-    req.body.user = req.user.id;
-    const order = await db.create({ table: Orders, key: { body: req.body, populate: { path: 'user products.product requests.request', } } });
-    if (!order) return res.status(400).send('Bad request');
-    const emailTemplate = fs.readFileSync(path.join(__dirname, 'order.ejs'), 'utf-8');
-    const options = {
-      order: order,
-      serverLink: 'http://localhost:4000/',
-      homeLink: 'http://localhost:4000/'
+    // const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    // if (!validobj) res.status(400).send('Bad request');
+    // req.body?.products?.map(async (product) => {
+    //   const element = await db.findOne({ table: Products, key: { id: product.product } });
+    //   if (element.quantity < product.productQuantity) return res.status(400).send(`${element.name} is out of stock.`);
+    //   const newquantity = element.quantity - product.productQuantity;
+    //   element.quantity = newquantity;
+    //   await element.save();
+    // });
+    // req.body.user = req.user.id;
+    const test = {
+      name: 'hello',
+      value: 'world',
     };
-    const html = generateMailTemplate(emailTemplate, options);
-    // req.user.email is need to be put into the reciever
-    mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
-    return res.status(200).send(order);
+    const data = {
+      total_amount: 100,
+      currency: 'BDT',
+      tran_id: 'REF1234', // use unique tran_id for each api call
+      success_url: 'http://localhost:4000/api/ordersuccess',
+      fail_url: 'http://localhost:3000/fail',
+      cancel_url: 'http://localhost:3000/cancel',
+      ipn_url: 'http://localhost:4000/api/ipn',
+      shipping_method: 'Courier',
+      product_name: 'Computer.',
+      product_category: 'Electronic',
+      product_profile: 'general',
+      cus_name: 'Customer Name',
+      cus_email: 'customer@example.com',
+      cus_add1: 'Dhaka',
+      cus_add2: 'Dhaka',
+      cus_city: 'Dhaka',
+      cus_state: 'Dhaka',
+      cus_postcode: '1000',
+      cus_country: 'Bangladesh',
+      cus_phone: '01711111111',
+      cus_fax: '01711111111',
+      ship_name: 'Customer Name',
+      ship_add1: 'Dhaka',
+      ship_add2: 'Dhaka',
+      ship_city: 'Dhaka',
+      ship_state: 'Dhaka',
+      ship_postcode: 1000,
+      ship_country: 'Bangladesh',
+      emi_option: 0,
+      value_a: `${test}`
+    };
+    sslcz.init(data).then(apiResponse => {
+      let GatewayPageURL = apiResponse.GatewayPageURL;
+      res.redirect(GatewayPageURL);
+      console.log('Redirecting to: ', GatewayPageURL);
+    });
+    // // payment method needs to be added here // order price discount calculation
+    // const order = await db.create({ table: Orders, key: { body: req.body, populate: { path: 'user products.product requests.request', } } });
+    // if (!order) return res.status(400).send('Bad request');
+    // const emailTemplate = fs.readFileSync(path.join(__dirname, 'order.ejs'), 'utf-8');
+    // const options = {
+    //   order: order,
+    //   serverLink: 'http://localhost:4000/',
+    //   homeLink: 'http://localhost:4000/'
+    // };
+    // const html = generateMailTemplate(emailTemplate, options);
+    // // req.user.email is need to be put into the reciever
+    // mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
+    // return res.status(200).send(order);
   }
   catch (err) {
     console.log(err);
     res.status(500).send('Something went wrong');
   }
 };
+
+/**
+ * This function registers the order after successful payment
+ * @param {Object} req - The request object have the information about page and any other filter.
+ * @returns {Object} all the orders
+ */
 
 /**
  * This function gets all the orders in the database
@@ -95,7 +142,7 @@ export const getSingleOrder = ({ db }) => async (req, res) => {
  */
 export const getUserOrder = ({ db }) => async (req, res) => {
   try {
-    const order = await db.findOne({ table: Orders, key: { user: req.params.id, populate: { path: 'user products.product' } } });
+    const order = await db.findOne({ table: Orders, key: { user: req.user.id, populate: { path: 'user products.product' } } });
     if (!order) return res.status(400).send('Bad request');
     return res.status(200).send(order);
   }
@@ -138,3 +185,38 @@ export const removeOrder = ({ db }) => async (req, res) => {
     res.status(500).send('Something went wrong');
   }
 };
+
+
+// {
+//   tran_id: 'REF1234',
+//     val_id: '2307311711580TpruhTouBEb4Gf',
+//       amount: '100.00',
+//         card_type: 'VISA-Dutch Bangla',
+//           store_amount: '97.50',
+//             card_no: '418117XXXXXX7814',
+//               bank_tran_id: '230731171158SpmdpoZNvCMQ6FL',
+//                 status: 'VALID',
+//                   tran_date: '2023-07-31 17:11:40',
+//                     error: '',
+//                       currency: 'BDT',
+//                         card_issuer: 'TRUST BANK, LTD.',
+//                           card_brand: 'VISA',
+//                             card_sub_brand: 'Classic',
+//                               card_issuer_country: 'Bangladesh',
+//                                 card_issuer_country_code: 'BD',
+//                                   store_id: 'yeasi64c7803069071',
+//                                     verify_sign: '2421d0d4ff9d0558b3a71bc07e161ccc',
+//                                       verify_key: 'amount,bank_tran_id,base_fair,card_brand,card_issuer,card_issuer_country,card_issuer_country_code,card_no,card_sub_brand,card_type,currency,currency_amount,currency_rate,currency_type,error,risk_level,risk_title,status,store_amount,store_id,tran_date,tran_id,val_id,value_a,value_b,value_c,value_d',
+//                                         verify_sign_sha2: '1009b17045229680b00d27bc4c689aec09bf8b99344101936de43eb813f7d0aa',
+//                                           currency_type: 'BDT',
+//                                             currency_amount: '100.00',
+//                                               currency_rate: '1.0000',
+//                                                 base_fair: '0.00',
+//                                                   value_a: '',
+//                                                     value_b: '',
+//                                                       value_c: '',
+//                                                         value_d: '',
+//                                                           subscription_id: '',
+//                                                             risk_level: '0',
+//                                                               risk_title: 'Safe'
+// }

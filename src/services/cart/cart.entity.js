@@ -22,19 +22,17 @@ export const userCart = ({ db }) => async (req, res) => {
           }
         }
       }
-      // if (req.body.requests) {
-      //   for (const request of req.body.requests) {
-      //     const itemIndex = previousCart.requests.findIndex((item) => item.request == request.request);
-      //     //update the existing request
-      //     if (itemIndex > -1) {
-      //       request.requestQuantity < 1 ? previousCart.requests.splice(itemIndex, 1) : previousCart.requests[itemIndex].requestQuantity = request.requestQuantity;
-      //     }
-      //     //insert the new request in the cart
-      //     else {
-      //       previousCart.requests = [...(previousCart.requests || []), request];
-      //     }
-      //   }
-      // }
+      if (req.body.requests) {
+        for (const request of req.body.requests) {
+          const itemIndex = previousCart.requests.findIndex((item) => item.request == request.request);
+          if (itemIndex > -1) {
+            request.requestQuantity < 1 ? previousCart.requests.splice(itemIndex, 1) : previousCart.requests[itemIndex].requestQuantity = request.requestQuantity;
+          }
+          else {
+            previousCart.requests = [...(previousCart.requests || []), request];
+          }
+        }
+      }
       previousCart.save();
       return res.status(200).send(previousCart);
     }

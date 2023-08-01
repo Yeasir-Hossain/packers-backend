@@ -1,3 +1,4 @@
+import Cart from '../cart/cart.schema';
 import Request from './request.schema';
 
 /**
@@ -59,9 +60,9 @@ export const getAllRequests = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param getSingleRequest function is used to get a signle product from the products collection
- * @param req.params.id This is the id of the product.
- * @returns the request product
+ * @param getSingleRequest function is used to get a signle request from the requests collection
+ * @param req.params.id This is the id of the request.
+ * @returns the request request
  */
 export const getSingleRequest = ({ db }) => async (req, res) => {
   try {
@@ -76,9 +77,9 @@ export const getSingleRequest = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param updateRequest function updates the single product by id
- * @param req.params.id is the id of the product sent in the params
- * @returns the product after update
+ * @param updateRequest function updates the single request by id
+ * @param req.params.id is the id of the request sent in the params
+ * @returns the request after update
  */
 export const updateRequest = ({ db, imageUp }) => async (req, res) => {
   try {
@@ -105,17 +106,67 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
 };
 
 /**
- * @param removeRequest function removes the single product by id
- * @param req.params.id is the id of the product sent in the params
+ * @param removeRequest function removes the single request by id
+ * @param req.params.id is the id of the request sent in the params
  * @returns success or failed
  */
 export const removeRequest = ({ db }) => async (req, res) => {
   try {
     const { id } = req.params;
     const request = await db.remove({ table: Request, key: { id } });
-    if (!request) return res.status(404).send({ message: 'Request product not found' });
+    if (!request) return res.status(404).send({ message: 'Request not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   } catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
+ * @param declineRequest function set the status of the request to abondon after the user abondon from the mail
+ * @param req.params.id is the id of the request sent in the params
+ * @returns success or failed
+ */
+export const declineRequest = ({ db }) => async (req, res) => {
+  try {
+    const request = await db.update({ table: Request, key: { id: req.params, body: { status: 'abandoned' } } });
+    if (!request) return res.status(404).send({ message: 'Request not found' });
+    res.status(200).send({ message: 'Deleted Successfully' });
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
+ * @param acceptRequest function send the request to the user cart
+ * @param req.params.id is the id of the request sent in the params
+ * @returns the cart
+ */
+export const acceptRequest = ({ db }) => async (req, res) => {
+  try {
+    const request = await db.update({ table: Request, key: { id: req.params.id, body: { status: 'accepted' } } });
+    const tempbody = {
+      request: request.id,
+      requestQuantity: request.quantity
+    };
+    const cart = await db.findOne({ table: Cart, key: { user: request.user, paginate: false, populate: { path: 'requests.request' } } });
+    if (cart) {
+      cart.requests = [...(cart.requests || []), tempbody];
+      console.log(cart);
+      await cart.save();
+      res.status(200).send(cart);
+    }
+    const createcart = {
+      user: request.user,
+      requests: [tempbody]
+    };
+    const newcart = await db.create({ table: Cart, key: createcart });
+    if (!newcart) return res.status(404).send({ message: 'Bad Request' });
+    res.status(200).send(newcart);
+  }
+  catch (err) {
     console.log(err);
     res.status(500).send('Something went wrong');
   }

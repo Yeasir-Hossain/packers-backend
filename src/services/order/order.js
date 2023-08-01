@@ -8,7 +8,14 @@ export default function order() {
    * @description this route is insert a order
    * @response the order.
    */
-  this.route.post('/order', auth, registerOrder(this));
+  this.route.get('/order', registerOrder(this));
+  this.route.post('/ordersuccess', async (req, res) => {
+    console.log(req.body);
+    // if (req.body.val_id) {
+    //   res.redirect('http://localhost:3000/success');
+    // }
+    res.json(req.body.value_a);
+  });
 
   /**
    * GET /order
@@ -29,7 +36,7 @@ export default function order() {
    * @description this route is used to get order of a user.
    * @response all the orders user is looking for.
    */
-  this.route.get('/userorder/:id', auth, getUserOrder(this));
+  this.route.get('/userorder/me', auth, getUserOrder(this));
 
   /**
    * PATCH /order/:id
@@ -39,7 +46,7 @@ export default function order() {
   this.route.patch('/order/:id', auth, checkAccess('staff', 'order'), updateOrder(this));
 
   /**
-   * GET /deleteorder/:id
+   * DELETE /deleteorder/:id
    * @description this route is used to delete a single product.
    * @response success or failed
    */

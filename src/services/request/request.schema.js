@@ -13,7 +13,7 @@ const schema = new Schema({
   address: { type: String },
   tax: { type: Number },
   fee: { type: Number },
-  status: { type: String, enum: ['pending', 'abandoned', 'completed', 'paid', 'sent', 'processing'], default: 'pending' },
+  status: { type: String, enum: ['pending', 'abandoned', 'accepted', 'paid', 'sent', 'processing'], default: 'pending' },
   trxId: { type: String }
 });
 

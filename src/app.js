@@ -12,6 +12,7 @@ import { readFileSync } from 'fs';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import 'dotenv/config';
+import SSLCommerzPayment from 'sslcommerz-lts';
 // import http2 from 'spdy';
 
 // Local Services
@@ -45,6 +46,7 @@ export default class App {
     this.events = {};
     this.wsMiddlewares = [];
     this.passport = passport;
+    this.sslcz = new SSLCommerzPayment(this.config.sslcommerz.store_id, this.config.sslcommerz.store_password, this.config.sslcommerz.is_live);
 
     if (deps) {
       let promises = deps.map(({ method, args }) => new Promise((resolve, reject) => method(...args).then(r => resolve(r)).catch((err) => reject(err))));
@@ -78,7 +80,7 @@ export default class App {
     // Load the middlewwares
     this.express.use(
       cors({
-        origin: 'http://localhost:5173',
+        origin: this.config.origin,
         methods: 'GET,POST,PUT,DELETE',
         credentials: true,
       })
@@ -171,7 +173,8 @@ export default class App {
       db: this.db,
       mail: this.mail,
       settings: this.config,
-      passport: this.passport
+      passport: this.passport,
+      sslcz: this.sslcz
     });
   }
 

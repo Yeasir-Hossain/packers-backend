@@ -1,6 +1,6 @@
 {
   "port": 4000,
-  "origin": [],
+  "origin": ["http://localhost:5173"],
   "useHTTP2": false,
   "SMTP_HOST": "smtp.gmail.com",
   "SMTP_PORT": "465",
@@ -21,5 +21,10 @@
       "appSecret": "8205ddaac657345bf7d327d176302f80",
       "callbackURL": "http://localhost:4000/api/facebook/callback"
     }
+  },
+  "sslcommerz": {
+    "store_id": "yeasi64c7803069071",
+    "store_password": "yeasi64c7803069071@ssl",
+    "is_live": false
   }
 }
