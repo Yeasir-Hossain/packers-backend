@@ -36,5 +36,5 @@ export default function product() {
    * @description this route is used to delete a single product.
    * @response success or failed
    */
-  this.route.delete('/deleteproduct/:id', auth, checkRole('admin', 'super-admin'), removeProduct(this));
+  this.route.delete('/deleteproduct', auth, checkRole('admin', 'super-admin'), removeProduct(this));
 }

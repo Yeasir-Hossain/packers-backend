@@ -42,7 +42,7 @@ export const registerProduct = ({ db, imageUp }) => async (req, res) => {
  */
 export const getAllProducts = ({ db }) => async (req, res) => {
   try {
-    const products = await db.find({ table: Products, key: { query: req.query, allowedQuery: allowedQuery, populate: { path: 'category subcategory'} } });
+    const products = await db.find({ table: Products, key: { query: req.query, allowedQuery: allowedQuery, populate: { path: 'category subcategory' } } });
     if (!products) return res.status(400).send('Bad request');
     return res.status(200).send(products);
   }
@@ -105,8 +105,8 @@ export const updateProduct = ({ db, imageUp }) => async (req, res) => {
  */
 export const removeProduct = ({ db }) => async (req, res) => {
   try {
-    const { id } = req.params;
-    const product = await db.remove({ table: Products, key: { id } });
+    // const { id } = req.params;
+    const product = await db.removeAll({ table: Products, key: { _id: { $in: req.body.id } } });
     if (!product) return res.status(404).send({ message: 'Product not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   } catch (err) {

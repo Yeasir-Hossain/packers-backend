@@ -1,5 +1,5 @@
 import { auth } from '../middlewares';
-import { recieveNotification, removeNotification, sendNotification } from './notification.entity';
+import { recieveNotification, removeNotification } from './notification.entity';
 
 
 export default function notification() {
@@ -9,7 +9,7 @@ export default function notification() {
    * @response the notification.
    */
   this.route.get('/notification', auth, recieveNotification(this));
-  this.route.get('/moja', auth, sendNotification(this, 'Hello its moja'));
+  // this.route.get('/moja', auth, sendNotification(this.db, this.ws, [], 'Hello its moja'));
 
   /**
  * POST /notification/:id

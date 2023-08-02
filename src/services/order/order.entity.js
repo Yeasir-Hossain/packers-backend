@@ -25,46 +25,75 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
     if (!validobj) return res.status(400).send('Bad request');
-    let discount;
-    if (req.body.discountApplied) {
-      discount = await db.findOne({ table: Discount, key: { code: req.body.discountApplied, paginate: false } });
-      if (!discount) return res.status(404).send({ message: 'Coupon not found' });
-      if (new Date(discount.expiry_date) < new Date()) return res.status(404).send({ message: 'Coupon expired' });
-      if (discount.limit < discount.usedBy.length) return res.status(404).send({ message: 'Coupon expired' });
-      const used = discount.usedBy.find(user => { return user.user.toString() === req.user.id; });
-      if (used) return res.status(404).send({ message: 'Bad request' });
-    }
+
+    // Fetch products and requests
+    const { products, requests, discountApplied } = req.body;
+    const productIds = products ? products.map((product) => product.product) : [];
+    const requestIds = requests ? requests.map((request) => request.request) : [];
+    const [productsData, requestsData] = await Promise.all([
+      Products.find({ _id: { $in: productIds } }),
+      Request.find({ _id: { $in: requestIds } }),
+    ]);
+
+    let totalPrice = 0;
     let productNames = [];
     let productCategories = [];
-    let totalPrice = 0, discountItemsTotal = 0, nondiscountItemsTotal = 0;
-    if (req.body?.products) {
-      for (const product of req.body.products) {
-        const element = await db.findOne({ table: Products, key: { id: product.product } });
-        if (element.quantity < product.productQuantity) return res.status(400).send(`${element.name} is out of stock.`);
-        discount && element.category.toString() == discount.category && element.subcategory.toString() == discount.subcategory
-          ? (discountItemsTotal += (element.price + element.tax + element.fee) * product.productQuantity)
-          : (nondiscountItemsTotal += (element.price + element.tax + element.fee) * product.productQuantity);
-        productNames.push(element.name);
-        productCategories.push(element.category.name);
-        const newQuantity = element.quantity - product.productQuantity;
-        element.quantity = newQuantity;
-        await element.save();
+    let discountItemsTotal = 0;
+    let nondiscountItemsTotal = 0;
+
+    for (const orderedProduct of products) {
+      const element = productsData.find((product) => orderedProduct.product.toString() === product._id.toString());
+      if (!element) continue;
+      if (element.quantity < orderedProduct.productQuantity) {
+        return res.status(400).send(`${element.name} is out of stock.`);
+      }
+      const productPrice = element.price + element.tax + element.fee;
+      if (discountApplied && element.category.toString() === discount.category && element.subcategory.toString() === discount.subcategory) {
+        discountItemsTotal += productPrice * orderedProduct.productQuantity;
+      } else {
+        nondiscountItemsTotal += productPrice * orderedProduct.productQuantity;
+      }
+      productNames.push(element.name);
+      productCategories.push(element.category.name);
+      element.quantity -= orderedProduct.productQuantity;
+      await element.save();
+    }
+
+    for (const orderedRequest of requests) {
+      const element = requestsData.find((request) => orderedRequest.request.toString() === request._id.toString());
+      if (!element) continue;
+      productNames.push(element.name);
+      productCategories.push('request');
+      totalPrice += (element.price + element.tax + element.fee) * orderedRequest.requestQuantity;
+    }
+
+    // Discount calculation
+    let discount = 0;
+    if (discountApplied) {
+      discount = await db.findOne({ table: Discount, key: { code: discountApplied, paginate: false } });
+      if (!discount) return res.status(404).send({ message: 'Coupon not found' });
+      const currentDate = new Date();
+      if (new Date(discount.expiry_date) < currentDate) return res.status(404).send({ message: 'Coupon expired' });
+      if (discount.limit < discount.usedBy.length) return res.status(404).send({ message: 'Coupon expired' });
+      const used = discount.usedBy.find((user) => user.user.toString() === req.user.id);
+      if (used) return res.status(404).send({ message: 'Bad request' });
+      if (discount.percentage) {
+        discount = (discountItemsTotal * discount.percentage) / 100;
+      } else {
+        discount = discount.amount;
       }
     }
-    !discount ? totalPrice = nondiscountItemsTotal : discount.percentage ? totalPrice = ((discountItemsTotal * (100 - discount.percentage)) / 100) + nondiscountItemsTotal : totalPrice = (discountItemsTotal - discount.amount) + nondiscountItemsTotal;
-    if (req.body?.requests) {
-      for (const request of req.body.requests) {
-        const element = await db.findOne({ table: Request, key: { id: request.request } });
-        productNames.push(element.name);
-        productCategories.push('request');
-        totalPrice += (element.price + element.tax + element.fee) * request.requestQuantity;
-      }
-    }
+
+    totalPrice = totalPrice + nondiscountItemsTotal - discount;
+    if (isNaN(totalPrice)) return res.status(400).send('Bad request');
+
     req.body.user = req.user.id;
     req.body.insideDhaka ? totalPrice += 99 : totalPrice += 150;
-    if (isNaN(totalPrice)) return res.status(404).send('Bad request');
+
     const order = await db.create({ table: Orders, key: req.body });
     if (!order) return res.status(400).send('Bad request');
+
+    // Generate and send to redirect
     const data = {
       total_amount: totalPrice.toFixed(2),
       currency: 'BDT',
@@ -97,6 +126,7 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
       emi_option: 0,
       value_a: totalPrice.toFixed(2)
     };
+
     sslcz.init(data).then(apiResponse => {
       let GatewayPageURL = apiResponse.GatewayPageURL;
       order.sessionkey = apiResponse.sessionkey;
@@ -104,12 +134,12 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
       order.save();
       res.send({ url: GatewayPageURL });
     });
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
     res.status(500).send('Something went wrong');
   }
 };
+
 
 /**
  * This function updates status of the order and clears the user cart after successful payment

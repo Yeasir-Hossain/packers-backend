@@ -22,28 +22,25 @@ export const recieveNotification = ({ db }) => async (req, res) => {
  * @param {Object} req This is the req object.
  * @returns
  */
-export const sendNotification = async (op, rooms, data) => {
+export const sendNotification = async (db, ws, rooms, data) => {
   try {
-    let docs = {};
+    let docs = [];
     for (let user of rooms) {
-      docs = {
-        ...docs,
-        user: user,
-        notifications: {
-          data
-        }
-      };
+      docs = [...docs, { user: user, notifications: { data } }];
     }
-    // const notification = await op.db.findOne({ table: Notification, key: { user: req.user.id } });
-    if (!notification) {
-      // const newnotification = await op.db.create({ table: Notification, key: { user: req.user.id, notifications: { data } } });
-      op.ws.to(rooms).emit('notification', newnotification);
-      return;
-    }
-    notification.notifications = [...(notification.notifications || []), { data }];
-    notification.save();
-    op.ws.to(rooms).emit('notification', notification);
-    return;
+    const notification = await db.updateMany({ table: Notification, key: { filter: { user: { $in: rooms }, update: docs, options: { upsert: true } } } });
+    if (!notification.acknowledged) throw new Error('Cannot update notification');
+    ws.to(rooms).emit('notification', 'new noticifation');
+    // const notification = await db.findOne({ table: Notification, key: { user: room } });
+    // if (!notification) {
+    //   const newnotification = await db.create({ table: Notification, key: { user: room, notifications: { data } } });
+    //   ws.to(room).emit('notification', newnotification);
+    //   return;
+    // }
+    // notification.notifications = [...(notification.notifications || []), { data }];
+    // notification.save();
+    // ws.to(rooms).emit('notification', notification);
+    // return;
   }
   catch (err) {
     console.log(err);
