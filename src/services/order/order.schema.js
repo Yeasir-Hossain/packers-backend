@@ -18,13 +18,14 @@ const schema = new Schema({
     requestQuantity: { type: Number },
   }],
   total: { type: Number },
+  storeAmount: { type: Number },
   deliveredon: {
     from: { type: Date },
     to: { type: Date }
   },
   date: { type: Date, default: Date.now },
   insideDhaka: { type: Boolean, default: true },
-  status: { type: String, enum: ['pending', 'paid', 'processing', 'completed', 'shipping', 'cancel'], default: 'pending' },
+  status: { type: String, enum: ['pending', 'paid', 'processing', 'completed', 'shipping', 'cancel', 'refunded'], default: 'pending' },
   shippingaddress: {
     name: { type: String },
     address: { type: String, required: true },
@@ -47,7 +48,8 @@ const schema = new Schema({
   sessionkey: { type: String },
   trxID: { type: String },
   bankTranid: { type: String },
-  failedReason: { type: String }
+  failedReason: { type: String },
+  refundRefid: { type: String }
 });
 
 schema.plugin(paginate);

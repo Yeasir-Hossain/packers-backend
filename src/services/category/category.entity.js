@@ -16,6 +16,7 @@ export const registerCategory = ({ db }) => async (req, res) => {
     };
     let subcategory = {
       name: req.body.subcategoryname,
+      type: 'subcategory',
       slug: req.body.subcategoryslug,
     };
     const exist = await db.findOne({ table: Category, key: { slug: req.body.categoryslug } });
@@ -49,7 +50,7 @@ export const registerCategory = ({ db }) => async (req, res) => {
  */
 export const getAllCategory = ({ db }) => async (req, res) => {
   try {
-    const categories = await db.find({ table: Category, key: { paginate: false, populate: { path: 'subcategory' } } });
+    const categories = await db.find({ table: Category, key: { query: { type: 'category' }, paginate: false, populate: { path: 'subcategory' } } });
     if (!categories) return res.status(400).send('Bad request');
     return res.status(200).send(categories);
   }
@@ -60,9 +61,9 @@ export const getAllCategory = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param getAllCategory function is used to get all the categories from the category collection
+ * @param updateCategory function is used to update the category
  * there is page query and other queries for this function which page of the data it need to show
- * @returns all the categories
+ * @returns the category
  */
 export const updateCategory = ({ db }) => async (req, res) => {
   try {

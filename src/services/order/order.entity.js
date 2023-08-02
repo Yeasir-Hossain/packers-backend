@@ -69,6 +69,7 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
     }
     req.body.user = req.user.id;
     req.body.insideDhaka ? totalPrice += 99 : totalPrice += 150;
+    if (isNaN(totalPrice)) return res.status(404).send('Bad request');
     const order = await db.create({ table: Orders, key: req.body });
     if (!order) return res.status(400).send('Bad request');
     const data = {
@@ -99,10 +100,10 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
       ship_state: `${order.shippingaddress.city}`,
       ship_postcode: `${order.shippingaddress.zip}`,
       ship_country: 'Bangladesh',
+      discount_amount: 0,
       emi_option: 0,
-      value_a: `${req.body.cart}`,
+      value_a: totalPrice.toFixed(2)
     };
-    console.log(data);
     sslcz.init(data).then(apiResponse => {
       let GatewayPageURL = apiResponse.GatewayPageURL;
       order.sessionkey = apiResponse.sessionkey;
@@ -123,34 +124,44 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
  * @returns {Object} the order
  */
 // eslint-disable-next-line no-unused-vars
-export const orderSuccess = ({ db, mail }) => async (req, res) => {
+export const orderSuccess = ({ db, mail, sslcz }) => async (req, res) => {
   try {
-    const order = await db.update({
-      table: Orders, key: {
-        id: req.params.id, body: {
-          val_id: req.body.val_id,
-          trxID: req.body.tran_id,
-          bankTranid: req.body.bank_tran_id,
-          status: 'paid'
-        }, populate: { path: 'products.product requests.request' }
-      }
-    });
-    // need to update cart
-    // const cart = await db.update({ table: Cart, key: { id: req.body.value_a, } });
-    const emailTemplate = fs.readFileSync(path.join(__dirname, 'order.ejs'), 'utf-8');
-    const options = {
-      order: order,
-      serverLink: 'http://localhost:4000/',
-      homeLink: 'http://localhost:5173/'
+    const data = {
+      val_id: req.body.val_id
     };
-    // eslint-disable-next-line no-unused-vars
-    const html = generateMailTemplate(emailTemplate, options);
-    // order.email is need to be put into the reciever
-    // mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
-    // if (req.body.val_id) {
-    //   res.redirect('http://localhost:5173');
-    // }
-    res.send(order);
+    sslcz.validate(data).then(async (data) => {
+      if (data.amount != req.body.value_a) {
+        return res.redirect('http://localhost:3000');
+        // return res.status(400).send('Amount does not match');
+      }
+      const order = await db.update({
+        table: Orders, key: {
+          id: req.params.id, body: {
+            val_id: data.val_id,
+            trxID: data.tran_id,
+            bankTranid: data.bank_tran_id,
+            storeAmount: data.store_amount,
+            status: 'paid'
+          }, populate: { path: 'products.product requests.request' }
+        }
+      });
+      await db.update({ table: Cart, key: { user: order.user, key: { body: { products: [], requests: [] } } } });
+      const emailTemplate = fs.readFileSync(path.join(__dirname, 'order.ejs'), 'utf-8');
+      const options = {
+        order: order,
+        serverLink: 'http://localhost:4000/',
+        homeLink: 'http://localhost:5173/'
+      };
+      // eslint-disable-next-line no-unused-vars
+      const html = generateMailTemplate(emailTemplate, options);
+      // order.email is need to be put into the reciever
+      // mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
+      // if (req.body.val_id) {
+      //   res.redirect('http://localhost:5173');
+      // }
+      // res.redirect('frontend url');
+      res.status(200).send(order);
+    });
   }
   catch (err) {
     console.log(err);
@@ -159,7 +170,7 @@ export const orderSuccess = ({ db, mail }) => async (req, res) => {
 };
 
 /**
- * This function deletes the order after failed payment
+ * This function updates the status of the order to failed
  * @param {Object} req - The request object have the information about page and any other filter.
  * @returns {Object} the order
  */
@@ -172,14 +183,89 @@ export const orderFail = ({ db }) => async (req, res) => {
         }, populate: { path: 'products.product requests.request' }
       }
     });
-    console.log(order);
-    res.send(order);
+    res.redirect('fronendurl');
+    res.status(200).send(order);
   }
   catch (err) {
     console.log(err);
     res.status(500).send('Something went wrong');
   }
 };
+
+/**
+ * This function initiates a refund for the specific order
+ * @param {Object} req - The request object have the response from ssl commerz.
+ * @returns {Object} the order
+ */
+export const refundOrder = ({ db, sslcz }) => async (req, res) => {
+  try {
+    const order = await db.findOne({ table: Orders, key: { id: req.params.id } });
+    const data = {
+      refund_amount: order.total,
+      refund_remarks: req.body.remarks || '',
+      bank_tran_id: order.bankTranid,
+    };
+    sslcz.initiateRefund(data).then(data => {
+      if (data.status === 'failed') return res.status(400).send(data);
+      order.refundRefid = data.refund_ref_id;
+      order.status = data.status === 'success' ? 'refunded' : 'processing';
+      order.save();
+      res.status(200).send(order);
+    });
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
+ * This function queries a refund for the specific order
+ * @param {Object} req - The request object have the response from ssl commerz.
+ * @returns {Object} the order
+ */
+export const refundStatus = ({ db, sslcz }) => async (req, res) => {
+  try {
+    const order = await db.findOne({ table: Orders, key: { id: req.params.id } });
+    const data = {
+      refund_ref_id: order.refundRefid
+    };
+    sslcz.refundQuery(data).then(data => {
+      res.status(200).send({
+        initiated_on: data.initiated_on,
+        refunded_on: data.refunded_on,
+        status: data.status,
+        errorReason: data.errorReason
+      });
+    });
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
+ * This function queries a refund for the specific order
+ * @param {Object} req - The request object have the response from ssl commerz.
+ * @returns {Object} the order
+ */
+export const transactionStatus = ({ db, sslcz }) => async (req, res) => {
+  try {
+    const order = await db.findOne({ table: Orders, key: { id: req.params.id } });
+    const data = {
+      tran_id: order.trxID
+    };
+    sslcz.transactionQueryByTransactionId(data).then(data => {
+      res.status(200).send(data);
+    });
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
 
 /**
  * This function gets all the orders in the database
@@ -271,38 +357,3 @@ export const removeOrder = ({ db }) => async (req, res) => {
     res.status(500).send('Something went wrong');
   }
 };
-
-
-// {
-//   tran_id: 'REF1234',
-//     val_id: '2307311711580TpruhTouBEb4Gf',
-//       amount: '100.00',
-//         card_type: 'VISA-Dutch Bangla',
-//           store_amount: '97.50',
-//             card_no: '418117XXXXXX7814',
-//               bank_tran_id: '230731171158SpmdpoZNvCMQ6FL',
-//                 status: 'VALID',
-//                   tran_date: '2023-07-31 17:11:40',
-//                     error: '',
-//                       currency: 'BDT',
-//                         card_issuer: 'TRUST BANK, LTD.',
-//                           card_brand: 'VISA',
-//                             card_sub_brand: 'Classic',
-//                               card_issuer_country: 'Bangladesh',
-//                                 card_issuer_country_code: 'BD',
-//                                   store_id: 'yeasi64c7803069071',
-//                                     verify_sign: '2421d0d4ff9d0558b3a71bc07e161ccc',
-//                                       verify_key: 'amount,bank_tran_id,base_fair,card_brand,card_issuer,card_issuer_country,card_issuer_country_code,card_no,card_sub_brand,card_type,currency,currency_amount,currency_rate,currency_type,error,risk_level,risk_title,status,store_amount,store_id,tran_date,tran_id,val_id,value_a,value_b,value_c,value_d',
-//                                         verify_sign_sha2: '1009b17045229680b00d27bc4c689aec09bf8b99344101936de43eb813f7d0aa',
-//                                           currency_type: 'BDT',
-//                                             currency_amount: '100.00',
-//                                               currency_rate: '1.0000',
-//                                                 base_fair: '0.00',
-//                                                   value_a: '',
-//                                                     value_b: '',
-//                                                       value_c: '',
-//                                                         value_d: '',
-//                                                           subscription_id: '',
-//                                                             risk_level: '0',
-//                                                               risk_title: 'Safe'
-// }

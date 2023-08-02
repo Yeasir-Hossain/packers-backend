@@ -1,5 +1,5 @@
 import { auth, checkAccess, checkRole } from '../middlewares';
-import { getAllOrders, getSingleOrder, getUserOrder, orderFail, orderSuccess, registerOrder, removeOrder, updateOrder } from './order.entity';
+import { getAllOrders, getSingleOrder, getUserOrder, orderFail, orderSuccess, refundOrder, refundStatus, registerOrder, removeOrder, transactionStatus, updateOrder } from './order.entity';
 
 export default function order() {
 
@@ -19,6 +19,25 @@ export default function order() {
 
   this.route.post('/orderfail', orderFail(this));
 
+  /**
+ * POST /refundOrder
+ * @description this route is insert a order
+ * @response the order.
+ */
+  this.route.post('/refundorder/:id', refundOrder(this));
+
+  /**
+ * POST /refundStatus
+ * @description this route is insert a order
+ * @response the order.
+ */
+  this.route.post('/refundstatus/:id', refundStatus(this));
+  /**
+ * POST /transactionStatus
+ * @description this route is insert a order
+ * @response the order.
+ */
+  this.route.post('/transactionstatus/:id', transactionStatus(this));
   /**
    * GET /order
    * @description this route is used to get all orders.

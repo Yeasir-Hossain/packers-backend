@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fullName\": \"Staff\",\n    \"email\": \"staff1@mail.com\",\n    \"password\": \"123456\"\n}",
+							"raw": "{\n    \"fullName\": \"Pujon Das\",\n    \"email\": \"pujon@mail.com\",\n    \"password\": \"123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -148,7 +148,8 @@
 								"user",
 								"login"
 							]
-						}
+						},
+						"description": "a secret will be added to the cookies named coredevs"
 					},
 					"response": [
 						{
@@ -158,7 +159,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"pujon@mail.com\",\n    \"password\": \"123456\"\n}",
+									"raw": "{\n    \"email\": \"yeasir@mail.com\",\n    \"password\": \"123456\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -201,15 +202,15 @@
 								},
 								{
 									"key": "RateLimit-Remaining",
-									"value": "97"
+									"value": "95"
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "724"
+									"value": "818"
 								},
 								{
 									"key": "Set-Cookie",
-									"value": "coredevs=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjkyMzA4YmVmOTI3Y2JlNGRhOTAzZiIsImlhdCI6MTY4OTg1NDc1MH0.JyifwxqHeZM2D7uwvEGpnfpDUAih6HW3-71d0_MdmG0; Path=/; Expires=Sat, 22 Jul 2023 12:05:50 GMT; HttpOnly"
+									"value": "coredevs=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjRjYmMyYmI3NjlhZTcwN2RiZmI0ZiIsImlhdCI6MTY5MDE3NjM3Mn0.OjUV50Poty5urJpK68OKxH_Jm3AZ2pQiEZ6-l8HeLYo; Path=/; Expires=Wed, 26 Jul 2023 05:26:12 GMT; HttpOnly"
 								},
 								{
 									"key": "Content-Type",
@@ -217,15 +218,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "95"
+									"value": "102"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"5f-lqt87mHD1p/b8TEUAEwSdIrMAXs\""
+									"value": "W/\"66-o/aq34bYO3hvdojeNpi3S2TuTk0\""
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 20 Jul 2023 12:05:50 GMT"
+									"value": "Mon, 24 Jul 2023 05:26:12 GMT"
 								},
 								{
 									"key": "Connection",
@@ -237,7 +238,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"id\": \"64b92308bef927cbe4da903f\",\n    \"fullName\": \"Pujon Das\",\n    \"email\": \"pujon@mail.com\",\n    \"role\": \"user\"\n}"
+							"body": "{\n    \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"fullName\": \"Yeasir Hossain\",\n    \"email\": \"yeasir@mail.com\",\n    \"role\": \"admin\"\n}"
 						}
 					]
 				},
@@ -552,8 +553,13 @@
 						"method": "PATCH",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": []
+							"mode": "raw",
+							"raw": "{\n    \"fullName\": \"Yeasir Hossain\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "http://localhost:4000/api/user/me",
@@ -778,7 +784,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"otp\":\"8181\",\n    \"token\":\"$2b$08$hVU6ptJJTbu16oHekw0f6.mnFmxZARzOhTfEIJuXFU4CwbMY8bSM2\",\n    \"time\":\"1689338874104\"\n}",
+							"raw": "{\n    \"otp\":\"4015\",\n    \"token\":\"$2b$08$jU4FKgQPf7sww5HopMdYo.JFk3yDh2MemG4mF2QG9XrMXCFwVYd9C\",\n    \"time\":\"1689854984410\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -893,7 +899,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\":\"64b118e7c73996b3585a2586\",\n    \"newpassword\":\"456789\",\n    \"otp\":\"8181\", \n    \"token\":\"$2b$08$hVU6ptJJTbu16oHekw0f6.mnFmxZARzOhTfEIJuXFU4CwbMY8bSM2\", \n    \"time\":\"1689338874104\"\n}",
+							"raw": "{\n    \"id\": \"64b118e7c73996b3585a2586\",\n    \"newpassword\": \"123456\",\n    \"otp\": \"4015\",\n    \"token\": \"$2b$08$jU4FKgQPf7sww5HopMdYo.JFk3yDh2MemG4mF2QG9XrMXCFwVYd9C\",\n    \"time\": \"1689854984410\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1008,7 +1014,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"role\": \"staff\",\n    \"access\":\"order\"\n}",
+							"raw": "{\n    \"role\": \"staff\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1123,7 +1129,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fullName\": \"Staff\",\n    \"email\": \"staff@mail.com\",\n    \"password\": \"123456\",\n    \"role\":\"staff\",\n    \"access\":\"product\"\n}",
+							"raw": "{\n    \"fullName\": \"Staff2\",\n    \"email\": \"staff2@mail.com\",\n    \"password\": \"123456\",\n    \"role\":\"staff\",\n    \"access\":\"request\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1243,7 +1249,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"category\": \"Electronics\",\n    \"categorySlug\": \"electronics\",\n    \"subCategory\": [\n        {\n            \"subCategoryName\": \"Molbile Accessories\",\n            \"subCategorySlug\": \"mobileaccessories\"\n        }\n    ]\n}",
+							"raw": "{\n    \"categoryname\": \"Electronics\",\n    \"categoryslug\": \"electronics\",\n    \"subcategoryname\": \"Computer Accessories\",\n    \"subcategoryslug\": \"computeraccessories\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1263,91 +1269,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "registercategory",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"category\": \"Electronics\",\n    \"categorySlug\": \"electronics\",\n    \"subCategory\": [\n        {\n            \"subCategoryName\": \"Mobile Accessories\",\n            \"subCategorySlug\": \"mobileaccessories\"\n        }\n    ]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:4000/api/category",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "4000",
-									"path": [
-										"api",
-										"category"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "RateLimit-Limit",
-									"value": "100"
-								},
-								{
-									"key": "RateLimit-Remaining",
-									"value": "81"
-								},
-								{
-									"key": "RateLimit-Reset",
-									"value": "277"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "214"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"d6-/K0alGNTNQGsx7lmcE/eqYEb9cY\""
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 20 Jul 2023 12:13:17 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"category\": \"Electronics\",\n    \"categorySlug\": \"electronics\",\n    \"subCategory\": [\n        {\n            \"subCategoryName\": \"Mobile Accessories\",\n            \"subCategorySlug\": \"mobileaccessories\",\n            \"id\": \"64b924ddbef927cbe4da905e\"\n        }\n    ],\n    \"id\": \"64b924ddbef927cbe4da905d\"\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "allcategory",
@@ -1447,10 +1369,10 @@
 				{
 					"name": "deletecategory",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/deletecategory/64b50f4388fa4145b4678a39",
+							"raw": "http://localhost:4000/api/deletecategory/64c114d2ecfa9dfeadb63a34",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1459,7 +1381,7 @@
 							"path": [
 								"api",
 								"deletecategory",
-								"64b50f4388fa4145b4678a39"
+								"64c114d2ecfa9dfeadb63a34"
 							]
 						}
 					},
@@ -1552,22 +1474,13 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "data",
-									"value": "{\n  \"productName\": \"Sample Product 1\",\n  \"description\": \"This is a sample product description.\",\n  \"origin\": \"Sample Origin\",\n  \"quantity\": 10,\n  \"price\": 29.99,\n\"category\":\"64b50f4388fa4145b4678a39\",\n  \"tags\": \"sample, shoe, electronics\",\n  \"link\": \"https://example.com/sample-product\",\n  \"status\": \"active\"\n}\n",
-									"type": "text"
-								},
-								{
-									"key": "images",
-									"type": "file",
-									"src": [
-										"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg",
-										"/home/common/Downloads/dummyimages/oneplus-11-never-settle.webp"
-									]
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Testing3\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n    ],\n    \"quantity\": 20,\n    \"price\": 10.00,\n    \"tax\": 10.00,\n    \"fee\": 5.00,\n    \"category\": \"64c37d290d10a967880c78f8\",\n    \"subcategory\": \"64c37e7cf430b430756d9b6e\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "http://localhost:4000/api/products",
@@ -1683,7 +1596,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/products?page=1",
+							"raw": "http://localhost:4000/api/products?page=1&category=64c37d290d10a967880c78f8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1697,6 +1610,20 @@
 								{
 									"key": "page",
 									"value": "1"
+								},
+								{
+									"key": "category",
+									"value": "64c37d290d10a967880c78f8"
+								},
+								{
+									"key": "id",
+									"value": "64c210ae0055b2a44b642a4a",
+									"disabled": true
+								},
+								{
+									"key": "subcategory",
+									"value": "64c37d280d10a967880c78f6",
+									"disabled": true
 								}
 							]
 						}
@@ -1790,7 +1717,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/products/64b104a01feb47555623d9cd",
+							"raw": "http://localhost:4000/api/products/64c8ab55fa84c61ccf5355c1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1799,7 +1726,7 @@
 							"path": [
 								"api",
 								"products",
-								"64b104a01feb47555623d9cd"
+								"64c8ab55fa84c61ccf5355c1"
 							]
 						}
 					},
@@ -1884,10 +1811,10 @@
 				{
 					"name": "deleteproduct",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/deleteproduct/64af914dc2fdbb156e20fc73",
+							"raw": "http://localhost:4000/api/deleteproduct/64c37fbfe7608e100f646317",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1896,7 +1823,7 @@
 							"path": [
 								"api",
 								"deleteproduct",
-								"64af914dc2fdbb156e20fc73"
+								"64c37fbfe7608e100f646317"
 							]
 						}
 					},
@@ -1985,7 +1912,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"category\":\"64b7967036ecd422ea03b121\"\n}",
+							"raw": "{\n    \"quantity\": 30\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1993,7 +1920,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/products/64b104a01feb47555623d9cd",
+							"raw": "http://localhost:4000/api/products/64c8f40a8b3122c54cb392a5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2002,7 +1929,7 @@
 							"path": [
 								"api",
 								"products",
-								"64b104a01feb47555623d9cd"
+								"64c8f40a8b3122c54cb392a5"
 							]
 						}
 					},
@@ -2108,15 +2035,15 @@
 							"formdata": [
 								{
 									"key": "data",
-									"value": "{\n  \"name\": \"Sample Request\",\n  \"link\": \"This is a sample req link.\",\n  \"note\": \"Sample Origin\",\n  \"quantity\": 2\n}",
+									"value": "{\n  \"name\": \"Sample Request\",\n  \"link\": \"This is a sample req link.\",\n  \"note\": \"Sample Origin\"\n}",
 									"type": "text"
 								},
 								{
 									"key": "images",
 									"type": "file",
 									"src": [
-										"/home/common/Downloads/dummyimages/oneplus-11-never-settle.webp",
-										"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg"
+										"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg",
+										"/home/common/Downloads/dummyimages/oneplus-11-never-settle.webp"
 									]
 								}
 							]
@@ -2436,10 +2363,10 @@
 				{
 					"name": "deleterequest",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/deleterequest/64b62564abc84548ae7fec9e",
+							"raw": "http://localhost:4000/api/deleterequest/64b92652aa2c88a0866e49b7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2448,7 +2375,7 @@
 							"path": [
 								"api",
 								"deleterequest",
-								"64b62564abc84548ae7fec9e"
+								"64b92652aa2c88a0866e49b7"
 							]
 						}
 					},
@@ -2537,7 +2464,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"status\": \"sent\"\n}",
+							"raw": "{\n    \"status\": \"processing\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2644,6 +2571,60 @@
 							"body": "{\n    \"id\": \"64b62c00082e962eaa412dd7\",\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"name\": \"Sample Request\",\n    \"link\": \"This is a sample req link.\",\n    \"note\": \"Sample Origin\",\n    \"images\": [\n        \"images/3b4c01652c7815ee74cd87eb9b6fb180.webp\",\n        \"images/99fada89a51f4788932002f5e147cf99.jpg\"\n    ],\n    \"quantity\": 2,\n    \"status\": \"processing\"\n}"
 						}
 					]
+				},
+				{
+					"name": "acceptrequest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/acceptrequest/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"acceptrequest",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64b62c00082e962eaa412dd7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "declinerequest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/declinerequest/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"declinerequest",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -2652,9 +2633,16 @@
 			"item": [
 				{
 					"name": "getusercart",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:4000/api/cart",
 							"protocol": "http",
@@ -2756,7 +2744,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"products\": [{\"product\": \"64b530c0f53b754f99f651e1\",\"productQuantity\": 6}]}",
+							"raw": "{\"products\": [{\"product\": \"64b530c0f53b754f99f651e1\",\"productQuantity\": 3}]}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2874,7 +2862,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n  \"products\": [{ \"product\":\"64b104a01feb47555623d9cd\",  \"productQuantity\": 5}],\n  \"address\": \"123 Main Street, City, Country\",\n  \"totalprice\": 19.99,\n  \"trxID\": \"transaction_123\"\n}\n",
+							"raw": "{\n    \"email\": \"yeasir@mail.com\",\n    \"products\": [\n        {\n            \"product\": \"64c8a7fa9277d88094792a29\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64c8ab55fa84c61ccf5355c1\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64c8f40a8b3122c54cb392a5\",\n            \"productQuantity\": 1\n        }\n    ],\n    \"shippingaddress\": {\n        \"address\": \"hello\",\n        \"city\": \"hello\",\n        \"area\": \"hello\",\n        \"zip\": \"hello\"\n    },\n    \"phone\": \"011111111\",\n    \"cart\": \"64b67a42551c4d4dfb9289c3\",\n    \"insideDhaka\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2896,13 +2884,13 @@
 					},
 					"response": [
 						{
-							"name": "registerorder",
+							"name": "registerorderwithdiscount",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n  \"products\": [{ \"product\":\"64b104a01feb47555623d9cd\",  \"productQuantity\": 2}],\n  \"address\": \"123 Main Street, City, Country\",\n  \"totalprice\": 19.99,\n  \"trxID\": \"transaction_123\"\n}\n",
+									"raw": "{\n    \"email\": \"yeasir@mail.com\",\n    \"products\": [\n        {\n            \"product\": \"64c8a7fa9277d88094792a29\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64c8ab55fa84c61ccf5355c1\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64c8f40a8b3122c54cb392a5\",\n            \"productQuantity\": 1\n        }\n    ],\n    \"shippingaddress\": {\n        \"address\": \"hello\",\n        \"city\": \"hello\",\n        \"area\": \"hello\",\n        \"zip\": \"hello\"\n    },\n    \"phone\": \"011111111\",\n    \"cart\": \"64b67a42551c4d4dfb9289c3\",\n    \"discountApplied\": \"HELLO50\",\n    \"insideDhaka\": true\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2944,11 +2932,11 @@
 								},
 								{
 									"key": "RateLimit-Remaining",
-									"value": "92"
+									"value": "98"
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "723"
+									"value": "884"
 								},
 								{
 									"key": "Content-Type",
@@ -2956,15 +2944,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "292"
+									"value": "93"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"124-RgBV03DakrA+gTrGvlxuxuSznuM\""
+									"value": "W/\"5d-EjaBdUSVWJq/Ww9fVVoc0stDNjc\""
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 20 Jul 2023 12:23:01 GMT"
+									"value": "Wed, 02 Aug 2023 05:17:26 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2976,7 +2964,94 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"products\": [\n        {\n            \"product\": \"64b104a01feb47555623d9cd\",\n            \"productQuantity\": 2,\n            \"id\": \"64b927241bf33daa5887c24a\"\n        }\n    ],\n    \"insideDhaka\": true,\n    \"status\": \"pending\",\n    \"address\": \"123 Main Street, City, Country\",\n    \"trxID\": \"transaction_123\",\n    \"id\": \"64b927241bf33daa5887c249\",\n    \"requests\": []\n}"
+							"body": "{\n    \"url\": \"https://sandbox.sslcommerz.com/EasyCheckOut/testcde7e16be684cb3d95a0246c10be12283a6\"\n}"
+						},
+						{
+							"name": "registerorderwithoutdiscount",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"yeasir@mail.com\",\n    \"products\": [\n        {\n            \"product\": \"64c8a7fa9277d88094792a29\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64c8ab55fa84c61ccf5355c1\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64c8f40a8b3122c54cb392a5\",\n            \"productQuantity\": 1\n        }\n    ],\n    \"shippingaddress\": {\n        \"address\": \"hello\",\n        \"city\": \"hello\",\n        \"area\": \"hello\",\n        \"zip\": \"hello\"\n    },\n    \"phone\": \"011111111\",\n    \"cart\": \"64b67a42551c4d4dfb9289c3\",\n    \"insideDhaka\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"order"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "679"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "93"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5d-l3diCXhwE7lpnThZhi7dpeLeS8E\""
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "connect.sid=s%3ASFlKubLAc3C2e18KFumcPXuwFjIhmD1c.LHUwzRCmziyia1PYjiEpQhmpjFLiS4O%2FFg6fOJ5qH34; Path=/; Expires=Fri, 04 Aug 2023 05:49:52 GMT; HttpOnly"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 02 Aug 2023 05:53:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"url\": \"https://sandbox.sslcommerz.com/EasyCheckOut/testcdeee1f645c5bf0a84c73d4f97060e617c7\"\n}"
 						}
 					]
 				},
@@ -3007,6 +3082,11 @@
 								{
 									"key": "page",
 									"value": "1"
+								},
+								{
+									"key": "search",
+									"value": "completed",
+									"disabled": true
 								}
 							]
 						}
@@ -3104,7 +3184,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/order/64b104b21feb47555623d9d2",
+							"raw": "http://localhost:4000/api/order/64b927241bf33daa5887c249",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3113,7 +3193,7 @@
 							"path": [
 								"api",
 								"order",
-								"64b104b21feb47555623d9d2"
+								"64b927241bf33daa5887c249"
 							]
 						}
 					},
@@ -3201,7 +3281,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/deleteorder/64b62c36082e962eaa412de4",
+							"raw": "http://localhost:4000/api/deleteorder/64c9ef5d618605aa60c1a298",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3210,7 +3290,7 @@
 							"path": [
 								"api",
 								"deleteorder",
-								"64b62c36082e962eaa412de4"
+								"64c9ef5d618605aa60c1a298"
 							]
 						}
 					},
@@ -3307,7 +3387,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/order/64b104b21feb47555623d9d2",
+							"raw": "http://localhost:4000/api/order/64b927241bf33daa5887c249",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3316,7 +3396,7 @@
 							"path": [
 								"api",
 								"order",
-								"64b104b21feb47555623d9d2"
+								"64b927241bf33daa5887c249"
 							]
 						}
 					},
@@ -3406,6 +3486,87 @@
 							"body": "{\n    \"id\": \"64b927241bf33daa5887c249\",\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"products\": [\n        {\n            \"product\": \"64b104a01feb47555623d9cd\",\n            \"productQuantity\": 2,\n            \"id\": \"64b927241bf33daa5887c24a\"\n        }\n    ],\n    \"insideDhaka\": true,\n    \"status\": \"completed\",\n    \"address\": \"123 Main Street, City, Country\",\n    \"trxID\": \"transaction_123\",\n    \"requests\": []\n}"
 						}
 					]
+				},
+				{
+					"name": "refundorder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/refundorder/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"refundorder",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64c9f42a6d6a80436af81fa1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refundstatus",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/refundstatus/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"refundstatus",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64c9f42a6d6a80436af81fa1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transactionstatus",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/transactionstatus/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"transactionstatus",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64c9f42a6d6a80436af81fa1"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -3419,7 +3580,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"code\": \"hello20\",\n    \"category\": \"64b50f4388fa4145b4678a39\",\n    \"amount\": 20,\n    \"expiry_date\": \"10/12/2023\",\n    \"limit\": 20\n}",
+							"raw": "{\n    \"code\": \"hello50\",\n    \"category\": \"64c37d290d10a967880c78f8\",\n    \"subcategory\": \"64c37d280d10a967880c78f6\",\n    \"amount\": 50,\n    \"expiry_date\": \"10/12/2023\",\n    \"limit\": 20\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3626,7 +3787,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/usediscount?code=HELLO20",
+							"raw": "http://localhost:4000/api/usediscount?code=HELLO50",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3639,7 +3800,7 @@
 							"query": [
 								{
 									"key": "code",
-									"value": "HELLO20"
+									"value": "HELLO50"
 								}
 							]
 						}
@@ -3733,7 +3894,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/abandoniscount?code=HELLO20",
+							"raw": "http://localhost:4000/api/abandoniscount?code=HELLO50",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3746,7 +3907,7 @@
 							"query": [
 								{
 									"key": "code",
-									"value": "HELLO20"
+									"value": "HELLO50"
 								}
 							]
 						}
@@ -3833,6 +3994,279 @@
 							"body": "{\n    \"success\": true,\n    \"message\": \"Coupon removed\"\n}"
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "Blogs",
+			"item": [
+				{
+					"name": "registerblog",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{\n    \"title\": \"Sample Blog Post\",\n    \"content\": \"<p>This is the content of the sample blog post. It can include <strong>bold</strong>, <em>italic</em>, and other HTML formatting.</p><p>Here is a list:</p><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": "/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/blog",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"blog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getallblogs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/blog",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"blog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getsingleblog",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/blog/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"blog",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64c73efdd4a70277347b7e64"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateblog",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/blog/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"blog",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteblog",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/deleteblog/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"deleteblog",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "getimage",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"products\": [{ \"product\":\"64b104a01feb47555623d9cd\",  \"productQuantity\": 2}],\n  \"address\": \"123 Main Street, City, Country\",\n  \"totalprice\": 19.99,\n  \"trxID\": \"transaction_123\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/images/0a8637dfbdc44744e72e7f9de3087bed.jpg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"images",
+						"0a8637dfbdc44744e72e7f9de3087bed.jpg"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "registerorder",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n  \"products\": [{ \"product\":\"64b104a01feb47555623d9cd\",  \"productQuantity\": 2}],\n  \"address\": \"123 Main Street, City, Country\",\n  \"totalprice\": 19.99,\n  \"trxID\": \"transaction_123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"order"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "RateLimit-Limit",
+							"value": "100"
+						},
+						{
+							"key": "RateLimit-Remaining",
+							"value": "92"
+						},
+						{
+							"key": "RateLimit-Reset",
+							"value": "723"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "292"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"124-RgBV03DakrA+gTrGvlxuxuSznuM\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 20 Jul 2023 12:23:01 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"products\": [\n        {\n            \"product\": \"64b104a01feb47555623d9cd\",\n            \"productQuantity\": 2,\n            \"id\": \"64b927241bf33daa5887c24a\"\n        }\n    ],\n    \"insideDhaka\": true,\n    \"status\": \"pending\",\n    \"address\": \"123 Main Street, City, Country\",\n    \"trxID\": \"transaction_123\",\n    \"id\": \"64b927241bf33daa5887c249\",\n    \"requests\": []\n}"
 				}
 			]
 		}
