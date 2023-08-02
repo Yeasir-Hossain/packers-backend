@@ -32,7 +32,7 @@ import gracefullShutdown from './controllers/gracefullShutdown';
 import { driverCache } from './controllers/driverCache';
 import session from 'express-session';
 import passport from 'passport';
-import { passportMiddleware } from './services/middlewares';
+import { passportMiddleware, socketAuth } from './services/middlewares';
 
 export default class App {
   constructor({ deps } = {}) {
@@ -44,7 +44,7 @@ export default class App {
     this.imageUp = imageUp;
     this.db = operations;
     this.events = {};
-    this.wsMiddlewares = [];
+    this.wsMiddlewares = [socketAuth];
     this.passport = passport;
     this.sslcz = new SSLCommerzPayment(this.config.sslcommerz.store_id, this.config.sslcommerz.store_password, this.config.sslcommerz.is_live);
 

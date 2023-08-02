@@ -9,7 +9,6 @@ const allowedQuery = new Set(['page', 'limit', 'id', 'paginate', 'sort']);
 /**
  * @param registerBlog function is used register blog
  * @param {Object} req This is the req object.
- * @throws {Error} If the request body includes properties other than those allowed or if there is an error during the database operation.
  * @returns
  */
 export const registerBlog = ({ db, imageUp }) => async (req, res) => {

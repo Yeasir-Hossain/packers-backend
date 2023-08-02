@@ -20,24 +20,25 @@ export default function order() {
   this.route.post('/orderfail', orderFail(this));
 
   /**
- * POST /refundOrder
- * @description this route is insert a order
- * @response the order.
- */
-  this.route.post('/refundorder/:id', refundOrder(this));
+   * POST /refundorder/:id
+   * @description this route is insert a order
+   * @response the order.
+   */
+  this.route.post('/refundorder/:id', auth, checkRole('admin', 'super-admin'), refundOrder(this));
 
   /**
- * POST /refundStatus
- * @description this route is insert a order
- * @response the order.
- */
-  this.route.post('/refundstatus/:id', refundStatus(this));
+   * POST /refundstatus/:id
+   * @description this route is insert a order
+   * @response the order.
+   */
+  this.route.post('/refundstatus/:id', auth, refundStatus(this));
+
   /**
- * POST /transactionStatus
- * @description this route is insert a order
- * @response the order.
- */
-  this.route.post('/transactionstatus/:id', transactionStatus(this));
+   * POST /transactionstatus/:id
+   * @description this route is insert a order
+   * @response the order.
+   */
+  this.route.post('/transactionstatus/:id', auth, checkRole('admin', 'super-admin'), transactionStatus(this));
   /**
    * GET /order
    * @description this route is used to get all orders.

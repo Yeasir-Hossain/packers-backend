@@ -5,7 +5,7 @@ export default function category() {
   /**
  * POST /category
  * @description this route is insert a category.
- * @response the product.
+ * @response the category.
  */
   this.route.post('/category', auth, checkAccess('staff', 'product'), registerCategory(this));
 

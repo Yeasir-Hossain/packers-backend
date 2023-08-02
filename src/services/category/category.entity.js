@@ -1,9 +1,13 @@
 import Category from './category.schema';
 
 /**
+ * these are the set to validate the request query.
+ */
+const allowedQuery = new Set(['type']);
+
+/**
  * @param registerCategoty function is used to register a category to the catrgory collection
  * @param {Object} req This is the req object.
- * @throws {Error} If the request body includes properties other than those allowed or if there is an error during the database operation.
  * @returns
  */
 export const registerCategory = ({ db }) => async (req, res) => {
@@ -50,7 +54,7 @@ export const registerCategory = ({ db }) => async (req, res) => {
  */
 export const getAllCategory = ({ db }) => async (req, res) => {
   try {
-    const categories = await db.find({ table: Category, key: { query: { type: 'category' }, paginate: false, populate: { path: 'subcategory' } } });
+    const categories = await db.find({ table: Category, key: { query: { type: 'category' }, allowedQuery: allowedQuery, paginate: false, populate: { path: 'subcategory' } } });
     if (!categories) return res.status(400).send('Bad request');
     return res.status(200).send(categories);
   }

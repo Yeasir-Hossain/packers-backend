@@ -3,8 +3,7 @@ import Discount from './discount.schema';
 /**
  * @param registerDiscount function is used to register a discount to the discount collection
  * @param {Object} req This is the req object.
- * @throws {Error} If the request body includes properties other than those allowed or if there is an error during the database operation.
- * @returns
+ * @returns the discount
  */
 export const registerDiscount = ({ db }) => async (req, res) => {
   try {

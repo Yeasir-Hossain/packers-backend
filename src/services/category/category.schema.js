@@ -1,15 +1,5 @@
 import { Schema, model } from 'mongoose';
 
-// const schema = new Schema({
-//   category: { type: String, reqired: true },
-//   categorySlug: { type: String, required: true },
-//   subCategory: [{
-//     subCategoryName: { type: String },
-//     subCategorySlug: { type: String }
-//   }]
-
-// });
-
 const schema = new Schema({
   name: { type: String, reqired: true },
   slug: { type: String, required: true, unique: true },

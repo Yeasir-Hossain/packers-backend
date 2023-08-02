@@ -215,4 +215,6 @@ const sort = async (data, payload = {}) => await data.sort(payload);
 
 const aggr = async ({ table, key }) => await table.aggregate(key);
 
-export { find, findOne, create, remove, update, save, removeAll, populate, sort, aggr, updateMany };
+const bulkCreate = ({ table, docs }) => table.insertMany(docs);
+
+export { find, findOne, create, remove, update, save, removeAll, populate, sort, aggr, updateMany, bulkCreate };

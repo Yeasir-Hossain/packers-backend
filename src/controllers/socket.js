@@ -39,10 +39,9 @@ export default function start(server, options) {
  */
 export function listen(io, events, ...middlewares) {
   (new Promise((resolve) => {
-    for (let i in middlewares) {
+    for (let i of middlewares) {
       io.use(i);
     }
-
     resolve();
   })).then(() => {
     io.on('connection', async ws => {

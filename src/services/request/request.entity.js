@@ -154,7 +154,6 @@ export const acceptRequest = ({ db }) => async (req, res) => {
     const cart = await db.findOne({ table: Cart, key: { user: request.user, paginate: false, populate: { path: 'requests.request' } } });
     if (cart) {
       cart.requests = [...(cart.requests || []), tempbody];
-      console.log(cart);
       await cart.save();
       res.status(200).send(cart);
     }

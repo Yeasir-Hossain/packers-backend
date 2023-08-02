@@ -3,7 +3,6 @@ import Products from '../product/product.schema';
 import Request from '../request/request.schema';
 import Discount from '../discount/discount.schema';
 import Cart from '../cart/cart.schema';
-// import User from '../user/user.schema';
 import Orders from './order.schema';
 import fs from 'fs';
 import path from 'path';
@@ -12,12 +11,6 @@ import path from 'path';
  * these are the set to validate the request query.
  */
 const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber']);
-
-/**
- * @param preparedata function prepares the total product category and product name for ssl commerz
- * @param {price,tax,fee,quantity,productname, productcategory}
- * after order the selected item quantity is subtracted from the main product collection
- */
 
 /**
  * This function is for payment through ssl commerz

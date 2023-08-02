@@ -69,3 +69,23 @@ export async function passportMiddleware(req, res, next) {
   req.session.messages = [];
   next();
 }
+
+/**
+ * This function is the middleware of socketauth.
+ */
+export async function socketAuth(socket, next) {
+  try {
+    const token = socket?.handshake?.headers?.coredevs?.replace('Bearer ', '');
+    console.log(token);
+    if (!token) throw new Error('Unauthorized');
+    const user = await decodeAuthToken(token);
+    if (!user) throw new Error('Unauthorized');
+    socket.user = user;
+    socket.join(user.id);
+    console.log(user);
+    next();
+  } catch (e) {
+    console.log(e);
+    next(new Error('Unauthorized'));
+  }
+}
