@@ -1330,11 +1330,11 @@
 								},
 								{
 									"key": "RateLimit-Remaining",
-									"value": "80"
+									"value": "98"
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "254"
+									"value": "773"
 								},
 								{
 									"key": "Content-Type",
@@ -1342,15 +1342,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "432"
+									"value": "404"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"1b0-pR3Uh5EzHBLHa6yZ56iy8vAxZ3s\""
+									"value": "W/\"194-tqKR3ToRHgZtVN8G8CnZLXrLXmE\""
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 20 Jul 2023 12:13:40 GMT"
+									"value": "Wed, 02 Aug 2023 12:16:10 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1362,7 +1362,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"id\": \"64b7967036ecd422ea03b121\",\n        \"category\": \"Electronics\",\n        \"categorySlug\": \"electronics\",\n        \"subCategory\": [\n            {\n                \"subCategoryName\": \"Molbile Accessories\",\n                \"subCategorySlug\": \"mobileaccessories\",\n                \"id\": \"64b7967036ecd422ea03b122\"\n            }\n        ]\n    },\n    {\n        \"id\": \"64b924ddbef927cbe4da905d\",\n        \"category\": \"Electronics\",\n        \"categorySlug\": \"electronics\",\n        \"subCategory\": [\n            {\n                \"subCategoryName\": \"Mobile Accessories\",\n                \"subCategorySlug\": \"mobileaccessories\",\n                \"id\": \"64b924ddbef927cbe4da905e\"\n            }\n        ]\n    }\n]"
+							"body": "[\n    {\n        \"id\": \"64c37d290d10a967880c78f8\",\n        \"name\": \"Electronics\",\n        \"slug\": \"electronics\",\n        \"subcategory\": [\n            {\n                \"id\": \"64c37d280d10a967880c78f6\",\n                \"name\": \"Mobile Accessories\",\n                \"slug\": \"mobileaccessories\",\n                \"subcategory\": [],\n                \"__v\": 0,\n                \"type\": \"subcategory\"\n            },\n            {\n                \"type\": \"category\",\n                \"id\": \"64c37e7cf430b430756d9b6e\",\n                \"name\": \"Computer Accessories\",\n                \"slug\": \"computeraccessories\",\n                \"subcategory\": [],\n                \"__v\": 0,\n                \" type\": \"subcategory\"\n            }\n        ],\n        \"type\": \"category\"\n    }\n]"
 						}
 					]
 				},
@@ -1475,7 +1475,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Testing3\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n    ],\n    \"quantity\": 20,\n    \"price\": 10.00,\n    \"tax\": 10.00,\n    \"fee\": 5.00,\n    \"category\": \"64c37d290d10a967880c78f8\",\n    \"subcategory\": \"64c37e7cf430b430756d9b6e\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\"\n}",
+							"raw": "{\n    \"name\": \"Testing2\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n    ],\n    \"quantity\": 20,\n    \"price\": 10.00,\n    \"tax\": 10.00,\n    \"fee\": 5.00,\n    \"category\": \"64c37d290d10a967880c78f8\",\n    \"subcategory\": \"64c37d280d10a967880c78f6\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1502,22 +1502,13 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "data",
-											"value": "{\n  \"productName\": \"Sample Product 1\",\n  \"description\": \"This is a sample product description.\",\n  \"origin\": \"Sample Origin\",\n  \"quantity\": 10,\n  \"price\": 29.99,\n\"category\":\"64b50f4388fa4145b4678a39\",\n  \"tags\": \"sample, shoe, electronics\",\n  \"link\": \"https://example.com/sample-product\",\n  \"status\": \"active\"\n}\n",
-											"type": "text"
-										},
-										{
-											"key": "images",
-											"type": "file",
-											"src": [
-												"/home/common/Downloads/dummyimages/oneplus-11-never-settle.webp",
-												"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg"
-											]
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Testing2\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n    ],\n    \"quantity\": 20,\n    \"price\": 10.00,\n    \"tax\": 10.00,\n    \"fee\": 5.00,\n    \"category\": \"64c37d290d10a967880c78f8\",\n    \"subcategory\": \"64c37d280d10a967880c78f6\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									]
+									}
 								},
 								"url": {
 									"raw": "http://localhost:4000/api/products",
@@ -1558,7 +1549,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "862"
+									"value": "673"
 								},
 								{
 									"key": "Content-Type",
@@ -1566,15 +1557,19 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "412"
+									"value": "405"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"19c-sAsFfqX/qZO/MDMDz4Sk6NjAiIc\""
+									"value": "W/\"195-LkNWLmJLC1SGGkw7oYYgdjFPuDI\""
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "connect.sid=s%3AOiBeutEXb8SQYKhVaEsDJIQPG3V63-gw.gVvmyFw2Uqe4XcWe2attAo19oHwuWfAnurT0ajbIur4; Path=/; Expires=Fri, 04 Aug 2023 17:12:24 GMT; HttpOnly"
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 20 Jul 2023 12:17:44 GMT"
+									"value": "Wed, 02 Aug 2023 17:16:11 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1586,7 +1581,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"productName\": \"Sample Product 1\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/2099c6d996f51578627928e77110b40e.webp\",\n        \"images/13b8409a0c65582956f56f52748735ae.jpg\"\n    ],\n    \"quantity\": 10,\n    \"price\": 29.99,\n    \"category\": \"64b50f4388fa4145b4678a39\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\",\n    \"id\": \"64b925e8aa2c88a0866e49aa\"\n}"
+							"body": "{\n    \"name\": \"Testing2\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n    ],\n    \"quantity\": 20,\n    \"price\": 10,\n    \"tax\": 10,\n    \"fee\": 5,\n    \"category\": \"64c37d290d10a967880c78f8\",\n    \"subcategory\": \"64c37d280d10a967880c78f6\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\",\n    \"id\": \"64ca8f5a02478c400e1f78a9\"\n}"
 						}
 					]
 				},
@@ -1596,7 +1591,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/products?page=1&category=64c37d290d10a967880c78f8",
+							"raw": "http://localhost:4000/api/products",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1609,11 +1604,13 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "category",
-									"value": "64c37d290d10a967880c78f8"
+									"value": "64c37d290d10a967880c78f8",
+									"disabled": true
 								},
 								{
 									"key": "id",
@@ -1635,7 +1632,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:4000/api/products?page=1",
+									"raw": "http://localhost:4000/api/products",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1648,7 +1645,23 @@
 									"query": [
 										{
 											"key": "page",
-											"value": "1"
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "category",
+											"value": "64c37d290d10a967880c78f8",
+											"disabled": true
+										},
+										{
+											"key": "id",
+											"value": "64c210ae0055b2a44b642a4a",
+											"disabled": true
+										},
+										{
+											"key": "subcategory",
+											"value": "64c37d280d10a967880c78f6",
+											"disabled": true
 										}
 									]
 								}
@@ -1679,7 +1692,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "457"
+									"value": "898"
 								},
 								{
 									"key": "Content-Type",
@@ -1687,15 +1700,19 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "3917"
+									"value": "1490"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"f4d-DauRdYsTDdboktr9cV49mPG7vRA\""
+									"value": "W/\"5d2-+Xfv9fOXnzziVcmfupOrTur+x5o\""
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "connect.sid=s%3A4Wq0vXaebZvuMXTuMzQi8VqsdJYrSu1U.qnqcRt1eJtY8cnhg1Km6wXYEvyX7JiRQHB%2FVsZ%2B90CQ; Path=/; Expires=Sat, 05 Aug 2023 04:57:45 GMT; HttpOnly"
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 20 Jul 2023 07:51:51 GMT"
+									"value": "Thu, 03 Aug 2023 04:57:47 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1707,7 +1724,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"docs\": [\n        {\n            \"id\": \"64b530c0f53b754f99f651e1\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/b3157c9852580367425ade44bb239158.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b530cf20fb2dda57f447b2\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b5303bceb55727690a91eb\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/3c6ccc17ba151d4adbf4364afec50ac4.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b530a5db5be2e4f0f44cbd\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/6297bd113ca1d73f5c47578c74fc8163.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b5305d13ab4a56cc660fc4\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/00593054d1244b7e901ee3795c118c6f.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b52ff9bcffedfa50cbd165\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/511fc6bb56fa5678d429b842f8b84f43.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b5105410d900608033789c\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/253457677b8784164087ba65313a0d34.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b104a01feb47555623d9cd\",\n            \"productName\": \"Sample Product\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/2b298231f64df75fc32007b0d366a382.jpg\",\n                \"images/348c013c9965d6bee382df6f776794b6.webp\",\n                \"images/d89a7b958585f0850f0aee511d7aef2e.jpeg\"\n            ],\n            \"quantity\": 5,\n            \"price\": 29.99,\n            \"category\": {\n                \"id\": \"64b7967036ecd422ea03b121\",\n                \"category\": \"Electronics\",\n                \"categorySlug\": \"electronics\",\n                \"subCategory\": [\n                    {\n                        \"subCategoryName\": \"Molbile Accessories\",\n                        \"subCategorySlug\": \"mobileaccessories\",\n                        \"id\": \"64b7967036ecd422ea03b122\"\n                    }\n                ],\n                \"__v\": 0\n            },\n            \"subcategory\": \"shoe\",\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b52e8ebcffedfa50cbd153\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/0a8637dfbdc44744e72e7f9de3087bed.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64b53079b8994e75e6311560\",\n            \"productName\": \"Sample Product 1\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/554040458ce71a3e6cf4257622a437b2.jpg\"\n            ],\n            \"quantity\": 10,\n            \"price\": 29.99,\n            \"category\": null,\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        }\n    ],\n    \"totalDocs\": 14,\n    \"limit\": 10,\n    \"totalPages\": 2,\n    \"page\": 1,\n    \"pagingCounter\": 1,\n    \"hasPrevPage\": false,\n    \"hasNextPage\": true,\n    \"prevPage\": null,\n    \"nextPage\": 2\n}"
+							"body": "{\n    \"docs\": [\n        {\n            \"id\": \"64ca84cf1c1475adfdf18e4d\",\n            \"name\": \"Testing3\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n            ],\n            \"quantity\": 20,\n            \"price\": 10,\n            \"tax\": 10,\n            \"fee\": 5,\n            \"category\": {\n                \"id\": \"64c37d290d10a967880c78f8\",\n                \"name\": \"Electronics\",\n                \"slug\": \"electronics\",\n                \"subcategory\": [\n                    \"64c37d280d10a967880c78f6\",\n                    \"64c37e7cf430b430756d9b6e\"\n                ],\n                \"__v\": 1,\n                \"type\": \"category\"\n            },\n            \"subcategory\": {\n                \"type\": \"category\",\n                \"id\": \"64c37e7cf430b430756d9b6e\",\n                \"name\": \"Computer Accessories\",\n                \"slug\": \"computeraccessories\",\n                \"subcategory\": [],\n                \"__v\": 0,\n                \" type\": \"subcategory\"\n            },\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        },\n        {\n            \"id\": \"64ca8f5a02478c400e1f78a9\",\n            \"name\": \"Testing2\",\n            \"description\": \"This is a sample product description.\",\n            \"origin\": \"Sample Origin\",\n            \"images\": [\n                \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n            ],\n            \"quantity\": 20,\n            \"price\": 10,\n            \"tax\": 10,\n            \"fee\": 5,\n            \"category\": {\n                \"id\": \"64c37d290d10a967880c78f8\",\n                \"name\": \"Electronics\",\n                \"slug\": \"electronics\",\n                \"subcategory\": [\n                    \"64c37d280d10a967880c78f6\",\n                    \"64c37e7cf430b430756d9b6e\"\n                ],\n                \"__v\": 1,\n                \"type\": \"category\"\n            },\n            \"subcategory\": {\n                \"id\": \"64c37d280d10a967880c78f6\",\n                \"name\": \"Mobile Accessories\",\n                \"slug\": \"mobileaccessories\",\n                \"subcategory\": [],\n                \"__v\": 0,\n                \"type\": \"subcategory\"\n            },\n            \"tags\": \"sample, shoe, electronics\",\n            \"link\": \"https://example.com/sample-product\",\n            \"status\": \"active\"\n        }\n    ],\n    \"totalDocs\": 2,\n    \"limit\": 10,\n    \"totalPages\": 1,\n    \"page\": 1,\n    \"pagingCounter\": 1,\n    \"hasPrevPage\": false,\n    \"hasNextPage\": false,\n    \"prevPage\": null,\n    \"nextPage\": null\n}"
 						}
 					]
 				},
@@ -1737,7 +1754,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:4000/api/products/64b104a01feb47555623d9cd",
+									"raw": "http://localhost:4000/api/products/:id",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1746,7 +1763,13 @@
 									"path": [
 										"api",
 										"products",
-										"64b104a01feb47555623d9cd"
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "64ca84cf1c1475adfdf18e4d"
+										}
 									]
 								}
 							},
@@ -1776,7 +1799,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "846"
+									"value": "411"
 								},
 								{
 									"key": "Content-Type",
@@ -1784,15 +1807,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "674"
+									"value": "550"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"2a2-sweeO3S/hmPkEH+/fGhKD/eqMHE\""
+									"value": "W/\"226-rTnEMnRJfQYY3+4A3FxkJ5N/SNA\""
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 20 Jul 2023 12:18:01 GMT"
+									"value": "Thu, 03 Aug 2023 05:15:13 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1804,7 +1827,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"id\": \"64b104a01feb47555623d9cd\",\n    \"productName\": \"Sample Product\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/2b298231f64df75fc32007b0d366a382.jpg\",\n        \"images/348c013c9965d6bee382df6f776794b6.webp\",\n        \"images/d89a7b958585f0850f0aee511d7aef2e.jpeg\"\n    ],\n    \"quantity\": 5,\n    \"price\": 29.99,\n    \"category\": {\n        \"id\": \"64b7967036ecd422ea03b121\",\n        \"category\": \"Electronics\",\n        \"categorySlug\": \"electronics\",\n        \"subCategory\": [\n            {\n                \"subCategoryName\": \"Molbile Accessories\",\n                \"subCategorySlug\": \"mobileaccessories\",\n                \"id\": \"64b7967036ecd422ea03b122\"\n            }\n        ],\n        \"__v\": 0\n    },\n    \"subcategory\": \"shoe\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\"\n}"
+							"body": "{\n    \"id\": \"64ca84cf1c1475adfdf18e4d\",\n    \"name\": \"Testing3\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n    ],\n    \"quantity\": 20,\n    \"price\": 10,\n    \"tax\": 10,\n    \"fee\": 5,\n    \"category\": {\n        \"id\": \"64c37d290d10a967880c78f8\",\n        \"name\": \"Electronics\",\n        \"slug\": \"electronics\",\n        \"subcategory\": [\n            \"64c37d280d10a967880c78f6\",\n            \"64c37e7cf430b430756d9b6e\"\n        ],\n        \"__v\": 1,\n        \"type\": \"category\"\n    },\n    \"subcategory\": \"64c37e7cf430b430756d9b6e\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\"\n}"
 						}
 					]
 				},
@@ -1813,8 +1836,17 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":[\"64c210ae0055b2a44b642a4a\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:4000/api/deleteproduct/64c37fbfe7608e100f646317",
+							"raw": "http://localhost:4000/api/deleteproduct",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1822,8 +1854,7 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"deleteproduct",
-								"64c37fbfe7608e100f646317"
+								"deleteproduct"
 							]
 						}
 					},
@@ -1833,8 +1864,17 @@
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":[\"64ca878fadfe8595fddc17ff\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "http://localhost:4000/api/deleteproduct/64b925e8aa2c88a0866e49aa",
+									"raw": "http://localhost:4000/api/deleteproduct",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1842,8 +1882,7 @@
 									"port": "4000",
 									"path": [
 										"api",
-										"deleteproduct",
-										"64b925e8aa2c88a0866e49aa"
+										"deleteproduct"
 									]
 								}
 							},
@@ -1873,7 +1912,7 @@
 								},
 								{
 									"key": "RateLimit-Reset",
-									"value": "820"
+									"value": "240"
 								},
 								{
 									"key": "Content-Type",
@@ -1889,7 +1928,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 20 Jul 2023 12:18:27 GMT"
+									"value": "Wed, 02 Aug 2023 16:43:20 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2862,7 +2901,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"yeasir@mail.com\",\n    \"products\": [\n        {\n            \"product\": \"64c8a7fa9277d88094792a29\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64c8ab55fa84c61ccf5355c1\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64c8f40a8b3122c54cb392a5\",\n            \"productQuantity\": 1\n        }\n    ],\n    \"shippingaddress\": {\n        \"address\": \"hello\",\n        \"city\": \"hello\",\n        \"area\": \"hello\",\n        \"zip\": \"hello\"\n    },\n    \"phone\": \"011111111\",\n    \"cart\": \"64b67a42551c4d4dfb9289c3\",\n    \"insideDhaka\": true\n}",
+							"raw": "{\n    \"email\": \"yeasir@mail.com\",\n    \"products\": [\n        {\n            \"product\": \"64ca84cf1c1475adfdf18e4d\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64ca8f5a02478c400e1f78a9\",\n            \"productQuantity\": 1\n        }\n    ],\n    \"shippingaddress\": {\n        \"address\": \"hello\",\n        \"city\": \"hello\",\n        \"area\": \"hello\",\n        \"zip\": \"hello\"\n    },\n    \"phone\": \"011111111\",\n    \"insideDhaka\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3184,7 +3223,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/order/64b927241bf33daa5887c249",
+							"raw": "http://localhost:4000/api/order/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3193,7 +3232,13 @@
 							"path": [
 								"api",
 								"order",
-								"64b927241bf33daa5887c249"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64c9f42a6d6a80436af81fa1"
+								}
 							]
 						}
 					},
@@ -4145,6 +4190,58 @@
 								{
 									"key": "id",
 									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "getnotification",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/notification",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"notification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removenotification",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/notification/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"notification",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64ca3aa0fd1ea9e627213149"
 								}
 							]
 						}

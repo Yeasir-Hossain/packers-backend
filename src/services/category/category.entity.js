@@ -88,8 +88,8 @@ export const updateCategory = ({ db }) => async (req, res) => {
  */
 export const removeCategory = ({ db }) => async (req, res) => {
   try {
-    const { id } = req.params;
-    const category = await db.remove({ table: Category, key: { id } });
+    if (!req.body.id.length) return res.send(400).send('Bad Request');
+    const category = await db.removeAll({ table: Category, key: { id: { $in: req.body.id } } });
     if (!category) return res.status(404).send({ message: 'Category not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   } catch (err) {

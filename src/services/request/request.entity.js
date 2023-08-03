@@ -112,9 +112,9 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
  */
 export const removeRequest = ({ db }) => async (req, res) => {
   try {
-    const { id } = req.params;
-    const request = await db.remove({ table: Request, key: { id } });
-    if (!request) return res.status(404).send({ message: 'Request not found' });
+    if (!req.body.id.length) return res.send(400).send('Bad Request');
+    const request = await db.removeAll({ table: Request, key: { id: { $in: req.body.id } } });
+    if (request.deletedCount < 1) return res.status(404).send({ message: 'Request not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   } catch (err) {
     console.log(err);

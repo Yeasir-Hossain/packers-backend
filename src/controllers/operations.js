@@ -175,6 +175,7 @@ const remove = async (target) => {
  */
 const removeAll = async ({ table, key }) => {
   try {
+    if (key.id) key._id = key.id; delete key.id;
     const res = await table.deleteMany(key);
     return Promise.resolve(res);
   }

@@ -43,9 +43,9 @@ export const getAllDiscount = ({ db }) => async (req, res) => {
  */
 export const removeDiscount = ({ db }) => async (req, res) => {
   try {
-    const { id } = req.params;
-    const discount = await db.remove({ table: Discount, key: { id } });
-    if (!discount) return res.status(404).send({ message: 'Coupon not found' });
+    if (!req.body.id.length) return res.send(400).send('Bad Request');
+    const discount = await db.removeAll({ table: Discount, key: { id: { $in: req.body.id } } });
+    if (discount.deletedCount < 1) return res.status(404).send({ message: 'Coupon not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   } catch (err) {
     console.log(err);

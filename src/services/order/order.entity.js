@@ -10,7 +10,7 @@ import path from 'path';
 /**
  * these are the set to validate the request query.
  */
-const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber']);
+const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', '_id']);
 
 /**
  * This function is for payment through ssl commerz
@@ -31,8 +31,8 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
     const productIds = products ? products.map((product) => product.product) : [];
     const requestIds = requests ? requests.map((request) => request.request) : [];
     const [productsData, requestsData] = await Promise.all([
-      Products.find({ _id: { $in: productIds } }),
-      Request.find({ _id: { $in: requestIds } }),
+      db.find({ table: Products, key: { query: { '_id': { '$in': productIds } }, allowedQuery: allowedQuery, paginate: false } }),
+      db.find({ table: Request, key: { query: { '_id': { '$in': requestIds } }, allowedQuery: allowedQuery, paginate: false } })
     ]);
 
     let totalPrice = 0;
@@ -155,7 +155,6 @@ export const orderSuccess = ({ db, mail, sslcz }) => async (req, res) => {
     sslcz.validate(data).then(async (data) => {
       if (data.amount != req.body.value_a) {
         return res.redirect('http://localhost:3000');
-        // return res.status(400).send('Amount does not match');
       }
       const order = await db.update({
         table: Orders, key: {
@@ -372,8 +371,9 @@ export const updateOrder = ({ db }) => async (req, res) => {
  */
 export const removeOrder = ({ db }) => async (req, res) => {
   try {
-    const order = await db.remove({ table: Orders, key: { id: req.params.id } });
-    if (!order) return res.status(404).send({ message: 'Order not found' });
+    if (!req.body.id.length) return res.send(400).send('Bad Request');
+    const order = await db.removeAll({ table: Orders, key: { id: { $in: req.body.id } } });
+    if (order.deletedCount < 1) return res.status(404).send({ message: 'Order not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   } catch (err) {
     console.log(err);
