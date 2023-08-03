@@ -1,5 +1,5 @@
 import { auth, checkAccess, checkRole } from '../middlewares';
-import { acceptRequest, declineRequest, getAllRequests, getSingleRequest, registerRequest, removeRequest, updateRequest } from './request.entity';
+import { acceptRequest, declineRequest, getAllRequests, getSingleRequest, registerRequest, removeRequest, sendInvoice, updateRequest } from './request.entity';
 
 
 export default function request() {
@@ -33,11 +33,18 @@ export default function request() {
   this.route.patch('/request/:id', auth, checkAccess('staff', 'request'), updateRequest(this));
 
   /**
+ * PATCH /sendinvoice/:id
+ * @description this route is used to update a single request.
+ * @response the product that has been updated.
+ */
+  this.route.patch('/sendinvoice/:id', auth, checkAccess('staff', 'request'), sendInvoice(this));
+
+  /**
    * DELETE /deleterequest/:id
    * @description this route is used to delete a single request.
    * @response success or failed
    */
-  this.route.delete('/deleterequest/:id', auth, checkRole('admin', 'super-admin'), removeRequest(this));
+  this.route.delete('/deleterequest', auth, checkRole('admin', 'super-admin'), removeRequest(this));
 
   /**
    * GET /acceptrequest/:id

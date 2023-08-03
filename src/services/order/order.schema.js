@@ -23,7 +23,7 @@ const schema = new Schema({
     from: { type: Date },
     to: { type: Date }
   },
-  date: { type: Date, default: Date.now },
+  date: { type: Date, default: Date.now() },
   insideDhaka: { type: Boolean, default: true },
   status: { type: String, enum: ['pending', 'paid', 'processing', 'completed', 'shipping', 'cancel', 'refunded'], default: 'pending' },
   shippingaddress: {

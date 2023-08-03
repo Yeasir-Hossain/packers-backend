@@ -1,9 +1,10 @@
+import deleteImages from '../../utils/deleteImages';
 import Products from './product.schema';
 
 /**
  * these are the set to validate the request query.
  */
-const allowedQuery = new Set(['page', 'limit', 'id', 'paginate', 'sort', 'category', 'subcategory', 'productName', 'tags']);
+const allowedQuery = new Set(['page', 'limit', 'id','_id', 'paginate', 'sort', 'category', 'subcategory', 'productName', 'tags']);
 
 /**
  * @param registerProduct function is used to register a product from the products collection
@@ -105,9 +106,16 @@ export const updateProduct = ({ db, imageUp }) => async (req, res) => {
  */
 export const removeProduct = ({ db }) => async (req, res) => {
   try {
-    if (!req.body.id.length) return res.send(400).send('Bad Request');
-    const product = await db.removeAll({ table: Products, key: { id: { $in: req.body.id } } });
-    if (product.deletedCount < 1) return res.status(404).send({ message: 'Product not found' });
+    if (!req.body.id.length) return res.status(400).send('Bad Request');
+    const productsToDelete = await db.find({ table: Products, key: { query: { '_id': { '$in': req.body.id } }, allowedQuery: allowedQuery, paginate: false } });
+    if (productsToDelete.length < 1) return res.status(404).send({ message: 'Product not found' });
+    const imagePathsToDelete = productsToDelete.reduce((acc, product) => {
+      acc.push(...product.images);
+      return acc;
+    }, []);
+    await deleteImages(imagePathsToDelete);
+    const deleteResult = await db.removeAll({ table: Products, key: { id: { $in: req.body.id } } });
+    if (deleteResult.deletedCount < 1) return res.status(404).send({ message: 'Product not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   } catch (err) {
     console.log(err);

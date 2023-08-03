@@ -27,7 +27,6 @@
  * });
  */
 const find = ({ table, key = {} }) => new Promise((resolve, reject) => {
-  key.query = JSON.parse(JSON.stringify(key.query).replace('"id"', '"_id"'));
   const queryKeys = Object.keys(key?.query || {});
   const verified = queryKeys.every(k => (key.allowedQuery || new Set([])).has(k));
   if (!verified) return reject('Query validation issue');
@@ -44,6 +43,10 @@ const find = ({ table, key = {} }) => new Promise((resolve, reject) => {
     if (k === 'sortBy') {
       const parts = key?.query?.sortBy.split(':');
       return key.options.sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
+    }
+    if (k === 'id') {
+      key._id = key?.query?.id;
+      return delete key?.query?.id;
     }
     key[k] = key?.query[k];
   });

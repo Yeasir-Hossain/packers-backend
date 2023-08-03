@@ -6,6 +6,7 @@ import Cart from '../cart/cart.schema';
 import Orders from './order.schema';
 import fs from 'fs';
 import path from 'path';
+import { sendNotification } from '../notification/notification.entity';
 
 /**
  * these are the set to validate the request query.
@@ -41,32 +42,34 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
     let discountItemsTotal = 0;
     let nondiscountItemsTotal = 0;
 
-    for (const orderedProduct of products) {
-      const element = productsData.find((product) => orderedProduct.product.toString() === product._id.toString());
-      if (!element) continue;
-      if (element.quantity < orderedProduct.productQuantity) {
-        return res.status(400).send(`${element.name} is out of stock.`);
+    if (products?.length > 0) {
+      for (const orderedProduct of products) {
+        const element = productsData.find((product) => orderedProduct.product.toString() === product._id.toString());
+        if (!element) continue;
+        if (element.quantity < orderedProduct.productQuantity) {
+          return res.status(400).send(`${element.name} is out of stock.`);
+        }
+        const productPrice = element.price + element.tax + element.fee;
+        if (discountApplied && element.category.toString() === discount.category && element.subcategory.toString() === discount.subcategory) {
+          discountItemsTotal += productPrice * orderedProduct.productQuantity;
+        } else {
+          nondiscountItemsTotal += productPrice * orderedProduct.productQuantity;
+        }
+        productNames.push(element.name);
+        productCategories.push(element.category.name);
+        element.quantity -= orderedProduct.productQuantity;
+        await element.save();
       }
-      const productPrice = element.price + element.tax + element.fee;
-      if (discountApplied && element.category.toString() === discount.category && element.subcategory.toString() === discount.subcategory) {
-        discountItemsTotal += productPrice * orderedProduct.productQuantity;
-      } else {
-        nondiscountItemsTotal += productPrice * orderedProduct.productQuantity;
+    }
+    if (requests?.length > 0) {
+      for (const orderedRequest of requests) {
+        const element = requestsData.find((request) => orderedRequest.request.toString() === request._id.toString());
+        if (!element) continue;
+        productNames.push(element.name);
+        productCategories.push('request');
+        totalPrice += (element.price + element.tax + element.fee) * orderedRequest.requestQuantity;
       }
-      productNames.push(element.name);
-      productCategories.push(element.category.name);
-      element.quantity -= orderedProduct.productQuantity;
-      await element.save();
     }
-
-    for (const orderedRequest of requests) {
-      const element = requestsData.find((request) => orderedRequest.request.toString() === request._id.toString());
-      if (!element) continue;
-      productNames.push(element.name);
-      productCategories.push('request');
-      totalPrice += (element.price + element.tax + element.fee) * orderedRequest.requestQuantity;
-    }
-
     // Discount calculation
     let discount = 0;
     if (discountApplied) {
@@ -147,7 +150,7 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
  * @returns {Object} the order
  */
 // eslint-disable-next-line no-unused-vars
-export const orderSuccess = ({ db, mail, sslcz }) => async (req, res) => {
+export const orderSuccess = ({ db, ws, mail, sslcz }) => async (req, res) => {
   try {
     const data = {
       val_id: req.body.val_id
@@ -174,14 +177,13 @@ export const orderSuccess = ({ db, mail, sslcz }) => async (req, res) => {
         serverLink: 'http://localhost:4000/',
         homeLink: 'http://localhost:5173/'
       };
-      // eslint-disable-next-line no-unused-vars
+      sendNotification(db, ws, [{ '_id': order.user }], 'Your order has been placed', 'cart');
       const html = generateMailTemplate(emailTemplate, options);
       // order.email is need to be put into the reciever
-      // mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
+      mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
       // if (req.body.val_id) {
       //   res.redirect('http://localhost:5173');
       // }
-      // res.redirect('frontend url');
       res.status(200).send(order);
     });
   }

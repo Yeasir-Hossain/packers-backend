@@ -28,13 +28,13 @@ export const recieveNotification = ({ db }) => async (req, res) => {
  * @param {Object} req This is the req object.
  * @returns
  */
-export const sendNotification = (db, ws, query, message, type) => async () => {
+export const sendNotification = async (db, ws, query, message, type) => {
   try {
     const users = await db.find({ table: User, key: { query: { '$or': query }, allowedQuery: allowedQuery, paginate: false } });
     const docs = new Set(users.map(user => ({ user: user._id.toString(), message, type })));
     const notification = await db.bulkCreate({ table: Notification, docs: [...docs] });
-    if (!notification.length) throw new Error('Cannot update notification');
-    ws.to([...docs].map(doc => doc.user)).emit('notification', { message, type });
+    if (!notification.length) throw new Error('Cannot send notification');
+    ws.to([...docs].map(doc => doc.user)).emit('notification', { message, type, time: Date.now() });
   }
   catch (err) {
     console.log(err);

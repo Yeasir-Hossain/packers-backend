@@ -18,11 +18,11 @@ export default function discount() {
   this.route.get('/discount', auth, checkAccess('staff', 'product'), getAllDiscount(this));
 
   /**
-   * GET /deletediscount/:id
+   * GET /deletediscount
    * @description this route is used to delete a single discount.
    * @response success or failed
    */
-  this.route.delete('/deletediscount/:id', auth, checkAccess('staff', 'product'), removeDiscount(this));
+  this.route.delete('/deletediscount', auth, checkAccess('staff', 'product'), removeDiscount(this));
 
   /**
    * GET /usediscount

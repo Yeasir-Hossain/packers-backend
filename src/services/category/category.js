@@ -17,9 +17,9 @@ export default function category() {
   this.route.get('/category', auth, getAllCategory(this));
 
   /**
- * GET /deletecategory/:id
+ * GET /deletecategory
  * @description this route is used to delete a single category.
  * @response success or failed
  */
-  this.route.delete('/deletecategory/:id', auth, checkAccess('staff', 'product'), removeCategory(this));
+  this.route.delete('/deletecategory', auth, checkAccess('staff', 'product'), removeCategory(this));
 }

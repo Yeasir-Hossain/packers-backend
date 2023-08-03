@@ -1,11 +1,13 @@
+import deleteImages from '../../utils/deleteImages';
 import Cart from '../cart/cart.schema';
+import { sendNotification } from '../notification/notification.entity';
 import Request from './request.schema';
 
 /**
  * these are the set to validate the request body or query.
  */
 const createAllowed = new Set(['name', 'link', 'note', 'quantity']);
-const allowedQuery = new Set(['page', 'limit', 'id', 'paginate', 'requestNumber']);
+const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'requestNumber']);
 
 /**
  * @param registerRequest function is used to register a request to the request collection
@@ -106,15 +108,54 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
 };
 
 /**
+ * @param sendInvoice function updates the single request by id and sends invoice to the user
+ * @param req.params.id is the id of the request sent in the params
+ * @returns the request after update
+ */
+export const sendInvoice = ({ db, ws, imageUp }) => async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
+    if (req.files?.images?.length > 1) {
+      for (const image of req.files.images) {
+        const img = await imageUp(image.path);
+        req.body.images = [...(req.body.images || []), img];
+      }
+    }
+    else if (req.files?.images) {
+      const img = await imageUp(req.files?.images.path);
+      req.body.images = [img];
+    }
+    const request = await db.update({ table: Request, key: { id: id, body: req.body } });
+
+    //send mail
+    if (!request) return res.status(400).send('Bad request');
+    sendNotification(db, ws, [{ '_id': request.user }], 'Your request has been accepted. Please check your mail', 'cart');
+    return res.status(200).send(request);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
  * @param removeRequest function removes the single request by id
  * @param req.params.id is the id of the request sent in the params
  * @returns success or failed
  */
 export const removeRequest = ({ db }) => async (req, res) => {
   try {
-    if (!req.body.id.length) return res.send(400).send('Bad Request');
-    const request = await db.removeAll({ table: Request, key: { id: { $in: req.body.id } } });
-    if (request.deletedCount < 1) return res.status(404).send({ message: 'Request not found' });
+    if (!req.body.id.length) return res.status(400).send('Bad Request');
+    const requestToDelete = await db.find({ table: Request, key: { query: { '_id': { '$in': req.body.id } }, allowedQuery: allowedQuery, paginate: false } });
+    if (requestToDelete.length < 1) return res.status(404).send({ message: 'Product not found' });
+    const imagePathsToDelete = requestToDelete.reduce((acc, product) => {
+      acc.push(...product.images);
+      return acc;
+    }, []);
+    await deleteImages(imagePathsToDelete);
+    const deleteResult = await db.removeAll({ table: Request, key: { id: { $in: req.body.id } } });
+    if (deleteResult.deletedCount < 1) return res.status(404).send({ message: 'Product not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   } catch (err) {
     console.log(err);
@@ -144,7 +185,7 @@ export const declineRequest = ({ db }) => async (req, res) => {
  * @param req.params.id is the id of the request sent in the params
  * @returns the cart
  */
-export const acceptRequest = ({ db }) => async (req, res) => {
+export const acceptRequest = ({ db, ws }) => async (req, res) => {
   try {
     const request = await db.update({ table: Request, key: { id: req.params.id, body: { status: 'accepted' } } });
     const tempbody = {
@@ -163,6 +204,7 @@ export const acceptRequest = ({ db }) => async (req, res) => {
     };
     const newcart = await db.create({ table: Cart, key: createcart });
     if (!newcart) return res.status(404).send({ message: 'Bad Request' });
+    sendNotification(db, ws, [{ '_id': request.user }], 'Your request status has been updated check your cart', 'cart');
     res.status(200).send(newcart);
   }
   catch (err) {
