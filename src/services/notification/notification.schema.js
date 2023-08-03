@@ -2,7 +2,8 @@ import { Schema, model } from 'mongoose';
 
 const schema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', require: true },
-  notifications: [{ data: { type: String } }]
+  message: { type: String },
+  type: { type: String, enum: ['account', 'cart'] }
 });
 
 schema.methods.toJSON = function () {
