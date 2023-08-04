@@ -1273,9 +1273,16 @@
 				},
 				{
 					"name": "allcategory",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:4000/api/category",
 							"protocol": "http",
@@ -1474,13 +1481,22 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Testing2\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"images\": [\n        \"images/367f9b7649a6d14ea344a101c6ff5cd4.jpg\"\n    ],\n    \"quantity\": 20,\n    \"price\": 10.00,\n    \"tax\": 10.00,\n    \"fee\": 5.00,\n    \"category\": \"64c37d290d10a967880c78f8\",\n    \"subcategory\": \"64c37d280d10a967880c78f6\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\",\n    \"status\": \"active\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{\n    \"name\": \"Testing delete\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"quantity\": 20,\n    \"price\": 10.00,\n    \"tax\": 10.00,\n    \"fee\": 5.00,\n    \"category\": \"64c37d290d10a967880c78f8\",\n    \"subcategory\": \"64c37d280d10a967880c78f6\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\"\n}",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": [
+										"/home/common/Downloads/dummyimages/download.jpeg",
+										"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg"
+									]
 								}
-							}
+							]
 						},
 						"url": {
 							"raw": "http://localhost:4000/api/products",
@@ -1591,7 +1607,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/products",
+							"raw": "http://localhost:4000/api/products?page=1&id=64ca84cf1c1475adfdf18e4d",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1604,8 +1620,7 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1",
-									"disabled": true
+									"value": "1"
 								},
 								{
 									"key": "category",
@@ -1614,8 +1629,7 @@
 								},
 								{
 									"key": "id",
-									"value": "64c210ae0055b2a44b642a4a",
-									"disabled": true
+									"value": "64ca84cf1c1475adfdf18e4d"
 								},
 								{
 									"key": "subcategory",
@@ -1734,7 +1748,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/products/64c8ab55fa84c61ccf5355c1",
+							"raw": "http://localhost:4000/api/products/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1743,7 +1757,13 @@
 							"path": [
 								"api",
 								"products",
-								"64c8ab55fa84c61ccf5355c1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64ca84cf1c1475adfdf18e4d"
+								}
 							]
 						}
 					},
@@ -1838,7 +1858,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":[\"64c210ae0055b2a44b642a4a\"]\r\n}",
+							"raw": "{\r\n    \"id\":[\"64cb82091aa78495926e97ca\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2400,12 +2420,12 @@
 					]
 				},
 				{
-					"name": "deleterequest",
+					"name": "acceptrequest",
 					"request": {
-						"method": "DELETE",
+						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/deleterequest/64b92652aa2c88a0866e49b7",
+							"raw": "http://localhost:4000/api/acceptrequest/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2413,88 +2433,45 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"deleterequest",
-								"64b92652aa2c88a0866e49b7"
+								"acceptrequest",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64b62c00082e962eaa412dd7"
+								}
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "deleterequest",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:4000/api/deleterequest/64b92652aa2c88a0866e49b7",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "4000",
-									"path": [
-										"api",
-										"deleterequest",
-										"64b92652aa2c88a0866e49b7"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "RateLimit-Limit",
-									"value": "100"
-								},
-								{
-									"key": "RateLimit-Remaining",
-									"value": "96"
-								},
-								{
-									"key": "RateLimit-Reset",
-									"value": "857"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "34"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"22-wmImqKFgzbbcOEFwrLz/+1xyFsI\""
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 20 Jul 2023 12:20:47 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
+					"response": []
+				},
+				{
+					"name": "declinerequest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/declinerequest/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
 							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"Deleted Successfully\"\n}"
+							"port": "4000",
+							"path": [
+								"api",
+								"declinerequest",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
 						}
-					]
+					},
+					"response": []
 				},
 				{
 					"name": "updaterequest",
@@ -2612,12 +2589,21 @@
 					]
 				},
 				{
-					"name": "acceptrequest",
+					"name": "sendInvoice",
 					"request": {
-						"method": "GET",
+						"method": "PATCH",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sellerTakes\": 10,\n    \"tax\": 10,\n    \"fee\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:4000/api/acceptrequest/:id",
+							"raw": "http://localhost:4000/api/request/64b62c00082e962eaa412dd7?sendInvoice=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2625,26 +2611,117 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"acceptrequest",
-								":id"
+								"request",
+								"64b62c00082e962eaa412dd7"
 							],
-							"variable": [
+							"query": [
 								{
-									"key": "id",
-									"value": "64b62c00082e962eaa412dd7"
+									"key": "sendInvoice",
+									"value": "true"
 								}
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "sendInvoice",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"sellerTakes\": 10,\n    \"tax\": 10,\n    \"fee\": 5\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/request/64b62c00082e962eaa412dd7?sendInvoice=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"request",
+										"64b62c00082e962eaa412dd7"
+									],
+									"query": [
+										{
+											"key": "sendInvoice",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "97"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "829"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "317"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"13d-o87eOWn3AO4ULw2MlqBvMNSVEp8\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 04 Aug 2023 04:48:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64b62c00082e962eaa412dd7\",\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"name\": \"Sample Request\",\n    \"link\": \"This is a sample req link.\",\n    \"note\": \"Sample Origin\",\n    \"images\": [\n        \"images/3b4c01652c7815ee74cd87eb9b6fb180.webp\",\n        \"images/99fada89a51f4788932002f5e147cf99.jpg\"\n    ],\n    \"quantity\": 2,\n    \"status\": \"sent\",\n    \"fee\": 5,\n    \"tax\": 10,\n    \"sellerTakes\": 10\n}"
+						}
+					]
 				},
 				{
-					"name": "declinerequest",
+					"name": "deleterequest",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/declinerequest/:id",
+							"raw": "http://localhost:4000/api/deleterequest/64b92652aa2c88a0866e49b7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2652,18 +2729,88 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"declinerequest",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": null
-								}
+								"deleterequest",
+								"64b92652aa2c88a0866e49b7"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "deleterequest",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/deleterequest/64b92652aa2c88a0866e49b7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"deleterequest",
+										"64b92652aa2c88a0866e49b7"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "96"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "857"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-wmImqKFgzbbcOEFwrLz/+1xyFsI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 20 Jul 2023 12:20:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Deleted Successfully\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -3095,6 +3242,87 @@
 					]
 				},
 				{
+					"name": "refundorder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/refundorder/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"refundorder",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64c9f42a6d6a80436af81fa1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transactionstatus",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/transactionstatus/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"transactionstatus",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64c9f42a6d6a80436af81fa1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refundstatus",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/refundstatus/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"refundstatus",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64c9f42a6d6a80436af81fa1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getallorders",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -3321,103 +3549,6 @@
 					]
 				},
 				{
-					"name": "deleteorder",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:4000/api/deleteorder/64c9ef5d618605aa60c1a298",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"deleteorder",
-								"64c9ef5d618605aa60c1a298"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "deleteorder",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:4000/api/deleteorder/64b62c36082e962eaa412de4",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "4000",
-									"path": [
-										"api",
-										"deleteorder",
-										"64b62c36082e962eaa412de4"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "RateLimit-Limit",
-									"value": "100"
-								},
-								{
-									"key": "RateLimit-Remaining",
-									"value": "99"
-								},
-								{
-									"key": "RateLimit-Reset",
-									"value": "900"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "34"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"22-wmImqKFgzbbcOEFwrLz/+1xyFsI\""
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 20 Jul 2023 12:24:21 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"Deleted Successfully\"\n}"
-						}
-					]
-				},
-				{
 					"name": "updateorder",
 					"request": {
 						"method": "PATCH",
@@ -3533,12 +3664,21 @@
 					]
 				},
 				{
-					"name": "refundorder",
+					"name": "deleteorder",
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":[\"64cb8a0309a5c152938c6957\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:4000/api/refundorder/:id",
+							"raw": "http://localhost:4000/api/deleteorder",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3546,72 +3686,95 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"refundorder",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "64c9f42a6d6a80436af81fa1"
-								}
+								"deleteorder"
 							]
 						}
 					},
-					"response": []
-				},
-				{
-					"name": "refundstatus",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:4000/api/refundstatus/:id",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"refundstatus",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "64c9f42a6d6a80436af81fa1"
+					"response": [
+						{
+							"name": "deleteorder",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\":[\"64c9f42a6d6a80436af81fa1\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/deleteorder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"deleteorder"
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "transactionstatus",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:4000/api/transactionstatus/:id",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"transactionstatus",
-								":id"
-							],
-							"variable": [
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
 								{
-									"key": "id",
-									"value": "64c9f42a6d6a80436af81fa1"
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "98"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "826"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-wmImqKFgzbbcOEFwrLz/+1xyFsI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 03 Aug 2023 09:24:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
 								}
-							]
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Deleted Successfully\"\n}"
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
@@ -4172,7 +4335,7 @@
 				{
 					"name": "deleteblog",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
 							"raw": "http://localhost:4000/api/deleteblog/:id",
@@ -4216,6 +4379,38 @@
 							"path": [
 								"api",
 								"notification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "notfication test",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/moja",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"moja"
 							]
 						}
 					},
