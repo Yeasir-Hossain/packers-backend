@@ -34,7 +34,7 @@ export const registerBlog = ({ db, imageUp }) => async (req, res) => {
 
 /**
  * @param getAllBlogs function is used to get all the blogs
- * there is page query and other queries for this function which page of the data it need to show
+ * @param {Object} req - The request object have the information about page and any other filter.
  * @returns all the blogs
  */
 export const getAllBlogs = ({ db }) => async (req, res) => {
@@ -92,7 +92,7 @@ export const updateBlog = ({ db, imageUp }) => async (req, res) => {
 };
 
 /**
- * @param removeBlog function removes the single product by id
+ * @param removeBlog function removes the product by id
  * @param req.params.id is the id of the blog sent in the params
  * @returns success or failed
  */

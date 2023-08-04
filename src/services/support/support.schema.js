@@ -2,9 +2,9 @@ import { Schema, model } from 'mongoose';
 
 const schema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  message: { type: String },
-  type: { type: String, enum: ['account', 'cart'] },
-  time: { type: Date, default: Date.now() }
+  staff: { type: Schema.Types.ObjectId, ref: 'User' },
+  type: { type: String, enum: ['refund', 'account', 'payment'] },
+  status: { type: String, enum: ['open', 'close', 'pending'], default: 'pending' },
 });
 
 schema.methods.toJSON = function () {
@@ -13,4 +13,4 @@ schema.methods.toJSON = function () {
   return JSON.parse(JSON.stringify(obj).replace(/_id/g, 'id'));
 };
 
-export default model('Notification', schema);
+export default model('Support', schema);

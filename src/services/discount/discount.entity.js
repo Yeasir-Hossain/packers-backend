@@ -21,8 +21,8 @@ export const registerDiscount = ({ db }) => async (req, res) => {
 
 /**
  * @param getAllDiscount function is used to get all the discounts from the discount collection
- * there is page query and other queries for this function which page of the data it need to show
- * @returns all the categories
+ * @param {Object} req - The request object have the information about page and any other filter.
+ * @returns all the discounts
  */
 export const getAllDiscount = ({ db }) => async (req, res) => {
   try {
@@ -37,7 +37,7 @@ export const getAllDiscount = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param removeDiscount function removes the single discount by id
+ * @param removeDiscount function removes the discount by id
  * @param req.params.id is the id of the discount sent in the params
  * @returns success or failed
  */
@@ -78,7 +78,7 @@ export const useDiscount = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param useDiscount function removes the single discount by code
+ * @param useDiscount function removes the discount by code
  * @param {Object} req This is the req object.
  * @returns percentage or amount
  */

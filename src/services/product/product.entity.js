@@ -4,7 +4,7 @@ import Products from './product.schema';
 /**
  * these are the set to validate the request query.
  */
-const allowedQuery = new Set(['page', 'limit', 'id','_id', 'paginate', 'sort', 'category', 'subcategory', 'productName', 'tags']);
+const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'sort', 'category', 'subcategory', 'productName', 'tags']);
 
 /**
  * @param registerProduct function is used to register a product from the products collection
@@ -100,7 +100,7 @@ export const updateProduct = ({ db, imageUp }) => async (req, res) => {
 };
 
 /**
- * @param removeProduct function removes the single product by id
+ * @param removeProduct function removes the product by id
  * @param req.params.id is the id of the product sent in the params
  * @returns success or failed
  */

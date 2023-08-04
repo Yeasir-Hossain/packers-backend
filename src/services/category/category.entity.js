@@ -49,7 +49,7 @@ export const registerCategory = ({ db }) => async (req, res) => {
 
 /**
  * @param getAllCategory function is used to get all the categories from the category collection
- * there is page query and other queries for this function which page of the data it need to show
+ * @param {Object} req - The request object have the information about page and any other filter.
  * @returns all the categories
  */
 export const getAllCategory = ({ db }) => async (req, res) => {
@@ -71,6 +71,7 @@ export const getAllCategory = ({ db }) => async (req, res) => {
  */
 export const updateCategory = ({ db }) => async (req, res) => {
   try {
+    if (!req.params.id) return res.status(400).send('Bad Request');
     const categories = await db.update({ table: Category, key: { id: req.param.id, body: req.body } });
     if (!categories) return res.status(400).send('Bad request');
     return res.status(200).send(categories);
@@ -82,7 +83,7 @@ export const updateCategory = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param removeCategory function removes the single category by id
+ * @param removeCategory function removes the category by id
  * @param req.params.id is the id of the category sent in the params
  * @returns success or failed
  */

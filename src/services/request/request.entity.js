@@ -44,7 +44,7 @@ export const registerRequest = ({ db, imageUp }) => async (req, res) => {
 
 /**
  * @param getAllRequests function is used to get all the requests
- * there is page query and other queries for this function which page of the data it need to show
+ * @param {Object} req - The request object have the information about page and any other filter.
  * @returns all the requests
  */
 export const getAllRequests = ({ db }) => async (req, res) => {
@@ -97,6 +97,9 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
       const img = await imageUp(req.files?.images.path);
       req.body.images = [img];
     }
+    if (req.query.sendInvoice) {
+      req.body.status = 'sent';
+    }
     const request = await db.update({ table: Request, key: { id: id, body: req.body } });
     if (!request) return res.status(400).send('Bad request');
     return res.status(200).send(request);
@@ -108,39 +111,7 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
 };
 
 /**
- * @param sendInvoice function updates the single request by id and sends invoice to the user
- * @param req.params.id is the id of the request sent in the params
- * @returns the request after update
- */
-export const sendInvoice = ({ db, ws, imageUp }) => async (req, res) => {
-  try {
-    const { id } = req.params;
-    if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
-    if (req.files?.images?.length > 1) {
-      for (const image of req.files.images) {
-        const img = await imageUp(image.path);
-        req.body.images = [...(req.body.images || []), img];
-      }
-    }
-    else if (req.files?.images) {
-      const img = await imageUp(req.files?.images.path);
-      req.body.images = [img];
-    }
-    const request = await db.update({ table: Request, key: { id: id, body: req.body } });
-
-    //send mail
-    if (!request) return res.status(400).send('Bad request');
-    sendNotification(db, ws, [{ '_id': request.user }], 'Your request has been accepted. Please check your mail', 'cart');
-    return res.status(200).send(request);
-  }
-  catch (err) {
-    console.log(err);
-    res.status(500).send('Something went wrong');
-  }
-};
-
-/**
- * @param removeRequest function removes the single request by id
+ * @param removeRequest function removes the request by id
  * @param req.params.id is the id of the request sent in the params
  * @returns success or failed
  */

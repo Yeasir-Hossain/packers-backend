@@ -179,8 +179,7 @@ export const orderSuccess = ({ db, ws, mail, sslcz }) => async (req, res) => {
       };
       sendNotification(db, ws, [{ '_id': order.user }], 'Your order has been placed', 'cart');
       const html = generateMailTemplate(emailTemplate, options);
-      // order.email is need to be put into the reciever
-      mail({ receiver: 'yeasir06@gmail.com', subject: 'Order mail', body: html, type: 'html' });
+      mail({ receiver: order.mail, subject: 'Order mail', body: html, type: 'html' });
       // if (req.body.val_id) {
       //   res.redirect('http://localhost:5173');
       // }
@@ -232,7 +231,7 @@ export const refundOrder = ({ db, sslcz }) => async (req, res) => {
     sslcz.initiateRefund(data).then(data => {
       if (data.status === 'failed') return res.status(400).send(data);
       order.refundRefid = data.refund_ref_id;
-      order.status = data.status === 'success' ? 'refunded' : 'processing';
+      order.status = data.status === 'success' ? 'refunded' : 'refundProcessing';
       order.save();
       res.status(200).send(order);
     });
@@ -255,6 +254,8 @@ export const refundStatus = ({ db, sslcz }) => async (req, res) => {
       refund_ref_id: order.refundRefid
     };
     sslcz.refundQuery(data).then(data => {
+      order.status = data.status === 'success' ? 'refunded' : 'refundProcessing';
+      order.save();
       res.status(200).send({
         initiated_on: data.initiated_on,
         refunded_on: data.refunded_on,
@@ -298,6 +299,9 @@ export const transactionStatus = ({ db, sslcz }) => async (req, res) => {
  */
 export const getAllOrders = ({ db }) => async (req, res) => {
   try {
+    // datewise query={
+    //   date= { '$and':{ '$gt': Date, '$lt': Date} }
+    // }
     const orders = await db.find({
       table: Orders, key: {
         query: req.query, allowedQuery: allowedQuery, paginate: true, populate: {
