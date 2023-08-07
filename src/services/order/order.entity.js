@@ -11,7 +11,7 @@ import { sendNotification } from '../notification/notification.entity';
 /**
  * these are the set to validate the request query.
  */
-const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', '_id']);
+const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', 'status', 'date', '_id']);
 
 /**
  * This function is for payment through ssl commerz

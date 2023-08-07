@@ -9,7 +9,7 @@ export default function message() {
  * @description this route is insert a Support.
  * @response the Support.
  */
-  this.route.post('/sendmessage', auth, sendMessage(this));
+  this.route.post('/sendmessage/:id', auth, sendMessage(this));
 
   /**
    * GET /support

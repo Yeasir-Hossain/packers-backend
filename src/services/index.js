@@ -8,6 +8,7 @@ import notification from './notification/notification';
 import order from './order/order';
 import product from './product/product';
 import request from './request/request';
+import { entryEvent } from './support/support';
 import user from './user/user';
 
 export const services = (app) => {
@@ -22,4 +23,5 @@ export const services = (app) => {
   app.configure(image);
   app.configure(blog);
   app.configure(notification);
+  entryEvent(app);
 };

@@ -6,16 +6,37 @@ import Message from './message.entity';
 const allowedQuery = new Set(['support', 'page', 'limit']);
 
 /**
- * @param initiateMessage function is used to create a message for the support chat
+ * @param sendMessage function is used to recieve message from the user
  * @param {Object} req This is the req object.
  * @returns the message
  */
-export const sendMessage = async (ws, db, room, sender, msg) => {
+export const sendMessage = async ({ ws, db }) => async (req, res) => {
   try {
-    const message = await db.create({ table: Message, key: { msg, sender } });
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    if (!validobj) res.status(400).send('Bad request');
+    const messageDoc = {
+      support: req.params.id,
+      message: req.body.message,
+      sender: req.user.id,
+    };
+    sendMessageEvent(ws, db, req.params.id, messageDoc);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
+ * @param sendMessageEvent function is used to create a message for the support chat and send it to the reciever
+ * @param {Object} req This is the req object.
+ * @returns the message
+ */
+export const sendMessageEvent = async (ws, db, room, msgdoc) => {
+  try {
+    const message = await db.create({ table: Message, key: msgdoc });
     if (!message) throw new Error('message not saved');
-    // message socket format
-    // {message, sender, reciever, time}
+    ws.to(room).emit('message', message);
   }
   catch (err) {
     console.log(err);

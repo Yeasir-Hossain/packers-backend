@@ -1,6 +1,6 @@
 import Support from './support.schema';
-import Message from '../messages/message.schema';
 import { sendNotification } from '../notification/notification.entity';
+import { sendMessageEvent } from '../messages/message.entity';
 
 
 /**
@@ -27,12 +27,10 @@ export const registerSupport = ({ db, ws }) => async (req, res) => {
       message: req.body.message,
       sender: req.user.id,
     };
-    const message = await db.create({ table: Message, key: messageDoc });
-    if (!support || !message) return res.status(400).send('Bad request');
+    if (!support) return res.status(400).send('Bad request');
     sendNotification(db, ws, [{ 'role': 'staff' }, { 'access': 'support' }], 'There is a new suport request', 'account');
-    joinRoom(ws, support.id);
-    // join room call lorte hobe eikhane
-    // msg ta room e chole jabe
+    // joinRoom(ws, support.id);
+    sendMessageEvent(ws, db, support.id, messageDoc);
     return res.status(200).send(support);
   }
   catch (err) {
@@ -49,7 +47,7 @@ export const registerSupport = ({ db, ws }) => async (req, res) => {
 export const getAllSupport = ({ db }) => async (req, res) => {
   try {
     const support = await db.find({
-      table: Support, key: { paginate: false, populate: { path: 'user staff messages', select: 'fullName email' } }
+      table: Support, key: { paginate: false, populate: { path: 'user staff', select: 'fullName email' } }
     });
     if (!support) return res.status(400).send('Bad request');
     return res.status(200).send(support);
@@ -112,24 +110,16 @@ export const acceptSupport = ({ db, ws }) => async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).send('Bad Request');
     const support = await db.findOne({ table: Support, key: { id: req.params.id } });
-    if (!support) return res.status(400).send('Bad Request');
-    if (!support.staff) return res.status(400).send({ message: 'This support has already been accepted.' });
-    support.staff = req.user;
-    sendNotification(db, ws, [{ '_id': support.user.id }], 'Your support request has been accepted. Please check', 'account');
-    joinRoom(ws, support.id);
+    if (!support || !support.staff) return res.status(400).send('Bad Request');
+    support.staff = req.user.id;
+    sendNotification(db, ws, [{ '_id': support.user }], 'Your support request has been accepted. Please check', 'account');
+    // sendMessageEvent(ws, db, support.id, messageDoc);
   }
   catch (err) {
     console.log(err);
     res.status(500).send('Something went wrong');
   }
 };
-// acceptsupport function
-// join korate hobe
-// event emit 2 jaigai staff der kache ar support room e same data
-//   if (support.staff) return res.status(400).send('This request has already been approved');
-//   support.staff = req.user.id;  from staff side
-//   sendNotification(db, ws, [{ '_id': support.user.id }], 'Your support request has been accepted. Please check', 'account');
-// join room call hobe ekhane
 
 /**
  * @param removeSupport function removes the support by the id array
@@ -149,7 +139,7 @@ export const removeSupport = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param joinRoom function joins the user or staff to the same room
+ * @param joinRoom function joins the user or staff to room
  */
 export const joinRoom = (ws, room) => {
   try {
@@ -160,12 +150,31 @@ export const joinRoom = (ws, room) => {
 };
 
 /**
- * @param leaveRoom function leaves the user or staff to the same room
+ * @param leaveRoom function leaves the user or staff from room
  */
 export const leaveRoom = (ws, room) => {
   try {
     ws.leave(room);
-  }catch (err) {
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+/**
+ * @param entry function is used to join a user/staff to the room
+ * @param {Object} req - The request object have the information about page and any other filter.
+ * @returns the messages of the support chat
+ */
+export const entry = async ({ data, session }) => {
+  try {
+    const { entry, room } = data;
+    if (!session.user) throw new Error('Bad Request');
+    if (entry) {
+      return joinRoom(session, room);
+    }
+    leaveRoom(session, room);
+  }
+  catch (err) {
     console.log(err);
   }
 };

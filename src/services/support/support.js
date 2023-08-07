@@ -1,5 +1,5 @@
 import { auth, checkAccess, checkRole } from '../middlewares';
-import { getAllSupport, getSingleSupport, registerSupport, removeSupport, updateSupport } from './support.entity';
+import { entry, getAllSupport, getSingleSupport, registerSupport, removeSupport, updateSupport } from './support.entity';
 
 export default function support() {
 
@@ -38,3 +38,7 @@ export default function support() {
    */
   this.route.delete('/deletesupport', auth, checkRole('admin', 'super-admin'), removeSupport(this));
 }
+
+export const entryEvent = (app) => {
+  app.register('entry', entry);
+};
