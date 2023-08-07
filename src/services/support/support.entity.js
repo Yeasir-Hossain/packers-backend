@@ -30,7 +30,8 @@ export const registerSupport = ({ db, ws }) => async (req, res) => {
     if (!support) return res.status(400).send('Bad request');
     sendNotification(db, ws, [{ 'role': 'staff' }, { 'access': 'support' }], 'There is a new suport request', 'account');
     // joinRoom(ws, support.id);
-    sendMessageEvent(ws, db, support.id, messageDoc);
+    const message = await sendMessageEvent(ws, db, support.id, messageDoc);
+    console.log(message);
     return res.status(200).send(support);
   }
   catch (err) {
@@ -110,7 +111,7 @@ export const acceptSupport = ({ db, ws }) => async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).send('Bad Request');
     const support = await db.findOne({ table: Support, key: { id: req.params.id } });
-    if (!support || !support.staff) return res.status(400).send('Bad Request');
+    if (!support || support.staff) return res.status(400).send('Bad Request');
     support.staff = req.user.id;
     support.save();
     sendNotification(db, ws, [{ '_id': support.user }], 'Your support request has been accepted. Please check', 'account');

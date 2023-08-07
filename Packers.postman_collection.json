@@ -4446,6 +4446,934 @@
 			]
 		},
 		{
+			"name": "Support",
+			"item": [
+				{
+					"name": "registersupport",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"payment\",\n    \"message\": \"I have an issue in payment\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/support",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"support"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "registersupport",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"payment\",\n    \"message\": \"I have an issue in payment\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/support",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"support"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "761"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "103"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"67-lz2ASdQ1lxaE3H3DjSvJN3AO2BQ\""
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "connect.sid=s%3A5NAYsoDPFDk_-iylma2wblr-yGyxHTGx.5h28ZEECqJkIgBEi2wFJ71XhrGh3u5DlBoReIm4%2B4NI; Path=/; Expires=Wed, 09 Aug 2023 12:31:13 GMT; HttpOnly"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Aug 2023 12:33:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"type\": \"payment\",\n    \"status\": \"pending\",\n    \"id\": \"64d0e49ce38a875d6f3e49ee\"\n}"
+						}
+					]
+				},
+				{
+					"name": "getallsupport",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/support",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"support"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getallsupport",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/support",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"support"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "97"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "658"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "166"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a6-kU0V4kgCx+RKdq0kyMYeuoxnywU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Aug 2023 12:35:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"64d0e49ce38a875d6f3e49ee\",\n        \"user\": {\n            \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n            \"fullName\": \"Yeasir Hossain\",\n            \"email\": \"yeasir@mail.com\"\n        },\n        \"type\": \"payment\",\n        \"status\": \"pending\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "getsinglesupport",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/support/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"support",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64d0e49ce38a875d6f3e49ee",
+									"description": "support id"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getsinglesupport",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/support/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"support",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "64d0e49ce38a875d6f3e49ee",
+											"description": "support id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "93"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "212"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "260"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"104-1SF6H9Pw3r3E9wjtFAoPjgwpf+U\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Aug 2023 12:47:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64d0e49ce38a875d6f3e49ee\",\n    \"user\": {\n        \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n        \"fullName\": \"Yeasir Hossain\",\n        \"email\": \"yeasir@mail.com\"\n    },\n    \"type\": \"payment\",\n    \"status\": \"pending\",\n    \"staff\": {\n        \"id\": \"64b4cbc2bb769ae707dbfb4f\",\n        \"fullName\": \"Yeasir Hossain\",\n        \"email\": \"yeasir@mail.com\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "updatesupport",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"open\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/support/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"support",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64d0e49ce38a875d6f3e49ee"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "updatesupport",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"open\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/support/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"support",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "64d0e49ce38a875d6f3e49ee"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "90"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "110"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "135"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"87-rmeU0wpPghVRGJ0/K8U26QE9Z/c\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Aug 2023 12:49:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64d0e49ce38a875d6f3e49ee\",\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"type\": \"payment\",\n    \"status\": \"open\",\n    \"staff\": \"64b4cbc2bb769ae707dbfb4f\"\n}"
+						}
+					]
+				},
+				{
+					"name": "acceptsupport",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/acceptsupport/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"acceptsupport",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64d0e49ce38a875d6f3e49ee",
+									"description": "support id"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "acceptsupport",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/acceptsupport/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"acceptsupport",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "64d0e49ce38a875d6f3e49ee",
+											"description": "support id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "870"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8a-ZoszfwXsPozRNIA4Pr+H7NZnVfM\""
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "connect.sid=s%3Ay2L9l096UoshfB5VAMou4cgPkSIxOOgk.XQ%2F8FTSKxWnk%2BJxq7zU9okcEsQj0VVcCF8ASXOv3kzU; Path=/; Expires=Wed, 09 Aug 2023 12:36:09 GMT; HttpOnly"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Aug 2023 12:36:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"64d0e49ce38a875d6f3e49ee\",\n    \"user\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"type\": \"payment\",\n    \"status\": \"pending\",\n    \"staff\": \"64b4cbc2bb769ae707dbfb4f\"\n}"
+						}
+					]
+				},
+				{
+					"name": "removesupport",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": [\"64d0dfdf8f1292a8d62f8667\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/deletesupport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"deletesupport"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "removesupport",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": [\"64d0dfdf8f1292a8d62f8667\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/deletesupport",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"deletesupport"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "98"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "817"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-wmImqKFgzbbcOEFwrLz/+1xyFsI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Aug 2023 12:24:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Deleted Successfully\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"item": [
+				{
+					"name": "sendmessage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Hello without entry\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/sendmessage/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"sendmessage",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64d0e49ce38a875d6f3e49ee",
+									"description": "support id"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "sendmessage",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"message\": \"Hello without entry\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/sendmessage/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"sendmessage",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "64d0e49ce38a875d6f3e49ee",
+											"description": "support id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "95"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "467"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "250"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fa-nz/P6wQmq2odchNWYPMZhoxBZmY\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Aug 2023 12:43:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"support\": \"64d0e49ce38a875d6f3e49ee\",\n    \"message\": \"Hello without entry\",\n    \"sender\": \"64b4cbc2bb769ae707dbfb4f\",\n    \"time\": \"2023-08-07T12:36:04.348Z\",\n    \"id\": \"64d0e6eabb89222be003dd18\",\n    \"createdAt\": \"2023-08-07T12:43:22.692Z\",\n    \"updatedAt\": \"2023-08-07T12:43:22.692Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "getmessage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/getmessage/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"getmessage",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64d0e49ce38a875d6f3e49ee",
+									"description": "support id"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getmessage",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/getmessage/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"getmessage",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "64d0e49ce38a875d6f3e49ee",
+											"description": "support id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "RateLimit-Remaining",
+									"value": "96"
+								},
+								{
+									"key": "RateLimit-Reset",
+									"value": "531"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "659"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"293-VAh4c4U0puUkWhPyr/nSd/pMK0U\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Aug 2023 12:42:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"docs\": [\n        {\n            \"id\": \"64d0e57ebb89222be003dd0f\",\n            \"support\": \"64d0e49ce38a875d6f3e49ee\",\n            \"message\": \"Hello Please explain\",\n            \"sender\": \"64b4cbc2bb769ae707dbfb4f\",\n            \"time\": \"2023-08-07T12:36:04.348Z\",\n            \"createdAt\": \"2023-08-07T12:37:18.619Z\",\n            \"updatedAt\": \"2023-08-07T12:37:18.619Z\"\n        },\n        {\n            \"id\": \"64d0e49ce38a875d6f3e49f0\",\n            \"support\": \"64d0e49ce38a875d6f3e49ee\",\n            \"message\": \"I have an issue in payment\",\n            \"sender\": \"64b4cbc2bb769ae707dbfb4f\",\n            \"time\": \"2023-08-07T12:31:08.313Z\",\n            \"createdAt\": \"2023-08-07T12:33:32.423Z\",\n            \"updatedAt\": \"2023-08-07T12:33:32.423Z\"\n        }\n    ],\n    \"totalDocs\": 2,\n    \"limit\": 10,\n    \"totalPages\": 1,\n    \"page\": 1,\n    \"pagingCounter\": 1,\n    \"hasPrevPage\": false,\n    \"hasNextPage\": false,\n    \"prevPage\": null,\n    \"nextPage\": null\n}"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "getimage",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true

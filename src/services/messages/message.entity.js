@@ -1,4 +1,4 @@
-import Message from './message.entity';
+import Message from './message.schema';
 
 /**
  * these are the set to validate the request query.
@@ -19,7 +19,8 @@ export const sendMessage = ({ ws, db }) => async (req, res) => {
       message: req.body.message,
       sender: req.user.id,
     };
-    return sendMessageEvent(ws, db, req.params.id, messageDoc);
+    const message = await sendMessageEvent(ws, db, req.params.id, messageDoc);
+    return res.status(200).send(message);
   }
   catch (err) {
     console.log(err);
