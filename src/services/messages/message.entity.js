@@ -10,21 +10,15 @@ const allowedQuery = new Set(['support', 'page', 'limit']);
  * @param {Object} req This is the req object.
  * @returns the message
  */
-export const sendMessage = ({ db }) => async (req, res) => {
+export const sendMessage = async (ws, db, room, sender, msg) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
-    if (!validobj) res.status(400).send('Bad request');
-    if (!req.body.support) return res.status(400).send('Bad request');
-    req.body.sender = req.user.id;
-    const message = await db.create({ table: Message, key: req.body });
-    if (!message) return res.status(400).send('Bad request');
+    const message = await db.create({ table: Message, key: { msg, sender } });
+    if (!message) throw new Error('message not saved');
     // message socket format
     // {message, sender, reciever, time}
-    res.status(200).send(message);
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
   }
 };
 

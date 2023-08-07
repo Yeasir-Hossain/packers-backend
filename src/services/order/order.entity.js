@@ -305,7 +305,7 @@ export const getAllOrders = ({ db }) => async (req, res) => {
     const orders = await db.find({
       table: Orders, key: {
         query: req.query, allowedQuery: allowedQuery, paginate: true, populate: {
-          path: 'user products.product requests.request', select: 'fullName email phone address productName description origin images quantity price category tags link status'
+          path: 'user products.product requests.request', select: 'fullName email phone address name description origin images quantity price category tags link status'
         }
       }
     });
@@ -325,7 +325,13 @@ export const getAllOrders = ({ db }) => async (req, res) => {
  */
 export const getSingleOrder = ({ db }) => async (req, res) => {
   try {
-    const order = await db.findOne({ table: Orders, key: { id: req.params.id, populate: { path: 'user products.product' } } });
+    const order = await db.findOne({
+      table: Orders, key: {
+        id: req.params.id, populate: {
+          path: 'user products.product requests.request', select: 'fullName email phone address name description origin images quantity price category tags link status'
+        }
+      }
+    });
     if (!order) return res.status(400).send('Bad request');
     return res.status(200).send(order);
   }

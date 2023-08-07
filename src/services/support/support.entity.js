@@ -30,6 +30,7 @@ export const registerSupport = ({ db, ws }) => async (req, res) => {
     const message = await db.create({ table: Message, key: messageDoc });
     if (!support || !message) return res.status(400).send('Bad request');
     sendNotification(db, ws, [{ 'role': 'staff' }, { 'access': 'support' }], 'There is a new suport request', 'account');
+    joinRoom(ws, support.id);
     // join room call lorte hobe eikhane
     // msg ta room e chole jabe
     return res.status(200).send(support);
@@ -102,12 +103,32 @@ export const updateSupport = ({ db }) => async (req, res) => {
   }
 };
 
+/**
+ * @param acceptSupport function joins the support staff to the user support chat room
+ * @param req.params.id is the id of the support sent in the params
+ * @returns the support
+ */
+export const acceptSupport = ({ db, ws }) => async (req, res) => {
+  try {
+    if (!req.params.id) return res.status(400).send('Bad Request');
+    const support = await db.findOne({ table: Support, key: { id: req.params.id } });
+    if (!support) return res.status(400).send('Bad Request');
+    if (!support.staff) return res.status(400).send({ message: 'This support has already been accepted.' });
+    support.staff = req.user;
+    sendNotification(db, ws, [{ '_id': support.user.id }], 'Your support request has been accepted. Please check', 'account');
+    joinRoom(ws, support.id);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
 // acceptsupport function
 // join korate hobe
 // event emit 2 jaigai staff der kache ar support room e same data
 //   if (support.staff) return res.status(400).send('This request has already been approved');
 //   support.staff = req.user.id;  from staff side
-//   sendNotification(db, ws, [{ '_id': req.user.id }], 'Your support request has been accepted. Please check', 'account');
+//   sendNotification(db, ws, [{ '_id': support.user.id }], 'Your support request has been accepted. Please check', 'account');
 // join room call hobe ekhane
 
 /**
@@ -127,34 +148,24 @@ export const removeSupport = ({ db }) => async (req, res) => {
   }
 };
 
-// /**
-//  * @param joinRoom function joins the user or staff to the same room
-//  * @param req.params.id is the id of the Support sent in the params
-//  * @returns
-//  */
-// export const joinRoom = ({ db }) => async (req, res) => {
-//   try {
+/**
+ * @param joinRoom function joins the user or staff to the same room
+ */
+export const joinRoom = (ws, room) => {
+  try {
+    ws.join(room);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-
-//   }
-//   catch (err) {
-//     console.log(err);
-//     res.status(500).send('Something went wrong');
-//   }
-// };
-
-// /**
-//  * @param leaveRoom function joins the user or staff to the same room
-//  * @param req.params.id is the id of the Support sent in the params
-//  * @returns
-//  */
-// export const leaveRoom = ({ db }) => async (req, res) => {
-//   try {
-
-
-//   }
-//   catch (err) {
-//     console.log(err);
-//     res.status(500).send('Something went wrong');
-//   }
-// };
+/**
+ * @param leaveRoom function leaves the user or staff to the same room
+ */
+export const leaveRoom = (ws, room) => {
+  try {
+    ws.leave(room);
+  }catch (err) {
+    console.log(err);
+  }
+};
