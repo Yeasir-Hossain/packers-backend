@@ -1,5 +1,5 @@
 import { auth, checkAccess, checkRole } from '../middlewares';
-import { entry, getAllSupport, getSingleSupport, registerSupport, removeSupport, updateSupport } from './support.entity';
+import { acceptSupport, entry, getAllSupport, getSingleSupport, registerSupport, removeSupport, updateSupport } from './support.entity';
 
 export default function support() {
 
@@ -30,6 +30,13 @@ export default function support() {
  * @response the Support that has been updated.
  */
   this.route.patch('/support/:id', auth, checkAccess('staff', 'support'), updateSupport(this));
+
+  /**
+ * PATCH /support/:id
+ * @description this route is used to update a single Support.
+ * @response the Support that has been updated.
+ */
+  this.route.patch('/acceptsupport/:id', auth, checkAccess('staff', 'support'), acceptSupport(this));
 
   /**
    * GET /deletesupport/:id

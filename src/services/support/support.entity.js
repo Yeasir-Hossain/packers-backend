@@ -112,8 +112,9 @@ export const acceptSupport = ({ db, ws }) => async (req, res) => {
     const support = await db.findOne({ table: Support, key: { id: req.params.id } });
     if (!support || !support.staff) return res.status(400).send('Bad Request');
     support.staff = req.user.id;
+    support.save();
     sendNotification(db, ws, [{ '_id': support.user }], 'Your support request has been accepted. Please check', 'account');
-    // sendMessageEvent(ws, db, support.id, messageDoc);
+    res.status(200).send(support);
   }
   catch (err) {
     console.log(err);

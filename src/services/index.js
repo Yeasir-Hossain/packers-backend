@@ -4,11 +4,12 @@ import category from './category/category';
 import demo from './demo/demo';
 import discount from './discount/discount';
 import image from './image/image';
+import message from './messages/message';
 import notification from './notification/notification';
 import order from './order/order';
 import product from './product/product';
 import request from './request/request';
-import { entryEvent } from './support/support';
+import support, { entryEvent } from './support/support';
 import user from './user/user';
 
 export const services = (app) => {
@@ -23,5 +24,7 @@ export const services = (app) => {
   app.configure(image);
   app.configure(blog);
   app.configure(notification);
+  app.configure(support);
+  app.configure(message);
   entryEvent(app);
 };

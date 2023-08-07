@@ -1,5 +1,5 @@
 import { auth } from '../middlewares';
-import { getMessage, sendMessage } from './message.entity';
+import { getMessage, sendMessage, } from './message.entity';
 
 
 export default function message() {

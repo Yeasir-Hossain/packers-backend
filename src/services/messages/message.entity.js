@@ -10,7 +10,7 @@ const allowedQuery = new Set(['support', 'page', 'limit']);
  * @param {Object} req This is the req object.
  * @returns the message
  */
-export const sendMessage = async ({ ws, db }) => async (req, res) => {
+export const sendMessage = ({ ws, db }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
     if (!validobj) res.status(400).send('Bad request');
@@ -19,7 +19,7 @@ export const sendMessage = async ({ ws, db }) => async (req, res) => {
       message: req.body.message,
       sender: req.user.id,
     };
-    sendMessageEvent(ws, db, req.params.id, messageDoc);
+    return sendMessageEvent(ws, db, req.params.id, messageDoc);
   }
   catch (err) {
     console.log(err);
@@ -37,6 +37,7 @@ export const sendMessageEvent = async (ws, db, room, msgdoc) => {
     const message = await db.create({ table: Message, key: msgdoc });
     if (!message) throw new Error('message not saved');
     ws.to(room).emit('message', message);
+    return message;
   }
   catch (err) {
     console.log(err);
