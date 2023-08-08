@@ -149,13 +149,9 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
  * @param {Object} req - The request object have the response from ssl commerz.
  * @returns {Object} the order
  */
-// eslint-disable-next-line no-unused-vars
 export const orderSuccess = ({ db, ws, mail, sslcz }) => async (req, res) => {
   try {
-    const data = {
-      val_id: req.body.val_id
-    };
-    sslcz.validate(data).then(async (data) => {
+    sslcz.validate({ val_id: req.body.val_id }).then(async (data) => {
       if (data.amount != req.body.value_a) {
         return res.redirect('http://localhost:3000');
       }
@@ -179,7 +175,14 @@ export const orderSuccess = ({ db, ws, mail, sslcz }) => async (req, res) => {
       };
       sendNotification(db, ws, [{ '_id': order.user }], 'Your order has been placed', 'cart');
       const html = generateMailTemplate(emailTemplate, options);
-      mail({ receiver: order.mail, subject: 'Order mail', body: html, type: 'html' });
+      const maillog = await mail({ receiver: order.email, subject: 'Order mail', body: html, type: 'html' });
+      if (!maillog) {
+        const currentDate = new Date();
+        const logMessage = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}: Email sending failed for order ID ${order.id}: ${maillog?.rejected?.join(',')}\n`;
+        const logStream = fs.createWriteStream(path.join(path.resolve(), 'logs', 'email_log.txt'), { flags: 'a' });
+        logStream.write(logMessage);
+        logStream.end();
+      }
       // if (req.body.val_id) {
       //   res.redirect('http://localhost:5173');
       // }
@@ -299,6 +302,7 @@ export const transactionStatus = ({ db, sslcz }) => async (req, res) => {
  */
 export const getAllOrders = ({ db }) => async (req, res) => {
   try {
+    // stringify
     // datewise query={
     //   date= { '$and':{ '$gt': Date, '$lt': Date} }
     // }

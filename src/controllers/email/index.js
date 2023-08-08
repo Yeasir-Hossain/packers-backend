@@ -29,8 +29,7 @@ export default function NewMailer(options) {
     // Mail Sender
     try {
       let a = await transport.sendMail(mailObject);
-      console.log(a);
-      return true;
+      return a;
     } catch (e) {
       return e;
     }
