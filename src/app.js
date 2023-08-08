@@ -101,6 +101,7 @@ export default class App {
     // Initialize passport auth
     this.express.use(passport.initialize());
     this.express.use(passport.authenticate('session'));
+    this.express.set('view engine', 'ejs');
     this.express.use(morgan('common')); // Logger
     this.express.use(actuator({ infoGitMode: 'full' })); // Health Checker
     this.express.use(json()); // Parse JSON response

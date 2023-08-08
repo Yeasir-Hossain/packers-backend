@@ -167,11 +167,14 @@ export const orderSuccess = ({ db, ws, mail, sslcz }) => async (req, res) => {
         }
       });
       await db.update({ table: Cart, key: { user: order.user, key: { body: { products: [], requests: [] } } } });
-      const emailTemplate = fs.readFileSync(path.join(__dirname, 'order.ejs'), 'utf-8');
+      const emailTemplate = fs.readFileSync(path.join(path.resolve(), 'template', 'order.ejs'), 'utf-8');
       const options = {
         order: order,
-        serverLink: 'http://localhost:4000/',
-        homeLink: 'http://localhost:5173/'
+        serverLink: 'http://localhost:4000/api/',
+        homeLink: 'http://localhost:5173/',
+        toplogo: 'http://localhost:4000/api/images/toplogo.png',
+        whitelogo: 'http://localhost:4000/api/images/logowhitetext.png',
+        orderlogo: 'http://localhost:4000/api/images/orderlogo.png'
       };
       sendNotification(db, ws, [{ '_id': order.user }], 'Your order has been placed', 'cart');
       const html = generateMailTemplate(emailTemplate, options);
@@ -332,10 +335,19 @@ export const getSingleOrder = ({ db }) => async (req, res) => {
     const order = await db.findOne({
       table: Orders, key: {
         id: req.params.id, populate: {
-          path: 'user products.product requests.request', select: 'fullName email phone address name description origin images quantity price category tags link status'
+          path: 'user products.product requests.request', select: 'fullName email phone address name description origin images quantity price category tags link status tax fee'
         }
       }
     });
+    // const options = {
+    //   order: order,
+    //   serverLink: 'http://localhost:4000/api/',
+    //   homeLink: 'http://localhost:5173/',
+    //   toplogo: 'http://localhost:4000/api/images/toplogo.png',
+    //   whitelogo: 'http://localhost:4000/api/images/logowhitetext.png',
+    //   orderlogo: 'http://localhost:4000/api/images/orderlogo.png'
+    // };
+    // res.render('mail', options);
     if (!order) return res.status(400).send('Bad request');
     return res.status(200).send(order);
   }

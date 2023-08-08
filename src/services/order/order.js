@@ -51,7 +51,7 @@ export default function order() {
    * @description this route is used to get a single order.
    * @response the order that the user is looking for.
    */
-  this.route.get('/order/:id', auth, getSingleOrder(this));
+  this.route.get('/order/:id', getSingleOrder(this));
 
   /**
    * GET /userorder/:id
