@@ -7,7 +7,7 @@ import Request from './request.schema';
  * these are the set to validate the request body or query.
  */
 const createAllowed = new Set(['name', 'link', 'note', 'quantity']);
-const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'requestNumber']);
+const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'status', 'date', 'requestNumber']);
 
 /**
  * @param registerRequest function is used to register a request to the request collection
