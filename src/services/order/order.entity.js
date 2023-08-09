@@ -339,15 +339,6 @@ export const getSingleOrder = ({ db }) => async (req, res) => {
         }
       }
     });
-    // const options = {
-    //   order: order,
-    //   serverLink: 'http://localhost:4000/api/',
-    //   homeLink: 'http://localhost:5173/',
-    //   toplogo: 'http://localhost:4000/api/images/toplogo.png',
-    //   whitelogo: 'http://localhost:4000/api/images/logowhitetext.png',
-    //   orderlogo: 'http://localhost:4000/api/images/orderlogo.png'
-    // };
-    // res.render('mail', options);
     if (!order) return res.status(400).send('Bad request');
     return res.status(200).send(order);
   }

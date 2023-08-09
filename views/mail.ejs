@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
-<title>Order Mail</title>
+<title>Request Mail</title>
 
 <body>
   <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #124E58;">
@@ -11,7 +11,7 @@
           <img src='<%= toplogo %>' alt="" style="max-width: 100%; height: auto; display: block;" />
         </td>
         <td>
-          <% const date=new Date(order.date); %>
+          <% const date=new Date(request.createdAt); %>
             <% const formattedDate=date.toLocaleDateString('en-US', { month: 'long' , day: 'numeric' , year: 'numeric'
               });%>
               <p style="text-align: right;">
@@ -77,68 +77,31 @@
           <table style="width: 100%; border-collapse: collapse; border-spacing: 0; margin-top: 5px;">
             <thead style="font-size: 14px; color: #124E58; font-weight: 600;">
               <tr>
-                <td style=" text-align: left; border-bottom: 1px solid #e2e8f0;">Product List</td>
-                <td style=" text-align: left; border-bottom: 1px solid #e2e8f0;">Qty</td>
+                <td style=" text-align: left; border-bottom: 1px solid #e2e8f0;">Requested Item</td>
+                <td style=" text-align: left; border-bottom: 1px solid #e2e8f0;">Quantity</td>
                 <td style="text-align: right; border-bottom: 1px solid #e2e8f0;">Price</td>
               </tr>
             </thead>
             <tbody>
-              <% let totalTax=0; %>
-                <% let totalFee=0; %>
-                  <% let totalPrice=0; %>
-                    <% if (order.products?.length>1) { %>
-                      <% order.products.forEach((product)=> { %>
-                        <tr style="border-bottom: 1px solid #e2e8f0;">
-                          <td style="padding: 8px; text-align: left;">
-                            <div style="display: flex; align-items: center;">
-                              <img src='<%= serverLink + product.product.images[0] %>' alt=""
-                                style="width: 64px; height: 64px; border-radius: 0.25rem;" />
-                              <p style="font-size: 16px; font-weight: normal; max-width: 250px; margin-left: 8px;">
-                                <%= product.product.name %>
-                              </p>
-                            </div>
-                          </td>
-                          <td style="padding: 8px;">
-                            <div style="display: flex; align-items: center;">
-                              <%= product.productQuantity %>
-                            </div>
-                          </td>
-                          <td style="text-align: right;">
-                            <span>৳ <%= product.product.price %> tk</span>
-                          </td>
-                        </tr>
-                        <% totalTax +=product.product.tax; %>
-                          <% totalFee +=product.product.fee; %>
-                            <% totalPrice +=product.product.price * product.productQuantity; %>
-                              <% }); %>
-                                <% } %>
-                                  <% if (order.requests?.length>1) { %>
-                                    <% order.requests.forEach((request)=> { %>
-                                      <tr style="border-bottom: 1px solid #e2e8f0;">
-                                        <td style="padding: 8px; text-align: left;">
-                                          <div style="display: flex; align-items: center;">
-                                            <img src='<%= serverLink + request.request.images[0] %>' alt=""
-                                              style="width: 64px; height: 64px; border-radius: 0.25rem;" />
-                                            <p
-                                              style="font-size: 16px; font-weight: normal; max-width: 250px; margin-left: 8px;">
-                                              <%= request.request.name %>
-                                            </p>
-                                          </div>
-                                        </td>
-                                        <td style="padding: 8px; text-align: left;">
-                                          <div style="display: flex; align-items: center;">
-                                            <%= request.requestQuantity %>
-                                          </div>
-                                        </td>
-                                        <td style="padding: 8px; text-align: right;">
-                                          <span>৳ <%= request.request.price %> tk</span>
-                                        </td>
-                                      </tr>
-                                      <% totalTax +=request.request.tax; %>
-                                        <% totalFee +=request.request.fee; %>
-                                          <% totalPrice +=request.request.price * request.requestQuantity; %>
-                                            <% }); %>
-                                              <% } %>
+              <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 8px; text-align: left;">
+                  <div style="display: flex; align-items: center;">
+                    <img src='<%= serverLink + product.product.images[0] %>' alt=""
+                      style="width: 64px; height: 64px; border-radius: 0.25rem;" />
+                    <p style="font-size: 16px; font-weight: normal; max-width: 250px; margin-left: 8px;">
+                      <%= request.name %>
+                    </p>
+                  </div>
+                </td>
+                <td style="padding: 8px;">
+                  <div style="display: flex; align-items: center;">
+                    <%= request.quantity %>
+                  </div>
+                </td>
+                <td style="text-align: right;">
+                  <span>৳ <%= request.price %> tk</span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </td>
@@ -150,24 +113,20 @@
             <tbody>
               <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 16px; text-align: left;">Seller Takes</td>
-                <td style="text-align: right;">৳ <%= totalPrice %> tk</td>
+                <td style="text-align: right;">৳ <%= request.sellerTakes %> tk</td>
               </tr>
               <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 16px; text-align: left;">Seller Taxes</td>
-                <td style="text-align: right;">৳ <%= totalTax %> tk</td>
+                <td style="text-align: right;">৳ <%= request.tax %> tk</td>
               </tr>
               <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 16px; text-align: left;">Packers Fee</td>
-                <td style="text-align: right;">৳ <%= totalFee %> tk</td>
-              </tr>
-              <tr style="border-bottom: 1px solid #e2e8f0;">
-                <td style="padding: 16px; text-align: left;">Delivery Charge</td>
-                <td style="text-align: right;">৳ <%= order.insideDhaka ? '99' : '150' %> tk</td>
+                <td style="text-align: right;">৳ <%= request.fee %> tk</td>
               </tr>
               <tr>
                 <td style="padding: 16px; text-align: left; font-weight: bold;">Estimated total</td>
-                <td style=" text-align: right; font-size: 24px; font-weight: bold;">৳ <%= order.total %>
-                    tk
+                <td style=" text-align: right; font-size: 24px; font-weight: bold;">৳
+                  <%= request.sellerTakes+request.tax+request.fee %> tk
                 </td>
               </tr>
             </tbody>
@@ -175,12 +134,22 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2">
+        <td>
           <p style="text-align: center; margin-top: 16px; margin-bottom: 16px;">
-            <a href='<%= homeLink %>' style="text-decoration: none;">
+            <a href='<%= declineLink %>' style="text-decoration: none;">
               <button
                 style="background-color: #F2C852; color: #0D3D4B; padding: 12px 14px; border-radius: 50px; width: 100%; font-size: 14px; font-weight: bold; cursor: pointer;">
-                Keep Shopping with us
+                Decline Request
+              </button>
+            </a>
+          </p>
+        </td>
+        <td>
+          <p style="text-align: center; margin-top: 16px; margin-bottom: 16px;">
+            <a href='<%= acceptLink %>' style="text-decoration: none;">
+              <button
+                style="background-color: #F2C852; color: #0D3D4B; padding: 12px 14px; border-radius: 50px; width: 100%; font-size: 14px; font-weight: bold; cursor: pointer;">
+                Accept Request
               </button>
             </a>
           </p>

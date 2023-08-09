@@ -15,8 +15,7 @@ const schema = new Schema({
   fee: { type: Number },
   status: { type: String, enum: ['pending', 'abandoned', 'accepted', 'paid', 'sent', 'processing'], default: 'pending' },
   trxId: { type: String }
-  // date
-});
+}, { timestamps: true });
 
 schema.plugin(paginate);
 schema.methods.toJSON = function () {

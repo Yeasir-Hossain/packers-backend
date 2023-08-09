@@ -70,7 +70,16 @@ export const getSingleRequest = ({ db }) => async (req, res) => {
   try {
     const request = await db.findOne({ table: Request, key: { id: req.params.id } });
     if (!request) return res.status(400).send('Bad request');
-    return res.status(200).send(request);
+    const options = {
+      request,
+      serverLink: 'http://localhost:4000/api/',
+      acceptLink: `http://localhost:4000/api/acceptrequest/${request.id}`,
+      declineLink: `http://localhost:4000/api/declinerequest/${request.id}`,
+      toplogo: 'http://localhost:4000/api/images/toplogo.png',
+      whitelogo: 'http://localhost:4000/api/images/logowhitetext.png',
+    };
+    res.render('mail', options);
+    // return res.status(200).send(request);
   }
   catch (err) {
     console.log(err);
