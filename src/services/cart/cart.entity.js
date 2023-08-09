@@ -38,8 +38,7 @@ export const userCart = ({ db }) => async (req, res) => {
     }
     req.body.user = req.user.id;
     const cart = await db.create({ table: Cart, key: req.body });
-    if (!cart) return res.status(400).send('Bad request');
-    return res.status(200).send(cart);
+    cart ? res.status(200).send(cart) : res.status(400).send('Bad request');
   }
   catch (err) {
     console.log(err);
@@ -55,8 +54,7 @@ export const userCart = ({ db }) => async (req, res) => {
 export const getUserCart = ({ db }) => async (req, res) => {
   try {
     const cart = await db.findOne({ table: Cart, key: { user: req.user.id, paginate: false, populate: { path: 'products.product requests.request' } } });
-    if (!cart) return res.status(400).send('Bad request');
-    return res.status(200).send(cart);
+    cart ? res.status(200).send(cart) : res.status(400).send('Bad request');
   }
   catch (err) {
     console.log(err);

@@ -13,13 +13,10 @@ export const registerBlog = ({ db, imageUp }) => async (req, res) => {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' && req.body.data[k] !== null);
     if (!validobj) res.status(400).send('Bad request');
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
-    if (req.files?.images?.path) {
-      req.body.banner = await imageUp(req.files.images.path);
-    }
+    if (req.files?.images?.path) req.body.banner = await imageUp(req.files.images.path);
     req.body.user = req.user.id;
     const blog = await db.create({ table: Blog, key: req.body });
-    if (!blog) return res.status(400).send('Bad request');
-    return res.status(200).send(blog);
+    blog ? res.status(200).send(blog) : res.status(400).send('Bad request');
   }
 
   catch (err) {
@@ -36,8 +33,7 @@ export const registerBlog = ({ db, imageUp }) => async (req, res) => {
 export const getAllBlogs = ({ db }) => async (req, res) => {
   try {
     const blog = await db.find({ table: Blog, key: { query: req.query, allowedQuery: allowedQuery, populate: { path: 'user', select: 'fullname email' } } });
-    if (!blog) return res.status(400).send('Bad request');
-    return res.status(200).send(blog);
+    blog ? res.status(200).send(blog) : res.status(400).send('Bad request');
   }
   catch (err) {
     console.log(err);
@@ -53,8 +49,7 @@ export const getAllBlogs = ({ db }) => async (req, res) => {
 export const getSingleBlog = ({ db }) => async (req, res) => {
   try {
     const blog = await db.findOne({ table: Blog, key: { id: req.params.id, populate: { path: 'user', select: 'fullname email' } } });
-    if (!blog) return res.status(400).send('Bad request');
-    return res.status(200).send(blog);
+    blog ? res.status(200).send(blog) : res.status(400).send('Bad request');
   }
   catch (err) {
     console.log(err);
@@ -73,13 +68,9 @@ export const updateBlog = ({ db, imageUp }) => async (req, res) => {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' && req.body.data[k] !== null);
     if (!validobj) res.status(400).send('Bad request');
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
-    if (req.files?.images?.path) {
-      req.body.banner = await imageUp(req.files.images.path);
-
-    }
+    if (req.files?.images?.path) req.body.banner = await imageUp(req.files.images.path);
     const blog = await db.update({ table: Blog, key: { id: id, body: req.body } });
-    if (!blog) return res.status(400).send('Bad request');
-    return res.status(200).send(blog);
+    blog ? res.status(200).send(blog) : res.status(400).send('Bad request');
   }
   catch (err) {
     console.log(err);
@@ -96,8 +87,7 @@ export const removeBlog = ({ db }) => async (req, res) => {
   try {
     const { id } = req.params;
     const blog = await db.remove({ table: Blog, key: { id } });
-    if (!blog) return res.status(404).send({ message: 'Product not found' });
-    res.status(200).send({ message: 'Deleted Successfully' });
+    blog ? res.status(200).send({ message: 'Deleted Successfully' }) : res.status(404).send({ message: 'Blog not found' });
   } catch (err) {
     console.log(err);
     res.status(500).send('Something went wrong');

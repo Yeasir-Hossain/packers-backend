@@ -1,6 +1,7 @@
+import { sendMessageEvent } from './message.functions';
 import Message from './message.schema';
 
-//   these are the set to validate the request query.
+// these are the set to validate the request query.
 const allowedQuery = new Set(['support', 'page', 'limit']);
 
 /**
@@ -17,29 +18,13 @@ export const sendMessage = ({ ws, db }) => async (req, res) => {
       message: req.body.message,
       sender: req.user.id,
     };
-    const message = await sendMessageEvent(ws, db, req.params.id, messageDoc);
-    return res.status(200).send(message);
+    const message = await db.create({ table: Message, key: messageDoc });
+    await sendMessageEvent(ws, req.params.id, message);
+    res.status(200).send(message);
   }
   catch (err) {
     console.log(err);
     res.status(500).send('Something went wrong');
-  }
-};
-
-/**
- * @param sendMessageEvent function is used to create a message for the support chat and send it to the reciever
- * @param {Object} req This is the req object.
- * @returns the message
- */
-export const sendMessageEvent = async (ws, db, room, msgdoc) => {
-  try {
-    const message = await db.create({ table: Message, key: msgdoc });
-    if (!message) throw new Error('message not saved');
-    ws.to(room).emit('message', message);
-    return message;
-  }
-  catch (err) {
-    console.log(err);
   }
 };
 

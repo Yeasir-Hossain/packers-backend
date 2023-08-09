@@ -1485,15 +1485,16 @@
 							"formdata": [
 								{
 									"key": "data",
-									"value": "{\n    \"name\": \"Testing delete\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"quantity\": 20,\n    \"price\": 10.00,\n    \"tax\": 10.00,\n    \"fee\": 5.00,\n    \"category\": \"64c37d290d10a967880c78f8\",\n    \"subcategory\": \"64c37d280d10a967880c78f6\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\"\n}",
+									"value": "{\n    \"name\": \"Testing Product\",\n    \"description\": \"This is a sample product description.\",\n    \"origin\": \"Sample Origin\",\n    \"quantity\": 20,\n    \"price\": 10.00,\n    \"tax\": 10.00,\n    \"fee\": 5.00,\n    \"category\": \"64c37d290d10a967880c78f8\",\n    \"subcategory\": \"64c37d280d10a967880c78f6\",\n    \"tags\": \"sample, shoe, electronics\",\n    \"link\": \"https://example.com/sample-product\"\n}",
 									"type": "text"
 								},
 								{
 									"key": "images",
 									"type": "file",
 									"src": [
-										"/home/common/Downloads/dummyimages/download.jpeg",
-										"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg"
+										"/home/common/Pictures/Screenshots/Screenshot from 2023-08-08 12-21-06.png",
+										"/home/common/Pictures/Screenshots/Screenshot from 2023-08-08 12-20-28.png",
+										"/home/common/Pictures/Screenshots/Screenshot from 2023-08-07 11-32-49.png"
 									]
 								}
 							]
@@ -1607,7 +1608,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/products?page=1&id=64ca84cf1c1475adfdf18e4d",
+							"raw": "http://localhost:4000/api/products?page=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1629,7 +1630,8 @@
 								},
 								{
 									"key": "id",
-									"value": "64ca84cf1c1475adfdf18e4d"
+									"value": "64ca84cf1c1475adfdf18e4d",
+									"disabled": true
 								},
 								{
 									"key": "subcategory",
@@ -1858,7 +1860,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":[\"64cb82091aa78495926e97ca\"]\r\n}",
+							"raw": "{\r\n    \"id\":[\"64d34692a6392741eec1e59f\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1971,7 +1973,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"quantity\": 30\n}",
+							"raw": "{\n    \"quantity\": 50\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1979,7 +1981,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/products/64c8f40a8b3122c54cb392a5",
+							"raw": "http://localhost:4000/api/products/64ca8f5a02478c400e1f78a9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1988,7 +1990,7 @@
 							"path": [
 								"api",
 								"products",
-								"64c8f40a8b3122c54cb392a5"
+								"64ca8f5a02478c400e1f78a9"
 							]
 						}
 					},
@@ -2094,16 +2096,13 @@
 							"formdata": [
 								{
 									"key": "data",
-									"value": "{\n  \"name\": \"Sample Request\",\n  \"link\": \"This is a sample req link.\",\n  \"note\": \"Sample Origin\"\n}",
+									"value": "{\n    \"name\": \"Sample Request Mail test\",\n    \"link\": \"This is a sample req link.\",\n    \"note\": \"Sample Origin\",\n    \"quantity\": 2,\n    \"status\": \"sent\",\n    \"fee\": 5,\n    \"tax\": 10,\n    \"sellerTakes\": 10\n}",
 									"type": "text"
 								},
 								{
 									"key": "images",
 									"type": "file",
-									"src": [
-										"/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg",
-										"/home/common/Downloads/dummyimages/oneplus-11-never-settle.webp"
-									]
+									"src": "/home/common/Downloads/dummyimages/Samsung-Galaxy-S22.jpg"
 								}
 							]
 						},
@@ -2328,7 +2327,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/request/64b1019d155c553c2de73ddb",
+							"raw": "http://localhost:4000/api/request/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2337,7 +2336,13 @@
 							"path": [
 								"api",
 								"request",
-								"64b1019d155c553c2de73ddb"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64d32151ff0abe43d9cbb5ab"
+								}
 							]
 						}
 					},
@@ -2590,8 +2595,11 @@
 				},
 				{
 					"name": "sendInvoice",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "PATCH",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -2603,7 +2611,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/request/64b62c00082e962eaa412dd7?sendInvoice=true",
+							"raw": "http://localhost:4000/api/sendinvoice/64d32151ff0abe43d9cbb5ab",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2611,14 +2619,8 @@
 							"port": "4000",
 							"path": [
 								"api",
-								"request",
-								"64b62c00082e962eaa412dd7"
-							],
-							"query": [
-								{
-									"key": "sendInvoice",
-									"value": "true"
-								}
+								"sendinvoice",
+								"64d32151ff0abe43d9cbb5ab"
 							]
 						}
 					},
@@ -3048,7 +3050,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"yeasir@mail.com\",\n    \"products\": [\n        {\n            \"product\": \"64ca84cf1c1475adfdf18e4d\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64ca8f5a02478c400e1f78a9\",\n            \"productQuantity\": 1\n        }\n    ],\n    \"shippingaddress\": {\n        \"address\": \"hello\",\n        \"city\": \"hello\",\n        \"area\": \"hello\",\n        \"zip\": \"hello\"\n    },\n    \"phone\": \"011111111\",\n    \"insideDhaka\": true\n}",
+							"raw": "{\n    \"email\": \"yeasir06@gmail.com\",\n    \"products\": [\n        {\n            \"product\": \"64ca84cf1c1475adfdf18e4d\",\n            \"productQuantity\": 1\n        },\n        {\n            \"product\": \"64d1e4071dc136b1d384c753\",\n            \"productQuantity\": 1\n        }\n    ],\n    \"shippingaddress\": {\n        \"address\": \"hello\",\n        \"city\": \"hello\",\n        \"area\": \"hello\",\n        \"zip\": \"hello\"\n    },\n    \"phone\": \"011111111\",\n    \"insideDhaka\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3261,7 +3263,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "64c9f42a6d6a80436af81fa1"
+									"value": "64d1d1b7f019ac21dfa671e8"
 								}
 							]
 						}
@@ -3465,7 +3467,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "64c9f42a6d6a80436af81fa1"
+									"value": "64d32151ff0abe43d9cbb5ab"
 								}
 							]
 						}
@@ -5138,7 +5140,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"message\": \"Hello without entry\"\n}",
+							"raw": "{\n    \"message\": \"Hello brooo\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

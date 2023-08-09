@@ -6,14 +6,14 @@ export default function cart() {
   /**
    * POST /cart
    * @description this route is insert items into.
-   * @response the product.
+   * @response the cart.
    */
   this.route.post('/cart', auth, userCart(this));
 
   /**
    * GET /cart
    * @description this route is used to get the logged in user cart.
-   * @response all the categories.
+   * @response the user cart.
    */
   this.route.get('/cart', auth, getUserCart(this));
 

@@ -111,7 +111,7 @@ export const acceptSupport = ({ db, ws }) => async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).send('Bad Request');
     const support = await db.findOne({ table: Support, key: { id: req.params.id } });
-    if (!support || support.staff) return res.status(400).send('Bad Request');
+    if (!support || support.staff) return res.status(400).send({ message: 'No room for new staff', status: false });
     support.staff = req.user.id;
     support.save();
     sendNotification(db, ws, [{ '_id': support.user }], 'Your support request has been accepted. Please check', 'account');
@@ -141,28 +141,6 @@ export const removeSupport = ({ db }) => async (req, res) => {
 };
 
 /**
- * @param joinRoom function joins the user or staff to room
- */
-export const joinRoom = (ws, room) => {
-  try {
-    ws.join(room);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-/**
- * @param leaveRoom function leaves the user or staff from room
- */
-export const leaveRoom = (ws, room) => {
-  try {
-    ws.leave(room);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-/**
  * @param entry function is used to join a user/staff to the room
  * @param {Object} req - The request object have the information about page and any other filter.
  * @returns the messages of the support chat
@@ -172,9 +150,9 @@ export const entry = async ({ data, session }) => {
     const { entry, room } = data;
     if (!session.user) throw new Error('Bad Request');
     if (entry) {
-      return joinRoom(session, room);
+      return session.join(room);
     }
-    leaveRoom(session, room);
+    session.leave(room);
   }
   catch (err) {
     console.log(err);
