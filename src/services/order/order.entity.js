@@ -22,7 +22,7 @@ const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', 'status', 
  * after order the selected item quantity is subtracted from the main product collection
  * @redirects to the success, fail or cancel url
  */
-export const registerOrder = ({ db, sslcz }) => async (req, res) => {
+export const registerOrder = ({ db, sslcz, settings }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
     if (!validobj) return res.status(400).send('Bad request');
@@ -101,10 +101,10 @@ export const registerOrder = ({ db, sslcz }) => async (req, res) => {
       total_amount: totalPrice.toFixed(2),
       currency: 'BDT',
       tran_id: `${'PP' + Date.now().toString(36).toUpperCase()}`,
-      success_url: `http://localhost:4000/api/ordersuccess/${order.id}`,
-      fail_url: 'http://localhost:4000/api/orderfail',
-      cancel_url: 'http://localhost:4000/api/orderfail',
-      ipn_url: 'http://localhost:4000/api/orderipn',
+      success_url: `${settings.domain}/api/ordersuccess/${order.id}`,
+      fail_url: `${settings.domain}/api/orderfail`,
+      cancel_url: `${settings.domain}/api/orderfail`,
+      ipn_url: `${settings.domain}/api/orderipn`,
       shipping_method: 'Courier',
       product_name: `${productNames.join()}`,
       product_category: `${productCategories.join()}`,

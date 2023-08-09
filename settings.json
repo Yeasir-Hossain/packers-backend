@@ -1,5 +1,6 @@
 {
   "port": 4000,
+  "domain": "http://localhost:4000",
   "origin": ["http://localhost:5173"],
   "useHTTP2": false,
   "SMTP_HOST": "smtp.gmail.com",
