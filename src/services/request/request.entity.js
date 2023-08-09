@@ -1,11 +1,12 @@
 import deleteImages from '../../utils/deleteImages';
+import generateMailTemplate from '../../utils/generateMailTemplate';
 import Cart from '../cart/cart.schema';
 import { sendNotification } from '../notification/notification.entity';
 import Request from './request.schema';
+import fs from 'fs';
+import path from 'path';
 
-/**
- * these are the set to validate the request body or query.
- */
+// these are the set to validate the request body or query.
 const createAllowed = new Set(['name', 'link', 'note', 'quantity']);
 const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'status', 'date', 'requestNumber']);
 
@@ -70,16 +71,7 @@ export const getSingleRequest = ({ db }) => async (req, res) => {
   try {
     const request = await db.findOne({ table: Request, key: { id: req.params.id } });
     if (!request) return res.status(400).send('Bad request');
-    const options = {
-      request,
-      serverLink: 'http://localhost:4000/api/',
-      acceptLink: `http://localhost:4000/api/acceptrequest/${request.id}`,
-      declineLink: `http://localhost:4000/api/declinerequest/${request.id}`,
-      toplogo: 'http://localhost:4000/api/images/toplogo.png',
-      whitelogo: 'http://localhost:4000/api/images/logowhitetext.png',
-    };
-    res.render('mail', options);
-    // return res.status(200).send(request);
+    return res.status(200).send(request);
   }
   catch (err) {
     console.log(err);
@@ -103,14 +95,47 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
       }
     }
     else if (req.files?.images) {
-      const img = await imageUp(req.files?.images.path);
-      req.body.images = [img];
-    }
-    if (req.query.sendInvoice) {
-      req.body.status = 'sent';
+      req.body.images = [await imageUp(req.files?.images.path)];
     }
     const request = await db.update({ table: Request, key: { id: id, body: req.body } });
     if (!request) return res.status(400).send('Bad request');
+    return res.status(200).send(request);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
+  }
+};
+
+/**
+ * @param invoiceRequest function updates the single request by id
+ * @param req.params.id is the id of the request sent in the params
+ * @returns the request
+ */
+export const invoiceRequest = ({ db, mail, settings, ws }) => async (req, res) => {
+  try {
+    const request = await db.findOne({ table: Request, key: { id: req.params.id, populate: { path: 'user', select: 'email' } } });
+    request.status = 'sent';
+    await request.save();
+    const emailTemplate = fs.readFileSync(path.join(__dirname, 'templates', 'request.ejs'), 'utf-8');
+    const options = {
+      request,
+      serverLink: `${settings.domain}`,
+      acceptLink: `${settings.domain}acceptrequest/${request.id}`,
+      declineLink: `${settings.domain}declinerequest/${request.id}`,
+      toplogo: `${settings.domain}images/toplogo.png`,
+      whitelogo: `${settings.domain}images/logowhitetext.png`,
+    };
+    const html = generateMailTemplate(emailTemplate, options);
+    const maillog = await mail({ receiver: request.user.email, subject: 'Request mail', body: html, type: 'html' });
+    if (!maillog) {
+      const currentDate = new Date();
+      const logMessage = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}: Email sending failed for order ID ${request.id}: ${maillog?.rejected?.join(',')}\n`;
+      const logStream = fs.createWriteStream(path.join(path.resolve(), 'logs', 'request_email_log.txt'), { flags: 'a' });
+      logStream.write(logMessage);
+      logStream.end();
+      sendNotification(db, ws, [{ '_id': request.user }], 'Your have a new request in your mail. Please check', 'cart');
+    }
     return res.status(200).send(request);
   }
   catch (err) {
@@ -185,6 +210,7 @@ export const acceptRequest = ({ db, ws }) => async (req, res) => {
     const newcart = await db.create({ table: Cart, key: createcart });
     if (!newcart) return res.status(404).send({ message: 'Bad Request' });
     sendNotification(db, ws, [{ '_id': request.user }], 'Your request status has been updated check your cart', 'cart');
+    // redirect to front end
     res.status(200).send(newcart);
   }
   catch (err) {

@@ -1,8 +1,6 @@
 import Message from './message.schema';
 
-/**
- * these are the set to validate the request query.
- */
+//   these are the set to validate the request query.
 const allowedQuery = new Set(['support', 'page', 'limit']);
 
 /**

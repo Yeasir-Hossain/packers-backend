@@ -8,9 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import { sendNotification } from '../notification/notification.entity';
 
-/**
- * these are the set to validate the request query.
- */
+//   these are the set to validate the request query.
 const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', 'status', 'date', '_id', 'id']);
 
 /**
@@ -101,10 +99,10 @@ export const registerOrder = ({ db, sslcz, settings }) => async (req, res) => {
       total_amount: totalPrice.toFixed(2),
       currency: 'BDT',
       tran_id: `${'PP' + Date.now().toString(36).toUpperCase()}`,
-      success_url: `${settings.domain}/api/ordersuccess/${order.id}`,
-      fail_url: `${settings.domain}/api/orderfail`,
-      cancel_url: `${settings.domain}/api/orderfail`,
-      ipn_url: `${settings.domain}/api/orderipn`,
+      success_url: `${settings.domain}ordersuccess/${order.id}`,
+      fail_url: `${settings.domain}orderfail`,
+      cancel_url: `${settings.domain}orderfail`,
+      ipn_url: `${settings.domain}orderipn`,
       shipping_method: 'Courier',
       product_name: `${productNames.join()}`,
       product_category: `${productCategories.join()}`,
@@ -149,7 +147,7 @@ export const registerOrder = ({ db, sslcz, settings }) => async (req, res) => {
  * @param {Object} req - The request object have the response from ssl commerz.
  * @returns {Object} the order
  */
-export const orderSuccess = ({ db, ws, mail, sslcz }) => async (req, res) => {
+export const orderSuccess = ({ db, ws, mail, sslcz, settings }) => async (req, res) => {
   try {
     sslcz.validate({ val_id: req.body.val_id }).then(async (data) => {
       if (data.amount != req.body.value_a) {
@@ -167,14 +165,14 @@ export const orderSuccess = ({ db, ws, mail, sslcz }) => async (req, res) => {
         }
       });
       await db.update({ table: Cart, key: { user: order.user, key: { body: { products: [], requests: [] } } } });
-      const emailTemplate = fs.readFileSync(path.join(path.resolve(), 'template', 'order.ejs'), 'utf-8');
+      const emailTemplate = fs.readFileSync(path.join(__dirname, 'templates', 'order.ejs'), 'utf-8');
       const options = {
         order: order,
-        serverLink: 'http://localhost:4000/api/',
-        homeLink: 'http://localhost:5173/',
-        toplogo: 'http://localhost:4000/api/images/toplogo.png',
-        whitelogo: 'http://localhost:4000/api/images/logowhitetext.png',
-        orderlogo: 'http://localhost:4000/api/images/orderlogo.png'
+        serverLink: `${settings.domain}`,
+        homeLink: `${settings.domain}`,
+        toplogo: `${settings.domain}images/toplogo.png`,
+        whitelogo: `${settings.domain}images/logowhitetext.png`,
+        orderlogo: `${settings.domain}images/orderlogo.png`
       };
       sendNotification(db, ws, [{ '_id': order.user }], 'Your order has been placed', 'cart');
       const html = generateMailTemplate(emailTemplate, options);

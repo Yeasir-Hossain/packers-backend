@@ -1,10 +1,8 @@
 import deleteImages from '../../utils/deleteImages';
 import Products from './product.schema';
 
-/**
- * these are the set to validate the request query.
- */
-const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'sort', 'category', 'subcategory', 'name','status', 'tags']);
+//   these are the set to validate the request query.
+const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'sort', 'category', 'subcategory', 'name', 'status', 'tags']);
 
 /**
  * @param registerProduct function is used to register a product from the products collection

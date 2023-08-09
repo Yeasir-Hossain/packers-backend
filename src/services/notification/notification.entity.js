@@ -1,9 +1,7 @@
 import User from '../user/user.schema';
 import Notification from './notification.schema';
 
-/**
- * these are the set to validate the request query.
- */
+//   these are the set to validate the request query.
 const allowedQuery = new Set(['$or']);
 
 /**
