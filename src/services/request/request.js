@@ -23,7 +23,7 @@ export default function request() {
    * @description this route is used to get a single request.
    * @response the request that the user is looking for.
    */
-  this.route.get('/request/:id', getSingleRequest(this));
+  this.route.get('/request/:id', auth, getSingleRequest(this));
 
   /**
    * PATCH /request/:id
