@@ -81,7 +81,7 @@ export default class App {
     this.express.use(
       cors({
         origin: this.config.origin,
-        methods: 'GET,POST,PUT,DELETE',
+        methods: 'GET,POST,PUT,DELETE,PATCH',
         credentials: true,
       })
     );
