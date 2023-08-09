@@ -54,20 +54,20 @@
             <tbody>
               <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 16px; text-align: left;">Seller Takes</td>
-                <td style="text-align: right;">৳ <%= request.sellerTakes %> tk</td>
+                <td style="text-align: right;">৳ <%= request.sellerTakes * request.quantity %> tk</td>
               </tr>
               <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 16px; text-align: left;">Seller Taxes</td>
-                <td style="text-align: right;">৳ <%= request.tax %> tk</td>
+                <td style="text-align: right;">৳ <%= request.tax  * request.quantity%> tk</td>
               </tr>
               <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 16px; text-align: left;">Packers Fee</td>
-                <td style="text-align: right;">৳ <%= request.fee %> tk</td>
+                <td style="text-align: right;">৳ <%= request.fee * request.quantity %> tk</td>
               </tr>
               <tr>
                 <td style="padding: 16px; text-align: left; font-weight: bold;">Estimated total</td>
                 <td style=" text-align: right; font-size: 24px; font-weight: bold;">৳
-                  <%= request.sellerTakes+request.tax+request.fee %> tk
+                  <%= (request.sellerTakes+request.tax+request.fee) * request.quantity %> tk
                 </td>
               </tr>
             </tbody>

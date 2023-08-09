@@ -1,6 +1,6 @@
 import Support from './support.schema';
-import { sendNotification } from '../notification/notification.entity';
 import { sendMessageEvent } from '../messages/message.entity';
+import { sendNotification } from '../notification/notification.function';
 
 
 /**

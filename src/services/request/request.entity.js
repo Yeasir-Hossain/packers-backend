@@ -1,10 +1,10 @@
 import deleteImages from '../../utils/deleteImages';
 import generateMailTemplate from '../../utils/generateMailTemplate';
 import Cart from '../cart/cart.schema';
-import { sendNotification } from '../notification/notification.entity';
 import Request from './request.schema';
 import fs from 'fs';
 import path from 'path';
+import { sendNotification } from '../notification/notification.function';
 
 // these are the set to validate the request body or query.
 const createAllowed = new Set(['name', 'link', 'note', 'quantity']);
@@ -112,9 +112,20 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
  * @param req.params.id is the id of the request sent in the params
  * @returns the request
  */
-export const invoiceRequest = ({ db, mail, settings, ws }) => async (req, res) => {
+export const invoiceRequest = ({ db, mail, settings, ws, imageUp }) => async (req, res) => {
   try {
-    const request = await db.findOne({ table: Request, key: { id: req.params.id, populate: { path: 'user', select: 'email' } } });
+    const { id } = req.params;
+    if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
+    if (req.files?.images?.length > 1) {
+      for (const image of req.files.images) {
+        const img = await imageUp(image.path);
+        req.body.images = [...(req.body.images || []), img];
+      }
+    }
+    else if (req.files?.images) {
+      req.body.images = [await imageUp(req.files?.images.path)];
+    }
+    const request = await db.update({ table: Request, key: { id: id, body: req.body, populate: { path: 'user', select: 'email' } } });
     request.status = 'sent';
     await request.save();
     const emailTemplate = fs.readFileSync(path.join(__dirname, 'templates', 'request.ejs'), 'utf-8');
@@ -211,7 +222,7 @@ export const acceptRequest = ({ db, ws }) => async (req, res) => {
     if (!newcart) return res.status(404).send({ message: 'Bad Request' });
     sendNotification(db, ws, [{ '_id': request.user }], 'Your request status has been updated check your cart', 'cart');
     // redirect to front end
-    res.status(200).send(newcart);
+    res.status(200).send(request);
   }
   catch (err) {
     console.log(err);

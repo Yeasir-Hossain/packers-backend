@@ -6,7 +6,7 @@ import Cart from '../cart/cart.schema';
 import Orders from './order.schema';
 import fs from 'fs';
 import path from 'path';
-import { sendNotification } from '../notification/notification.entity';
+import { sendNotification } from '../notification/notification.function';
 
 //   these are the set to validate the request query.
 const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', 'status', 'date', '_id', 'id']);
