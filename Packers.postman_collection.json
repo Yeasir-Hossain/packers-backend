@@ -2628,7 +2628,7 @@
 						{
 							"name": "sendInvoice",
 							"originalRequest": {
-								"method": "PATCH",
+								"method": "GET",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -2640,7 +2640,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:4000/api/request/64b62c00082e962eaa412dd7?sendInvoice=true",
+									"raw": "http://localhost:4000/api/request/64b62c00082e962eaa412dd7",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2650,12 +2650,6 @@
 										"api",
 										"request",
 										"64b62c00082e962eaa412dd7"
-									],
-									"query": [
-										{
-											"key": "sendInvoice",
-											"value": "true"
-										}
 									]
 								}
 							},
