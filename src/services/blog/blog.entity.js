@@ -17,8 +17,7 @@ export const registerBlog = ({ db, imageUp }) => async (req, res) => {
     if (!validobj) res.status(400).send('Bad request');
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
     if (req.files?.images) {
-      const img = await imageUp(req.files?.images.path);
-      req.body.banner = img;
+      req.body.banner = await imageUp(req.files?.images.path);
     }
     req.body.user = req.user.id;
     const blog = await db.create({ table: Blog, key: req.body });
@@ -77,8 +76,8 @@ export const updateBlog = ({ db, imageUp }) => async (req, res) => {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' && req.body.data[k] !== null);
     if (!validobj) res.status(400).send('Bad request');
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
-    if (req.files?.images) {
-      const img = await imageUp(req.files?.images.path);
+    if (req.files?.images?.path) {
+      const img = await imageUp(req.files.images.path);
       req.body.banner = img;
     }
     const blog = await db.update({ table: Blog, key: { id: id, body: req.body } });
