@@ -1,7 +1,7 @@
 import Support from './support.schema';
 import { sendMessageEvent } from '../messages/message.entity';
 import { sendNotification } from '../notification/notification.function';
-
+import Message from '../messages/message.schema';
 
 /**
  * these are the set to validate the request body or query.
@@ -15,7 +15,7 @@ const supportUpdateAllowed = new Set(['status', 'staff']);
  */
 export const registerSupport = ({ db, ws }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) res.status(400).send('Bad request');
     const supportDoc = {
       user: req.user.id,
@@ -27,11 +27,10 @@ export const registerSupport = ({ db, ws }) => async (req, res) => {
       message: req.body.message,
       sender: req.user.id,
     };
+    const message = await db.create({ table: Message, key: messageDoc });
     if (!support) return res.status(400).send('Bad request');
     sendNotification(db, ws, [{ 'role': 'staff' }, { 'access': 'support' }], 'There is a new suport request', 'account');
-    // joinRoom(ws, support.id);
-    const message = await sendMessageEvent(ws, db, support.id, messageDoc);
-    console.log(message);
+    await sendMessageEvent(ws, support.id, message);
     return res.status(200).send(support);
   }
   catch (err) {

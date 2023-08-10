@@ -10,7 +10,7 @@ const allowedQuery = new Set(['page', 'limit', 'id', 'paginate', 'sort']);
  */
 export const registerBlog = ({ db, imageUp }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' && req.body.data[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' || req.body.data[k] !== undefined);
     if (!validobj) res.status(400).send('Bad request');
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
     if (req.files?.images?.path) req.body.banner = await imageUp(req.files.images.path);
@@ -65,7 +65,7 @@ export const getSingleBlog = ({ db }) => async (req, res) => {
 export const updateBlog = ({ db, imageUp }) => async (req, res) => {
   try {
     const { id } = req.params;
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' && req.body.data[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' || req.body.data[k] !== undefined);
     if (!validobj) res.status(400).send('Bad request');
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
     if (req.files?.images?.path) req.body.banner = await imageUp(req.files.images.path);

@@ -1,7 +1,7 @@
 import deleteImages from '../../utils/deleteImages';
 import Products from './product.schema';
 
-//   these are the set to validate the request query.
+// these are the set to validate the request query.
 const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'sort', 'category', 'subcategory', 'name', 'status', 'tags']);
 
 /**
@@ -11,7 +11,7 @@ const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'sort', 
  */
 export const registerProduct = ({ db, imageUp }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' && req.body.data[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' || req.body.data[k] !== undefined);
     if (!validobj) res.status(400).send('Bad request');
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
     if (req.files?.images?.length > 1) {
@@ -21,7 +21,7 @@ export const registerProduct = ({ db, imageUp }) => async (req, res) => {
       }
     }
     else if (req.files?.images) {
-      const img = await imageUp(req.files?.images.path);
+      const img = await imageUp(req.files.images.path);
       req.body.images = [img];
     }
     const product = await db.create({ table: Products, key: req.body });
@@ -84,7 +84,7 @@ export const updateProduct = ({ db, imageUp }) => async (req, res) => {
       }
     }
     else if (req.files?.images) {
-      const img = await imageUp(req.files?.images.path);
+      const img = await imageUp(req.files.images.path);
       req.body.images = [img];
     }
     const product = await db.update({ table: Products, key: { id: id, body: req.body } });

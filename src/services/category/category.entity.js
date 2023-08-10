@@ -10,7 +10,7 @@ const allowedQuery = new Set(['type']);
  */
 export const registerCategory = ({ db }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) res.status(400).send('Bad request');
     let newcategory = {
       name: req.body.categoryname,
@@ -26,7 +26,6 @@ export const registerCategory = ({ db }) => async (req, res) => {
       const newsubcategory = await db.create({ table: Category, key: subcategory });
       if (!newsubcategory) return res.status(400).send('Bad request');
       exist.subcategory = [...(exist.subcategory || []), newsubcategory.id];
-      console.log(exist);
       exist.save();
       return res.status(200).send(exist);
     }

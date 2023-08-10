@@ -14,7 +14,21 @@ const schema = new Schema({
   tax: { type: Number },
   fee: { type: Number },
   status: { type: String, enum: ['pending', 'abandoned', 'accepted', 'paid', 'sent', 'processing'], default: 'pending' },
-  trxId: { type: String }
+  trxId: { type: String },
+  shippingaddress: {
+    name: { type: String },
+    address: { type: String },
+    city: { type: String },
+    area: { type: String },
+    zip: { type: String },
+  },
+  billingaddress: {
+    name: { type: String },
+    address: { type: String },
+    city: { type: String },
+    area: { type: String },
+    zip: { type: String },
+  },
 }, { timestamps: true });
 
 schema.plugin(paginate);

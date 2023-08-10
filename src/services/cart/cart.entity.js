@@ -7,7 +7,7 @@ import Cart from './cart.schema';
  */
 export const userCart = ({ db }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) res.status(400).send('Bad request');
     const previousCart = await db.findOne({ table: Cart, key: { user: req.user.id, paginate: false } });
     if (previousCart) {

@@ -22,7 +22,7 @@ const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', 'status', 
  */
 export const registerOrder = ({ db, sslcz, settings }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) return res.status(400).send('Bad request');
 
     // Fetch products and requests

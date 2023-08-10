@@ -7,7 +7,7 @@ import Discount from './discount.schema';
  */
 export const registerDiscount = ({ db }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) res.status(400).send('Bad request');
     const discount = await db.create({ table: Discount, key: req.body });
     if (!discount) return res.status(400).send('Bad request');

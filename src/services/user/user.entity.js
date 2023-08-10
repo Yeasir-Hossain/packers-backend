@@ -3,9 +3,7 @@ import jwt from 'jsonwebtoken';
 import User from './user.schema';
 import decodeAuthToken from '../../utils/decodeAuthToken';
 
-/**
- * these are the set to validate the request body or query.
- */
+// these are the set to validate the request body or query.
 const createAllowed = new Set(['fullName', 'email', 'password']);
 const allowedQuery = new Set(['fullName', 'page', 'limit', 'id', 'paginate', 'role']);
 const ownUpdateAllowed = new Set(['fullName', 'phone', 'avatar', 'passwordChange']);
@@ -25,8 +23,7 @@ export const register = ({ db }) => async (req, res) => {
     if (!valid) return res.status(400).send('Bad request');
     req.body.password = await bcrypt.hash(req.body.password, 8);
     const user = await db.create({ table: User, key: { ...req.body } });
-    if (!user) return res.status(400).send('Bad request');
-    return res.status(200).send(user);
+    user ? res.status(200).send(user) : res.status(400).send('Bad request');
   }
   catch (e) {
     console.log(e);
@@ -45,7 +42,7 @@ export const register = ({ db }) => async (req, res) => {
  */
 export const registerStaff = ({ db }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) res.status(400).send('Bad request');
     req.body.password = await bcrypt.hash(req.body.password, 8);
     const staff = await db.create({ table: User, key: { ...req.body } });
@@ -154,7 +151,7 @@ export const logout = ({ settings }) => async (req, res) => {
       },
       expires: new Date(Date.now())
     });
-    if (req.session) { req.logout(); req.session.destroy(); }
+    if (req.session) { req.session.destroy(); }
     return res.status(200).send('Logout successful');
   }
   catch (err) {
@@ -286,13 +283,13 @@ export const remove = ({ db }) => async (req, res) => {
  */
 export const sendOTP = ({ db, mail }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) return res.status(400).send('Bad request');
     const { email } = req.body;
     const user = await db.findOne({ table: User, key: { email } });
     if (!user) res.status(404).send({ message: 'User not found' });
     var otp = Math.floor(1000 + Math.random() * 9000);
-    const sendmail = await mail({ receiver: 'yeasir06@gmail.com', subject: 'OTP', body: otp + '', type: 'text' });
+    const sendmail = await mail({ receiver: email, subject: 'OTP', body: otp + '', type: 'text' });
     if (!sendmail) return res.status(400).send('Bad request');
     const token = await bcrypt.hash(otp.toString(), 8);
     res.status(200).send({ token: token, id: user.id });
@@ -312,7 +309,7 @@ export const sendOTP = ({ db, mail }) => async (req, res) => {
  */
 export const verifyOTP = () => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) return res.status(400).send('Bad request');
     const { otp, token, time } = req.body;
     const fiveMin = 1000 * 60 * 5;
@@ -337,7 +334,7 @@ export const verifyOTP = () => async (req, res) => {
  */
 export const resetpassword = ({ db }) => async (req, res) => {
   try {
-    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' && req.body[k] !== null);
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) return res.status(400).send('Bad request');
     const { id, newpassword, otp, token, time } = req.body;
     const sevenMin = 1000 * 60 * 7;

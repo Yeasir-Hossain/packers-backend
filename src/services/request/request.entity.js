@@ -28,7 +28,7 @@ export const registerRequest = ({ db, imageUp }) => async (req, res) => {
       }
     }
     else if (req.files?.images) {
-      const img = await imageUp(req.files?.images.path);
+      const img = await imageUp(req.files.images.path);
       req.body.images = [img];
     }
     req.body.user = req.user.id;
@@ -50,11 +50,11 @@ export const registerRequest = ({ db, imageUp }) => async (req, res) => {
  */
 export const getAllRequests = ({ db }) => async (req, res) => {
   try {
-    const requests = await db.find({
+    const request = await db.find({
       table: Request, key: { query: req.query, allowedQuery: allowedQuery, paginate: true, populate: { path: 'user', select: 'fullName email phone address' } }
     });
-    if (!requests) return res.status(400).send('Bad request');
-    return res.status(200).send(requests);
+    if (!request) return res.status(400).send('Bad request');
+    return res.status(200).send(request);
   }
   catch (err) {
     console.log(err);
@@ -95,7 +95,7 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
       }
     }
     else if (req.files?.images) {
-      req.body.images = [await imageUp(req.files?.images.path)];
+      req.body.images = [await imageUp(req.files.images.path)];
     }
     const request = await db.update({ table: Request, key: { id: id, body: req.body } });
     if (!request) return res.status(400).send('Bad request');
@@ -123,7 +123,7 @@ export const invoiceRequest = ({ db, mail, settings, ws, imageUp }) => async (re
       }
     }
     else if (req.files?.images) {
-      req.body.images = [await imageUp(req.files?.images.path)];
+      req.body.images = [await imageUp(req.files.images.path)];
     }
     const request = await db.update({ table: Request, key: { id: id, body: req.body, populate: { path: 'user', select: 'email' } } });
     request.status = 'sent';

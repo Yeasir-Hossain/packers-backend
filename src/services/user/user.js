@@ -124,7 +124,7 @@ export default function user() {
   }));
 
   /**
-   * GET ‘/social/success'
+   * GET '/social/success'
    * @description this route is send the user data after social login
    * @response {Object} 200 - the user.
    */
