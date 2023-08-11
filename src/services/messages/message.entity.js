@@ -37,8 +37,7 @@ export const getMessage = ({ db }) => async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).send('Bad request');
     const message = await db.find({ table: Message, key: { query: { support: req.params.id }, allowedQuery: allowedQuery } });
-    if (!message) return res.status(400).send('Bad request');
-    res.status(200).send(message);
+    message ? res.status(200).send(message) : res.status(400).send('Bad request');
   }
   catch (err) {
     console.log(err);

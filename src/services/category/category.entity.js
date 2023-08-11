@@ -1,6 +1,6 @@
 import Category from './category.schema';
 
-//   these are the set to validate the request query.
+// these are the set to validate the request query.
 const allowedQuery = new Set(['type']);
 
 /**
@@ -35,8 +35,7 @@ export const registerCategory = ({ db }) => async (req, res) => {
       newcategory = { ...newcategory, subcategory: [newsubcategory.id] };
     }
     const category = await db.create({ table: Category, key: newcategory });
-    if (!category) return res.status(400).send('Bad request');
-    return res.status(200).send(category);
+    category ? res.status(200).send(category) : res.status(400).send('Bad request');
   }
   catch (err) {
     console.log(err);
@@ -51,9 +50,8 @@ export const registerCategory = ({ db }) => async (req, res) => {
  */
 export const getAllCategory = ({ db }) => async (req, res) => {
   try {
-    const categories = await db.find({ table: Category, key: { query: { type: 'category' }, allowedQuery: allowedQuery, paginate: false, populate: { path: 'subcategory' } } });
-    if (!categories) return res.status(400).send('Bad request');
-    return res.status(200).send(categories);
+    const category = await db.find({ table: Category, key: { query: { type: 'category' }, allowedQuery: allowedQuery, paginate: false, populate: { path: 'subcategory' } } });
+    category ? res.status(200).send(category) : res.status(400).send('Bad request');
   }
   catch (err) {
     console.log(err);
@@ -69,9 +67,8 @@ export const getAllCategory = ({ db }) => async (req, res) => {
 export const updateCategory = ({ db }) => async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).send('Bad Request');
-    const categories = await db.update({ table: Category, key: { id: req.param.id, body: req.body } });
-    if (!categories) return res.status(400).send('Bad request');
-    return res.status(200).send(categories);
+    const category = await db.update({ table: Category, key: { id: req.param.id, body: req.body } });
+    category ? res.status(200).send(category) : res.status(400).send('Bad request');
   }
   catch (err) {
     console.log(err);
@@ -88,7 +85,7 @@ export const removeCategory = ({ db }) => async (req, res) => {
   try {
     if (!req.body.id.length) return res.send(400).send('Bad Request');
     const category = await db.removeAll({ table: Category, key: { id: { $in: req.body.id } } });
-    if (!category) return res.status(404).send({ message: 'Category not found' });
+    if (!category) return res.status(400).send({ message: 'Category not found' });
     res.status(200).send({ message: 'Deleted Successfully' });
   } catch (err) {
     console.log(err);

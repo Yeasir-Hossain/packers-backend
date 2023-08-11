@@ -76,7 +76,7 @@ export const login = ({ db, settings }) => async (req, res) => {
         sameSite: 'None',
         secure: true,
       },
-      ...!req.body.rememberMe && { expires: new Date(Date.now() + 172800000/*2 days*/) },
+      ...req.body.rememberMe && { expires: new Date(Date.now() + 172800000/*2 days*/) },
     });
     res.status(200).send(user);
   }
