@@ -33,11 +33,11 @@ export default function request() {
   this.route.patch('/request/:id', auth, checkAccess('staff', 'request'), updateRequest(this));
 
   /**
-   * GET /request/:id
+   * PATCH /sendinvoice/:id
    * @description this route is used to send request invoice to user.
    * @response the request.
    */
-  this.route.get('/sendinvoice/:id', auth, checkAccess('staff', 'request'), invoiceRequest(this));
+  this.route.patch('/sendinvoice/:id', auth, checkAccess('staff', 'request'), invoiceRequest(this));
 
   /**
    * DELETE /deleterequest/:id

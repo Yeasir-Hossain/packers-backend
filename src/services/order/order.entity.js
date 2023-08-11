@@ -210,7 +210,7 @@ export const orderFail = ({ db }) => async (req, res) => {
         }, populate: { path: 'products.product requests.request' }
       }
     });
-    res.redirect('fronendurl');
+    // res.redirect('frontendurl');
     res.status(200).send(order);
   }
   catch (err) {
@@ -254,6 +254,7 @@ export const refundOrder = ({ db, sslcz }) => async (req, res) => {
 export const refundStatus = ({ db, sslcz }) => async (req, res) => {
   try {
     const order = await db.findOne({ table: Orders, key: { id: req.params.id } });
+    if (!order.refundRefid) return res.staus(400).send({ message: 'Refund has not been initialized', status: false });
     const data = {
       refund_ref_id: order.refundRefid
     };

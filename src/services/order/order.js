@@ -31,14 +31,14 @@ export default function order() {
    * @description this route is insert a order
    * @response the order.
    */
-  this.route.post('/refundstatus/:id', auth, refundStatus(this));
+  this.route.get('/refundstatus/:id', auth, refundStatus(this));
 
   /**
    * POST /transactionstatus/:id
    * @description this route is insert a order
    * @response the order.
    */
-  this.route.post('/transactionstatus/:id', auth, checkRole('admin', 'super-admin'), transactionStatus(this));
+  this.route.get('/transactionstatus/:id', auth, checkRole('admin', 'super-admin'), transactionStatus(this));
   /**
    * GET /order
    * @description this route is used to get all orders.

@@ -36,6 +36,6 @@ export default function discount() {
    * @description this route is use a discount.
    * @response success or failed
    */
-  this.route.get('/abandoniscount', auth, abandonDiscount(this));
+  this.route.get('/abandondiscount', auth, abandonDiscount(this));
 
 }
