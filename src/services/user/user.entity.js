@@ -65,9 +65,9 @@ export const login = ({ db, settings }) => async (req, res) => {
   try {
     if (!req.body.email || !req.body.password) return res.status(400).send('Bad requests');
     const user = await db.findOne({ table: User, key: { email: req.body.email } });
-    if (!user) return res.status(401).send('Unauthorized');
+    if (!user) return res.status(401).send({ message: 'Unauthorized', status: false });
     const isValid = await bcrypt.compare(req.body.password, user.password);
-    if (!isValid) return res.status(401).send('Unauthorized');
+    if (!isValid) return res.status(401).send({ message: 'Unauthorized', status: false });
     const token = jwt.sign({ id: user.id }, settings.secret);
     res.cookie(settings.secret, token, {
       httpOnly: true,

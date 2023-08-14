@@ -14,7 +14,7 @@ export function checkRole(allowed) {
       else throw new Error('Unauthorized.');
     }
     catch (e) {
-      res.status(401).send({ status: 401, reason: 'unauthorized' });
+      res.status(401).send({ status: 401, reason: { message: 'Unauthorized', status: false } });
     }
   };
 }
@@ -34,7 +34,7 @@ export function checkAccess(role, allowed) {
       else throw new Error('Unauthorized.');
     }
     catch (e) {
-      res.status(401).send({ status: 401, reason: 'unauthorized' });
+      res.status(401).send({ status: 401, reason: { message: 'Unauthorized', status: false } });
     }
   };
 }
@@ -46,15 +46,15 @@ export function checkAccess(role, allowed) {
 export async function auth(req, res, next) {
   try {
     const token = req.cookies?.coredevs || (process.env.NODE_ENV === 'development' ? req.header('Authorization')?.replace('Bearer ', '') : null);
-    if (!token) return res.status(401).send({ status: 401, reason: 'Unauthorized' });
+    if (!token) return res.status(401).send({ status: 401, reason: { message: 'Unauthorized', status: false } });
     const user = await decodeAuthToken(token);
-    if (!user) return res.status(401).send({ status: 401, reason: 'Unauthorized' });
+    if (!user) return res.status(401).send({ status: 401, reason: { message: 'Unauthorized', status: false } });
     req.token = token;
     req.user = user;
     next();
   } catch (e) {
     console.log(e);
-    res.status(401).send({ status: 401, reason: 'Unauthorized' });
+    res.status(401).send({ status: 401, reason: { message: 'Unauthorized', status: false } });
   }
 }
 
@@ -76,14 +76,14 @@ export async function passportMiddleware(req, res, next) {
 export async function socketAuth(socket, next) {
   try {
     const token = socket?.handshake?.headers?.coredevs?.replace('Bearer ', '');
-    if (!token) throw new Error('Unauthorized');
+    if (!token) throw new Error({ message: 'Unauthorized', status: false });
     const user = await decodeAuthToken(token);
-    if (!user) throw new Error('Unauthorized');
+    if (!user) throw new Error({ message: 'Unauthorized', status: false });
     socket.user = user;
     socket.join(user.id);
     next();
   } catch (e) {
     console.log(e);
-    next(new Error('Unauthorized'));
+    next(new Error({ message: 'Unauthorized', status: false }));
   }
 }
