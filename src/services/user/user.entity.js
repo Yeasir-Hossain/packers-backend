@@ -4,7 +4,7 @@ import User from './user.schema';
 import decodeAuthToken from '../../utils/decodeAuthToken';
 
 // these are the set to validate the request body or query.
-const createAllowed = new Set(['fullName', 'email', 'password']);
+const createAllowed = new Set(['fullName', 'email', 'password', 'phone']);
 const allowedQuery = new Set(['fullName', 'page', 'limit', 'id', 'paginate', 'role']);
 const ownUpdateAllowed = new Set(['fullName', 'phone', 'avatar', 'passwordChange']);
 
@@ -22,7 +22,7 @@ export const register = ({ db }) => async (req, res) => {
     const valid = Object.keys(req.body).every(k => createAllowed.has(k));
     if (!valid) return res.status(400).send({ message: 'Bad Request', status: false });
     req.body.password = await bcrypt.hash(req.body.password, 8);
-    const user = await db.create({ table: User, key: { ...req.body } });
+    const user = await db.create({ table: User, key: req.body });
     user ? res.status(200).send(user) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (e) {
