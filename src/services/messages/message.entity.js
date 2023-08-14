@@ -12,19 +12,20 @@ const allowedQuery = new Set(['support', 'page', 'limit']);
 export const sendMessage = ({ ws, db }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
-    if (!validobj) res.status(400).send('Bad request');
+    if (!validobj) res.status(400).send({ message: 'Bad Request', status: false });
     const messageDoc = {
       support: req.params.id,
       message: req.body.message,
       sender: req.user.id,
     };
     const message = await db.create({ table: Message, key: messageDoc });
+    if (!message) return res.status(400).send({ message: 'Bad Request', status: false });
     await sendMessageEvent(ws, req.params.id, message);
     res.status(200).send(message);
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -35,12 +36,12 @@ export const sendMessage = ({ ws, db }) => async (req, res) => {
  */
 export const getMessage = ({ db }) => async (req, res) => {
   try {
-    if (!req.params.id) return res.status(400).send('Bad request');
+    if (!req.params.id) return res.status(400).send({ message: 'Bad Request', status: false });
     const message = await db.find({ table: Message, key: { query: { support: req.params.id }, allowedQuery: allowedQuery } });
-    message ? res.status(200).send(message) : res.status(400).send('Bad request');
+    message ? res.status(200).send(message) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };

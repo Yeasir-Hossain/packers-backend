@@ -131,7 +131,7 @@ export default function user() {
   this.route.get('/social/success', socialSuccess(this));
 
   this.route.get('/social/failure', (req, res) => {
-    res.status(404).send('Something went wrong');
+    res.status(400).send({ message: 'Something went wrong', status: false });
   });
 
 }

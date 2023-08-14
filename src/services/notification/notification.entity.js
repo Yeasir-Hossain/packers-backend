@@ -9,12 +9,11 @@ import Notification from './notification.schema';
 export const recieveNotification = ({ db }) => async (req, res) => {
   try {
     const notification = await db.findOne({ table: Notification, key: { user: req.user.id } });
-    if (!notification) return res.status(400).send([]);
-    res.status(200).send(notification);
+    notification ? res.status(200).send(notification) : res.status(400).send({ message: 'No Notifications Found', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -25,12 +24,11 @@ export const recieveNotification = ({ db }) => async (req, res) => {
  */
 export const removeNotification = ({ db }) => async (req, res) => {
   try {
-    const notification = await db.findOne({ table: Notification, key: { id: req.params.id } });
-    if (!notification) return res.status(404).send({ message: 'Notification not found' });
-    res.status(200).send({ message: 'Deleted Successfully' });
+    const notification = await db.remove({ table: Notification, key: { id: req.params.id } });
+    notification ? res.status(200).send({ message: 'Deleted Successfully', status: true }) : res.status(400).send({ message: 'Notification not found', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };

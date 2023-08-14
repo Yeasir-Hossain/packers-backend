@@ -16,7 +16,7 @@ const supportUpdateAllowed = new Set(['status', 'staff']);
 export const registerSupport = ({ db, ws }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
-    if (!validobj) res.status(400).send('Bad request');
+    if (!validobj) res.status(400).send({ message: 'Bad Request', status: false });
     const supportDoc = {
       user: req.user.id,
       type: req.body.type
@@ -28,14 +28,14 @@ export const registerSupport = ({ db, ws }) => async (req, res) => {
       sender: req.user.id,
     };
     const message = await db.create({ table: Message, key: messageDoc });
-    if (!support) return res.status(400).send('Bad request');
+    if (!support) return res.status(400).send({ message: 'Bad Request', status: false });
     sendNotification(db, ws, [{ 'role': 'staff' }, { 'access': 'support' }], 'There is a new suport request', 'account');
     await sendMessageEvent(ws, support.id, message);
-    return res.status(200).send(support);
+    res.status(200).send(support);
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -49,12 +49,11 @@ export const getAllSupport = ({ db }) => async (req, res) => {
     const support = await db.find({
       table: Support, key: { paginate: false, populate: { path: 'user staff', select: 'fullName email' } }
     });
-    if (!support) return res.status(400).send('Bad request');
-    return res.status(200).send(support);
+    support ? res.status(200).send(support) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -65,7 +64,7 @@ export const getAllSupport = ({ db }) => async (req, res) => {
  */
 export const getSingleSupport = ({ db }) => async (req, res) => {
   try {
-    if (!req.params.id) return res.status(400).send('Bad Request');
+    if (!req.params.id) return res.status(400).send({ message: 'Bad Request', status: false });
     const support = await db.findOne({
       table: Support, key: {
         id: req.params.id, paginate: false, populate: {
@@ -73,12 +72,11 @@ export const getSingleSupport = ({ db }) => async (req, res) => {
         }
       }
     });
-    if (!support) return res.status(400).send('Bad request');
-    return res.status(200).send(support);
+    support ? res.status(200).send(support) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -90,14 +88,13 @@ export const getSingleSupport = ({ db }) => async (req, res) => {
 export const updateSupport = ({ db }) => async (req, res) => {
   try {
     const isValid = Object.keys(req.body).every(k => supportUpdateAllowed.has(k));
-    if (!isValid) return res.status(400).send('Bad request');
+    if (!isValid) return res.status(400).send({ message: 'Bad Request', status: false });
     const support = await db.update({ table: Support, key: { id: req.params.id, body: req.body } });
-    if (!support) return res.status(400).send('Bad request');
-    return res.status(200).send(support);
+    support ? res.status(200).send(support) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -108,7 +105,7 @@ export const updateSupport = ({ db }) => async (req, res) => {
  */
 export const acceptSupport = ({ db, ws }) => async (req, res) => {
   try {
-    if (!req.params.id) return res.status(400).send('Bad Request');
+    if (!req.params.id) return res.status(400).send({ message: 'Bad Request', status: false });
     const support = await db.findOne({ table: Support, key: { id: req.params.id } });
     if (!support || support.staff) return res.status(400).send({ message: 'No room for new staff', status: false });
     support.staff = req.user.id;
@@ -118,7 +115,7 @@ export const acceptSupport = ({ db, ws }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -129,13 +126,12 @@ export const acceptSupport = ({ db, ws }) => async (req, res) => {
  */
 export const removeSupport = ({ db }) => async (req, res) => {
   try {
-    if (!req.body.id.length) return res.send(400).send('Bad Request');
+    if (!req.body.id.length) return res.send(400).send({ message: 'Bad Request', status: false });
     const support = await db.removeAll({ table: Support, key: { id: { $in: req.body.id } } });
-    if (support.deletedCount < 1) return res.status(404).send({ message: 'Coupon not found' });
-    res.status(200).send({ message: 'Deleted Successfully' });
+    support.deletedCount < 1 ? res.status(400).send({ message: 'Coupon not found' }) : res.status(200).send({ message: 'Deleted Successfully', status: true });
   } catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -147,7 +143,7 @@ export const removeSupport = ({ db }) => async (req, res) => {
 export const entry = async ({ data, session }) => {
   try {
     const { entry, room } = data;
-    if (!session.user) throw new Error('Bad Request');
+    if (!session.user) throw new Error({ message: 'Bad Request', status: false });
     if (entry) {
       return session.join(room);
     }

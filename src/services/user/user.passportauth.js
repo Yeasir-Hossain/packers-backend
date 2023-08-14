@@ -11,7 +11,7 @@ export default function ({ settings, db, passport }) {
   }, async (accessToken, refreshToken, profile, done) => {
     const { id, name, picture, email } = profile._json;
     const user = await socialLogin(id, name, picture, email, db);
-    if (!user) return done(null, false, { message: 'Bad Request' });
+    if (!user) return done(null, false, { message: { message: 'Bad Request', status: false } });
     return done(null, user);
   }));
 
@@ -27,7 +27,7 @@ export default function ({ settings, db, passport }) {
      * @param email is now null
      */
     const user = await socialLogin(id, displayName, photos[0].value, email, db);
-    if (!user) return done(null, false, { message: 'Bad Request' });
+    if (!user) return done(null, false, { message: { message: 'Bad Request', status: false } });
     return done(null, user);
   }));
 

@@ -23,7 +23,7 @@ const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', 'status', 
 export const registerOrder = ({ db, sslcz, settings }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
-    if (!validobj) return res.status(400).send('Bad request');
+    if (!validobj) return res.status(400).send({ message: 'Bad Request', status: false });
 
     // Fetch products and requests
     const { products, requests, discountApplied } = req.body;
@@ -72,12 +72,12 @@ export const registerOrder = ({ db, sslcz, settings }) => async (req, res) => {
     let discount = 0;
     if (discountApplied) {
       discount = await db.findOne({ table: Discount, key: { code: discountApplied, paginate: false } });
-      if (!discount) return res.status(404).send({ message: 'Coupon not found' });
+      if (!discount) return res.status(400).send({ message: 'Coupon not found', status: false });
       const currentDate = new Date();
-      if (new Date(discount.expiry_date) < currentDate) return res.status(404).send({ message: 'Coupon expired' });
-      if (discount.limit < discount.usedBy.length) return res.status(404).send({ message: 'Coupon expired' });
+      if (new Date(discount.expiry_date) < currentDate) return res.status(400).send({ message: 'Coupon expired', status: false });
+      if (discount.limit < discount.usedBy.length) return res.status(400).send({ message: 'Coupon expired', status: false });
       const used = discount.usedBy.find((user) => user.user.toString() === req.user.id);
-      if (used) return res.status(404).send({ message: 'Bad request' });
+      if (used) return res.status(400).send({ message: { message: 'Bad Request', status: false } });
       if (discount.percentage) {
         discount = (discountItemsTotal * discount.percentage) / 100;
       } else {
@@ -86,13 +86,13 @@ export const registerOrder = ({ db, sslcz, settings }) => async (req, res) => {
     }
 
     totalPrice = totalPrice + nondiscountItemsTotal - discount;
-    if (isNaN(totalPrice)) return res.status(400).send('Bad request');
+    if (isNaN(totalPrice)) return res.status(400).send({ message: 'Bad Request', status: false });
 
     req.body.user = req.user.id;
     req.body.insideDhaka ? totalPrice += 99 : totalPrice += 150;
 
     const order = await db.create({ table: Orders, key: req.body });
-    if (!order) return res.status(400).send('Bad request');
+    if (!order) return res.status(400).send({ message: 'Bad Request', status: false });
 
     // Generate and send to redirect
     const data = {
@@ -137,7 +137,7 @@ export const registerOrder = ({ db, sslcz, settings }) => async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -164,7 +164,7 @@ export const orderSuccess = ({ db, ws, mail, sslcz, settings }) => async (req, r
           }, populate: { path: 'products.product requests.request' }
         }
       });
-      await db.update({ table: Cart, key: { user: order.user, key: { body: { products: [], requests: [] } } } });
+      await db.update({ table: Cart, key: { user: order.user, body: { products: [], requests: [] } } });
       const emailTemplate = fs.readFileSync(path.join(__dirname, 'templates', 'order.ejs'), 'utf-8');
       const options = {
         order: order,
@@ -180,7 +180,7 @@ export const orderSuccess = ({ db, ws, mail, sslcz, settings }) => async (req, r
       if (!maillog) {
         const currentDate = new Date();
         const logMessage = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}: Email sending failed for order ID ${order.id}: ${maillog?.rejected?.join(',')}\n`;
-        const logStream = fs.createWriteStream(path.join(path.resolve(), 'logs', 'email_log.txt'), { flags: 'a' });
+        const logStream = fs.createWriteStream(path.join(path.resolve(), 'logs', 'order_email_log.txt'), { flags: 'a' });
         logStream.write(logMessage);
         logStream.end();
       }
@@ -192,7 +192,7 @@ export const orderSuccess = ({ db, ws, mail, sslcz, settings }) => async (req, r
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -215,7 +215,7 @@ export const orderFail = ({ db }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -242,7 +242,7 @@ export const refundOrder = ({ db, sslcz }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -271,7 +271,7 @@ export const refundStatus = ({ db, sslcz }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -292,7 +292,7 @@ export const transactionStatus = ({ db, sslcz }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -308,19 +308,18 @@ export const getAllOrders = ({ db }) => async (req, res) => {
     // datewise query={
     //   date= { '$and':{ '$gt': Date, '$lt': Date} }
     // }
-    const orders = await db.find({
+    const order = await db.find({
       table: Orders, key: {
         query: req.query, allowedQuery: allowedQuery, paginate: true, populate: {
           path: 'user products.product requests.request', select: 'fullName email phone address name description origin images quantity price category tags link status'
         }
       }
     });
-    if (!orders) return res.status(400).send('Bad request');
-    return res.status(200).send(orders);
+    order ? res.status(200).send(order) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -338,12 +337,11 @@ export const getSingleOrder = ({ db }) => async (req, res) => {
         }
       }
     });
-    if (!order) return res.status(400).send('Bad request');
-    return res.status(200).send(order);
+    order ? res.status(200).send(order) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -355,12 +353,11 @@ export const getSingleOrder = ({ db }) => async (req, res) => {
 export const getUserOrder = ({ db }) => async (req, res) => {
   try {
     const order = await db.findOne({ table: Orders, key: { user: req.user.id, populate: { path: 'user products.product' } } });
-    if (!order) return res.status(400).send('Bad request');
-    return res.status(200).send(order);
+    order ? res.status(200).send(order) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -372,13 +369,14 @@ export const getUserOrder = ({ db }) => async (req, res) => {
  */
 export const updateOrder = ({ db }) => async (req, res) => {
   try {
+    const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
+    if (!validobj) return res.status(400).send({ message: 'Bad Request', status: false });
     const order = await db.update({ table: Orders, key: { id: req.params.id, body: req.body } });
-    if (!order) return res.status(400).send('Bad request');
-    return res.status(200).send(order);
+    order ? res.status(200).send(order) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -389,12 +387,11 @@ export const updateOrder = ({ db }) => async (req, res) => {
  */
 export const removeOrder = ({ db }) => async (req, res) => {
   try {
-    if (!req.body.id.length) return res.send(400).send('Bad Request');
-    const order = await db.removeAll({ table: Orders, key: { id: { $in: req.body.id } } });
-    if (order.deletedCount < 1) return res.status(404).send({ message: 'Order not found' });
-    res.status(200).send({ message: 'Deleted Successfully' });
+    if (!req.body.id.length) return res.send(400).send({ message: 'Bad Request', status: false });
+    const order = await db.removeAll({ table: Orders, key: { id: { '$in': req.body.id } } });
+    order.deletedCount < 1 ? res.status(400).send({ message: 'Order not found', status: false }) : res.status(200).send({ message: 'Deleted Successfully', status: true });
   } catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };

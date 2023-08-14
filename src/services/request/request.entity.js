@@ -20,7 +20,7 @@ export const registerRequest = ({ db, imageUp }) => async (req, res) => {
   try {
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
     const valid = Object.keys(req.body).every(k => createAllowed.has(k));
-    if (!valid) return res.status(400).send('Bad request');
+    if (!valid) return res.status(400).send({ message: 'Bad Request', status: false });
     if (req.files?.images?.length > 1) {
       for (const image of req.files.images) {
         const img = await imageUp(image.path);
@@ -33,13 +33,12 @@ export const registerRequest = ({ db, imageUp }) => async (req, res) => {
     }
     req.body.user = req.user.id;
     const request = await db.create({ table: Request, key: req.body });
-    if (!request) return res.status(400).send('Bad request');
-    return res.status(200).send(request);
+    request ? res.status(200).send(request) : res.status(400).send({ message: 'Bad Request', status: false });
 
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -53,12 +52,11 @@ export const getAllRequests = ({ db }) => async (req, res) => {
     const request = await db.find({
       table: Request, key: { query: req.query, allowedQuery: allowedQuery, paginate: true, populate: { path: 'user', select: 'fullName email phone address' } }
     });
-    if (!request) return res.status(400).send('Bad request');
-    return res.status(200).send(request);
+    request ? res.status(200).send(request) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -70,12 +68,11 @@ export const getAllRequests = ({ db }) => async (req, res) => {
 export const getSingleRequest = ({ db }) => async (req, res) => {
   try {
     const request = await db.findOne({ table: Request, key: { id: req.params.id } });
-    if (!request) return res.status(400).send('Bad request');
-    return res.status(200).send(request);
+    request ? res.status(200).send(request) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -98,12 +95,11 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
       req.body.images = [await imageUp(req.files.images.path)];
     }
     const request = await db.update({ table: Request, key: { id: id, body: req.body } });
-    if (!request) return res.status(400).send('Bad request');
-    return res.status(200).send(request);
+    request ? res.status(200).send(request) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -151,7 +147,7 @@ export const invoiceRequest = ({ db, mail, settings, ws, imageUp }) => async (re
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -162,20 +158,19 @@ export const invoiceRequest = ({ db, mail, settings, ws, imageUp }) => async (re
  */
 export const removeRequest = ({ db }) => async (req, res) => {
   try {
-    if (!req.body.id.length) return res.status(400).send('Bad Request');
+    if (!req.body.id.length) return res.status(400).send({ message: 'Bad Request', status: false });
     const requestToDelete = await db.find({ table: Request, key: { query: { '_id': { '$in': req.body.id } }, allowedQuery: allowedQuery, paginate: false } });
-    if (requestToDelete.length < 1) return res.status(404).send({ message: 'Product not found' });
+    if (requestToDelete.length < 1) return res.status(400).send({ message: 'Request not found' });
     const imagePathsToDelete = requestToDelete.reduce((acc, product) => {
       acc.push(...product.images);
       return acc;
     }, []);
     await deleteImages(imagePathsToDelete);
-    const deleteResult = await db.removeAll({ table: Request, key: { id: { $in: req.body.id } } });
-    if (deleteResult.deletedCount < 1) return res.status(404).send({ message: 'Product not found' });
-    res.status(200).send({ message: 'Deleted Successfully' });
+    const deleteResult = await db.removeAll({ table: Request, key: { id: { '$in': req.body.id } } });
+    deleteResult.deletedCount < 1 ? res.status(400).send({ message: 'Request not found' }) : res.status(200).send({ message: 'Deleted Successfully', status: true });
   } catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -187,12 +182,12 @@ export const removeRequest = ({ db }) => async (req, res) => {
 export const declineRequest = ({ db }) => async (req, res) => {
   try {
     const request = await db.update({ table: Request, key: { id: req.params, body: { status: 'abandoned' } } });
-    if (!request) return res.status(404).send({ message: 'Request not found' });
-    res.status(200).send({ message: 'Deleted Successfully' });
+    // redirect to front end
+    request ? res.status(200).send({ message: 'Deleted Successfully', status: true }) : res.status(400).send({ message: 'Request not found', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -204,6 +199,7 @@ export const declineRequest = ({ db }) => async (req, res) => {
 export const acceptRequest = ({ db, ws }) => async (req, res) => {
   try {
     const request = await db.update({ table: Request, key: { id: req.params.id, body: { status: 'accepted' } } });
+    // if (!request)  redirect to front end
     const tempbody = {
       request: request.id,
       requestQuantity: request.quantity
@@ -212,6 +208,8 @@ export const acceptRequest = ({ db, ws }) => async (req, res) => {
     if (cart) {
       cart.requests = [...(cart.requests || []), tempbody];
       await cart.save();
+      sendNotification(db, ws, [{ '_id': request.user }], 'Your request status has been updated check your cart', 'cart');
+      // redirect to front end
       res.status(200).send(cart);
     }
     const createcart = {
@@ -219,13 +217,13 @@ export const acceptRequest = ({ db, ws }) => async (req, res) => {
       requests: [tempbody]
     };
     const newcart = await db.create({ table: Cart, key: createcart });
-    if (!newcart) return res.status(404).send({ message: 'Bad Request' });
+    if (!newcart) return res.status(400).send({ message: { message: 'Bad Request', status: false } });
     sendNotification(db, ws, [{ '_id': request.user }], 'Your request status has been updated check your cart', 'cart');
     // redirect to front end
     res.status(200).send(request);
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };

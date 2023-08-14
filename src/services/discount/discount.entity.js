@@ -8,14 +8,13 @@ import Discount from './discount.schema';
 export const registerDiscount = ({ db }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
-    if (!validobj) res.status(400).send('Bad request');
+    if (!validobj) res.status(400).send({ message: 'Bad Request', status: false });
     const discount = await db.create({ table: Discount, key: req.body });
-    if (!discount) return res.status(400).send('Bad request');
-    return res.status(200).send(discount);
+    discount ? res.status(200).send(discount) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -27,12 +26,11 @@ export const registerDiscount = ({ db }) => async (req, res) => {
 export const getAllDiscount = ({ db }) => async (req, res) => {
   try {
     const discount = await db.find({ table: Discount, key: { paginate: false, populate: { path: 'category usedBy.user' } } });
-    if (!discount) return res.status(400).send('Bad request');
-    return res.status(200).send(discount);
+    discount ? res.status(200).send(discount) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -43,13 +41,12 @@ export const getAllDiscount = ({ db }) => async (req, res) => {
  */
 export const removeDiscount = ({ db }) => async (req, res) => {
   try {
-    if (!req.body.id.length) return res.send(400).send('Bad Request');
+    if (!req.body.id.length) return res.send(400).send({ message: 'Bad Request', status: false });
     const discount = await db.removeAll({ table: Discount, key: { id: { $in: req.body.id } } });
-    if (discount.deletedCount < 1) return res.status(404).send({ message: 'Coupon not found' });
-    res.status(200).send({ message: 'Deleted Successfully' });
+    discount.deletedCount < 1 ? res.status(400).send({ message: 'Coupon not found', status: false }) : res.status(200).send({ message: 'Deleted Successfully', status: true });
   } catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -60,20 +57,18 @@ export const removeDiscount = ({ db }) => async (req, res) => {
  */
 export const useDiscount = ({ db }) => async (req, res) => {
   try {
-    const { code } = req.query;
-    const discount = await db.findOne({ table: Discount, key: { code: code, paginate: false } });
-    if (!discount) return res.status(404).send({ message: 'Coupon not found' });
-    if (new Date(discount.expiry_date) < new Date()) return res.status(404).send({ message: 'Coupon expired' });
-    if (discount.limit < discount.usedBy.length) return res.status(404).send({ message: 'Coupon expired' });
+    const discount = await db.findOne({ table: Discount, key: { code: req.query.code, paginate: false } });
+    if (!discount) return res.status(400).send({ message: 'Coupon not found', success: false });
+    if (new Date(discount.expiry_date) < new Date()) return res.status(400).send({ message: 'Coupon expired', success: false });
+    if (discount.limit < discount.usedBy.length) return res.status(400).send({ message: 'Coupon expired', success: false });
     const used = discount.usedBy.find(user => { return user.user.toString() === req.user.id; });
-    if (used) return res.status(404).send({ message: 'Bad request' });
+    if (used) return res.status(400).send({ message: 'You have previously used this discount', success: false });
     discount.usedBy.push({ user: req.user.id });
     discount.save();
-    if (discount.amount) return res.status(200).send({ amount: discount.amount });
-    res.status(200).send({ percentage: discount.percentage });
+    discount.amount ? res.status(200).send({ amount: discount.amount, success: true }) : res.status(200).send({ percentage: discount.percentage, success: true });
   } catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -84,14 +79,13 @@ export const useDiscount = ({ db }) => async (req, res) => {
  */
 export const abandonDiscount = ({ db }) => async (req, res) => {
   try {
-    const { code } = req.query;
-    const discount = await db.findOne({ table: Discount, key: { code: code, paginate: false } });
+    const discount = await db.findOne({ table: Discount, key: { code: req.query.code, paginate: false } });
     const newUsedBy = discount.usedBy.filter((user) => { return user.user.toString() !== req.user.id; });
     discount.usedBy = newUsedBy;
     discount.save();
     return res.status(200).send({ success: true, message: 'Coupon removed' });
   } catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };

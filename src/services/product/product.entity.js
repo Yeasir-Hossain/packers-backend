@@ -12,7 +12,7 @@ const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'sort', 
 export const registerProduct = ({ db, imageUp }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined) || Object.keys(req.body.data).every((k) => req.body.data[k] !== '' || req.body.data[k] !== undefined);
-    if (!validobj) res.status(400).send('Bad request');
+    if (!validobj) res.status(400).send({ message: 'Bad Request', status: false });
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
     if (req.files?.images?.length > 1) {
       for (const image of req.files.images) {
@@ -25,12 +25,12 @@ export const registerProduct = ({ db, imageUp }) => async (req, res) => {
       req.body.images = [img];
     }
     const product = await db.create({ table: Products, key: req.body });
-    if (!product) return res.status(400).send('Bad request');
-    return res.status(200).send(product);
+
+    product ? res.status(200).send(product) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -41,13 +41,12 @@ export const registerProduct = ({ db, imageUp }) => async (req, res) => {
  */
 export const getAllProducts = ({ db }) => async (req, res) => {
   try {
-    const products = await db.find({ table: Products, key: { query: req.query, allowedQuery: allowedQuery, populate: { path: 'category subcategory' } } });
-    if (!products) return res.status(400).send('Bad request');
-    return res.status(200).send(products);
+    const product = await db.find({ table: Products, key: { query: req.query, allowedQuery: allowedQuery, populate: { path: 'category subcategory' } } });
+    product ? res.status(200).send(product) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -59,12 +58,11 @@ export const getAllProducts = ({ db }) => async (req, res) => {
 export const getSingleProduct = ({ db }) => async (req, res) => {
   try {
     const product = await db.findOne({ table: Products, key: { id: req.params.id, populate: { path: 'category' } } });
-    if (!product) return res.status(400).send('Bad request');
-    return res.status(200).send(product);
+    product ? res.status(200).send(product) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -75,7 +73,6 @@ export const getSingleProduct = ({ db }) => async (req, res) => {
  */
 export const updateProduct = ({ db, imageUp }) => async (req, res) => {
   try {
-    const { id } = req.params;
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
     if (req.files?.images?.length > 1) {
       for (const image of req.files.images) {
@@ -83,17 +80,15 @@ export const updateProduct = ({ db, imageUp }) => async (req, res) => {
         req.body.images = [...(req.body.images || []), img];
       }
     }
-    else if (req.files?.images) {
-      const img = await imageUp(req.files.images.path);
-      req.body.images = [img];
+    else if (req?.files?.images) {
+      req.body.images = [await imageUp(req.files.images.path)];
     }
-    const product = await db.update({ table: Products, key: { id: id, body: req.body } });
-    if (!product) return res.status(400).send('Bad request');
-    return res.status(200).send(product);
+    const product = await db.update({ table: Products, key: { id: req.params.id, body: req.body } });
+    product ? res.status(200).send(product) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -104,19 +99,18 @@ export const updateProduct = ({ db, imageUp }) => async (req, res) => {
  */
 export const removeProduct = ({ db }) => async (req, res) => {
   try {
-    if (!req.body.id.length) return res.status(400).send('Bad Request');
+    if (!req.body.id.length) return res.status(400).send({ message: 'Bad Request', status: false });
     const productsToDelete = await db.find({ table: Products, key: { query: { '_id': { '$in': req.body.id } }, allowedQuery: allowedQuery, paginate: false } });
-    if (productsToDelete.length < 1) return res.status(404).send({ message: 'Product not found' });
+    if (productsToDelete.length < 1) return res.status(400).send({ message: 'Product not found', status: false });
     const imagePathsToDelete = productsToDelete.reduce((acc, product) => {
       acc.push(...product.images);
       return acc;
     }, []);
     await deleteImages(imagePathsToDelete);
-    const deleteResult = await db.removeAll({ table: Products, key: { id: { $in: req.body.id } } });
-    if (deleteResult.deletedCount < 1) return res.status(404).send({ message: 'Product not found' });
-    res.status(200).send({ message: 'Deleted Successfully' });
+    const deleteResult = await db.removeAll({ table: Products, key: { id: { '$in': req.body.id } } });
+    deleteResult.deletedCount < 1 ? res.status(400).send({ message: 'Product not found', status: false }) : res.status(200).send({ message: 'Deleted Successfully', status: true });
   } catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };

@@ -20,14 +20,14 @@ const ownUpdateAllowed = new Set(['fullName', 'phone', 'avatar', 'passwordChange
 export const register = ({ db }) => async (req, res) => {
   try {
     const valid = Object.keys(req.body).every(k => createAllowed.has(k));
-    if (!valid) return res.status(400).send('Bad request');
+    if (!valid) return res.status(400).send({ message: 'Bad Request', status: false });
     req.body.password = await bcrypt.hash(req.body.password, 8);
     const user = await db.create({ table: User, key: { ...req.body } });
-    user ? res.status(200).send(user) : res.status(400).send('Bad request');
+    user ? res.status(200).send(user) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (e) {
     console.log(e);
-    res.status(500).send('Something went wrong.');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -43,15 +43,14 @@ export const register = ({ db }) => async (req, res) => {
 export const registerStaff = ({ db }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
-    if (!validobj) res.status(400).send('Bad request');
+    if (!validobj) res.status(400).send({ message: 'Bad Request', status: false });
     req.body.password = await bcrypt.hash(req.body.password, 8);
-    const staff = await db.create({ table: User, key: { ...req.body } });
-    if (!staff) return res.status(400).send('Bad request');
-    res.status(200).send(staff);
+    const staff = await db.create({ table: User, key: req.body });
+    staff ? res.status(200).send(staff) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (e) {
     console.log(e);
-    res.status(500).send('Something went wrong.');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -82,7 +81,7 @@ export const login = ({ db, settings }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -94,7 +93,7 @@ export const login = ({ db, settings }) => async (req, res) => {
  */
 export const socialSuccess = ({ settings }) => async (req, res) => {
   try {
-    if (!req.user && !req.cookies[settings.secret]) return res.status(400).send('Bad request');
+    if (!req.user && !req.cookies[settings.secret]) return res.status(400).send({ message: 'Bad Request', status: false });
     if (req.user) {
       const token = jwt.sign({ id: req.user.id }, settings.secret);
       res.cookie(settings.secret, token, {
@@ -113,7 +112,7 @@ export const socialSuccess = ({ settings }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -130,7 +129,7 @@ export const me = () => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -156,7 +155,7 @@ export const logout = ({ settings }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -174,7 +173,7 @@ export const getAll = ({ db }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -188,18 +187,17 @@ export const getAll = ({ db }) => async (req, res) => {
 export const userProfile = ({ db }) => async (req, res) => {
   try {
     const user = await db.findOne({ table: User, key: { id: req.params.id, } });
-    if (!user) return res.status(404).send('No result found');
-    res.status(200).send(user);
+    user ? res.status(200).send(user) : res.status(400).send('No result found');
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
 
 const setPassword = async ({ oldPass, newPass, user }) => {
-  if (!oldPass || !newPass) throw ({ status: 400, reason: 'bad request' });
+  if (!oldPass || !newPass) throw ({ status: 400, reason: { message: 'Bad Request', status: false } });
   if (oldPass) {
     const isValid = await bcrypt.compare(oldPass, user.password);
     if (!isValid) throw ({ status: 401, reason: 'Invalid old Password' });
@@ -220,7 +218,7 @@ export const updateOwn = ({ db, imageUp }) => async (req, res) => {
       req.body.avatar = await imageUp(req.files?.avatar.path);
     }
     const isValid = Object.keys(req.body).every(k => ownUpdateAllowed.has(k));
-    if (!isValid) return res.status(400).send('Bad request');
+    if (!isValid) return res.status(400).send({ message: 'Bad Request', status: false });
     if (req.body.passwordChange) {
       req.body.password = await setPassword({ oldPass: req.body.passwordChange.oldPass, newPass: req.body.passwordChange.newPass, user: req.user });
       delete req.body.passwordChange;
@@ -231,7 +229,7 @@ export const updateOwn = ({ db, imageUp }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(err.status || 500).send(err.reason || 'Something went wrong');
+    res.status(err.status || 500).send(err.reason || { message: 'Something went wrong', status: false });
   }
 };
 
@@ -249,7 +247,7 @@ export const updateUser = ({ db, imageUp }) => async (req, res) => {
       req.body.avatar = await imageUp(req.files?.avatar.path);
     }
     const user = await db.findOne({ table: User, key: { id: req.params.id } });
-    if (!user) return res.status(400).send('Bad request');
+    if (!user) return res.status(400).send({ message: 'Bad Request', status: false });
     if (req.body.password) req.body.password = await bcrypt.hash(req.body.password, 8);
     Object.keys(req.body).forEach(k => (user[k] = req.body[k]));
     await db.save(user);
@@ -257,7 +255,7 @@ export const updateUser = ({ db, imageUp }) => async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.status(err.status || 500).send(err.reason || 'Something went wrong');
+    res.status(err.status || 500).send(err.reason || { message: 'Something went wrong', status: false });
   }
 };
 
@@ -266,12 +264,12 @@ export const remove = ({ db }) => async (req, res) => {
   try {
     const { id } = req.params;
     const user = await db.remove({ table: User, key: { id } });
-    if (!user) return res.status(404).send({ message: 'User not found' });
-    res.status(200).send({ message: 'Deleted Successfully' });
+    if (!user) return res.status(400).send({ message: 'User not found' });
+    res.status(200).send({ message: 'Deleted Successfully', status: true });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send({ message: 'Something went wrong' });
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -284,19 +282,19 @@ export const remove = ({ db }) => async (req, res) => {
 export const sendOTP = ({ db, mail }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
-    if (!validobj) return res.status(400).send('Bad request');
+    if (!validobj) return res.status(400).send({ message: 'Bad Request', status: false });
     const { email } = req.body;
     const user = await db.findOne({ table: User, key: { email } });
-    if (!user) res.status(404).send({ message: 'User not found' });
+    if (!user) res.status(400).send({ message: 'User not found' });
     var otp = Math.floor(1000 + Math.random() * 9000);
     const sendmail = await mail({ receiver: email, subject: 'OTP', body: otp + '', type: 'text' });
-    if (!sendmail) return res.status(400).send('Bad request');
+    if (!sendmail) return res.status(400).send({ message: 'Bad Request', status: false });
     const token = await bcrypt.hash(otp.toString(), 8);
     res.status(200).send({ token: token, id: user.id });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -310,18 +308,18 @@ export const sendOTP = ({ db, mail }) => async (req, res) => {
 export const verifyOTP = () => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
-    if (!validobj) return res.status(400).send('Bad request');
+    if (!validobj) return res.status(400).send({ message: 'Bad Request', status: false });
     const { otp, token, time } = req.body;
     const fiveMin = 1000 * 60 * 5;
     const isValid = await bcrypt.compare(otp, token);
     if (!isValid) return res.status(401).send('Wrong OTP');
     const isValidTime = new Date() - time < fiveMin;
     if (!isValidTime) return res.status(401).send('Time Expired');
-    res.status(200).send({ success: true });
+    res.status(200).send({ status: true });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
 
@@ -335,7 +333,7 @@ export const verifyOTP = () => async (req, res) => {
 export const resetpassword = ({ db }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
-    if (!validobj) return res.status(400).send('Bad request');
+    if (!validobj) return res.status(400).send({ message: 'Bad Request', status: false });
     const { id, newpassword, otp, token, time } = req.body;
     const sevenMin = 1000 * 60 * 7;
     const isValid = await bcrypt.compare(otp, token);
@@ -343,10 +341,10 @@ export const resetpassword = ({ db }) => async (req, res) => {
     if (!isValidTime || !isValid) return res.status(401).send('Time Expired');
     const password = await bcrypt.hash(newpassword, 8);
     await db.update({ table: User, key: { id: id, body: { password } } });
-    res.status(200).send({ success: true });
+    res.status(200).send({ status: true });
   }
   catch (err) {
     console.log(err);
-    res.status(500).send('Something went wrong');
+    res.status(500).send({ message: 'Something went wrong', status: false });
   }
 };
