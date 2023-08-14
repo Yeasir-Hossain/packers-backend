@@ -28,8 +28,7 @@ export const registerRequest = ({ db, imageUp }) => async (req, res) => {
       }
     }
     else if (req.files?.images) {
-      const img = await imageUp(req.files.images.path);
-      req.body.images = [img];
+      req.body.images = [await imageUp(req.files.images.path)];
     }
     req.body.user = req.user.id;
     const request = await db.create({ table: Request, key: req.body });
@@ -110,7 +109,6 @@ export const updateRequest = ({ db, imageUp }) => async (req, res) => {
  */
 export const invoiceRequest = ({ db, mail, settings, ws, imageUp }) => async (req, res) => {
   try {
-    const { id } = req.params;
     if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
     if (req.files?.images?.length > 1) {
       for (const image of req.files.images) {
@@ -121,7 +119,7 @@ export const invoiceRequest = ({ db, mail, settings, ws, imageUp }) => async (re
     else if (req.files?.images) {
       req.body.images = [await imageUp(req.files.images.path)];
     }
-    const request = await db.update({ table: Request, key: { id: id, body: req.body, populate: { path: 'user', select: 'email' } } });
+    const request = await db.update({ table: Request, key: { id: req.params.id, body: req.body, populate: { path: 'user', select: 'email' } } });
     request.status = 'sent';
     await request.save();
     const emailTemplate = fs.readFileSync(path.join(__dirname, 'templates', 'request.ejs'), 'utf-8');

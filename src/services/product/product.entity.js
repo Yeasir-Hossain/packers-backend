@@ -21,11 +21,9 @@ export const registerProduct = ({ db, imageUp }) => async (req, res) => {
       }
     }
     else if (req.files?.images) {
-      const img = await imageUp(req.files.images.path);
-      req.body.images = [img];
+      req.body.images = [await imageUp(req.files.images.path)];
     }
     const product = await db.create({ table: Products, key: req.body });
-
     product ? res.status(200).send(product) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
