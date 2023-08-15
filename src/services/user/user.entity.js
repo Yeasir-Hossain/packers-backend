@@ -285,7 +285,7 @@ export const sendOTP = ({ db, mail }) => async (req, res) => {
     if (!validobj) return res.status(400).send({ message: 'Bad Request', status: false });
     const { email } = req.body;
     const user = await db.findOne({ table: User, key: { email } });
-    if (!user) res.status(400).send({ message: 'User not found' });
+    if (!user) return res.status(400).send({ message: 'User not found', status: false });
     var otp = Math.floor(1000 + Math.random() * 9000);
     const sendmail = await mail({ receiver: email, subject: 'OTP', body: otp + '', type: 'text' });
     if (!sendmail) return res.status(400).send({ message: 'Bad Request', status: false });
@@ -312,9 +312,11 @@ export const verifyOTP = () => async (req, res) => {
     const { otp, token, time } = req.body;
     const fiveMin = 1000 * 60 * 5;
     const isValid = await bcrypt.compare(otp, token);
-    if (!isValid) return res.status(401).send('Wrong OTP');
-    const isValidTime = new Date() - time < fiveMin;
-    if (!isValidTime) return res.status(401).send('Time Expired');
+    console.log(Date.now(), time);
+    console.log(Date.now() - time);
+    if (!isValid) return res.status(400).send({ message: 'Wrong OTP', status: false });
+    const isValidTime = Date.now() - time < fiveMin;
+    if (!isValidTime) return res.status(400).send({ message: 'Time Expired', status: false });
     res.status(200).send({ status: true });
   }
   catch (err) {
@@ -337,7 +339,7 @@ export const resetpassword = ({ db }) => async (req, res) => {
     const { id, newpassword, otp, token, time } = req.body;
     const sevenMin = 1000 * 60 * 7;
     const isValid = await bcrypt.compare(otp, token);
-    const isValidTime = new Date() - time < sevenMin;
+    const isValidTime = new Date(Date.now()) - time < sevenMin;
     if (!isValidTime || !isValid) return res.status(401).send('Time Expired');
     const password = await bcrypt.hash(newpassword, 8);
     await db.update({ table: User, key: { id: id, body: { password } } });

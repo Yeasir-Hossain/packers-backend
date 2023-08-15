@@ -8,7 +8,7 @@ const schema = new Schema({
   password: { type: String },
   avatar: { type: String },
   role: { type: String, enum: ['super-admin', 'admin', 'staff', 'user'], default: 'user' },
-  access: { type: String, enum: ['support', 'product', 'order', 'request'] },
+  access: [{ type: String, enum: ['support', 'product', 'order', 'request'] }],
   phone: { type: String },
   address: { type: String },
 }, { timestamps: true });
