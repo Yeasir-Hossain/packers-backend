@@ -6,6 +6,7 @@ const schema = new Schema({
   usedBy: [{ user: { type: Schema.Types.ObjectId, ref: 'User' } }],
   category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
   subcategory: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+  description: { rtpe: String },
   amount: { type: Number },
   percentage: { type: String },
   expiry_date: { type: Date, required: true },

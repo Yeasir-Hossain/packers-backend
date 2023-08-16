@@ -8,13 +8,15 @@ import Cart from './cart.schema';
 export const userCart = ({ db }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
-    if (!validobj) res.status(400).send({ message: 'Bad Request', status: false });
+    if (!validobj) return res.status(400).send({ message: 'Bad Request', status: false });
+    console.log(req.body);
     const previousCart = await db.findOne({ table: Cart, key: { user: req.user.id, paginate: false } });
     if (previousCart) {
       if (req.body.products) {
         for (const product of req.body.products) {
           const itemIndex = previousCart.products.findIndex((item) => item.product == product.product);
           if (itemIndex > -1) {
+            if (previousCart.products[itemIndex].productQuantity === product.productQuantity) return res.status(400).send({ message: 'Item already added', status: false });
             product.productQuantity < 1 ? previousCart.products.splice(itemIndex, 1) : previousCart.products[itemIndex].productQuantity = product.productQuantity;
           }
           else {
