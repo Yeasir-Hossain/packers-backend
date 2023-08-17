@@ -1,5 +1,5 @@
 import { auth } from '../middlewares';
-import { getUserCart, userCart } from './cart.entity';
+import { addDiscount, getUserCart, registerCart } from './cart.entity';
 
 export default function cart() {
 
@@ -8,7 +8,7 @@ export default function cart() {
    * @description this route is insert items into.
    * @response the cart.
    */
-  this.route.post('/cart', auth, userCart(this));
+  this.route.post('/cart', auth, registerCart(this));
 
   /**
    * GET /cart
@@ -17,4 +17,10 @@ export default function cart() {
    */
   this.route.get('/cart', auth, getUserCart(this));
 
+  /**
+   * PATCH /cartdiscount
+   * @description this route is used to add discount to cart
+   * @response the user cart.
+   */
+  this.route.patch('/cartdiscount', auth, addDiscount(this));
 }

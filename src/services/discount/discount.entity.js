@@ -58,14 +58,15 @@ export const removeDiscount = ({ db }) => async (req, res) => {
 export const useDiscount = ({ db }) => async (req, res) => {
   try {
     const discount = await db.findOne({ table: Discount, key: { code: req.query.code, paginate: false } });
-    if (!discount) return res.status(400).send({ message: 'Coupon not found', success: false });
-    if (new Date(discount.expiry_date) < new Date()) return res.status(400).send({ message: 'Coupon expired', success: false });
-    if (discount.limit < discount.usedBy.length) return res.status(400).send({ message: 'Coupon expired', success: false });
-    const used = discount.usedBy.find(user => { return user.user.toString() === req.user.id; });
-    if (used) return res.status(400).send({ message: 'You have previously used this discount', success: false });
+    if (!discount) return res.status(400).send({ message: 'Coupon not found', status: false });
+    // if (new Date(discount.expiry_date) < new Date()) return res.status(400).send({ message: 'Coupon expired', status: false });
+    // if (discount.limit < discount.usedBy.length) return res.status(400).send({ message: 'Coupon expired', status: false });
+    // const used = discount.usedBy.find(user => { return user.user.toString() === req.user.id; });
+    // if (used) return res.status(400).send({ message: 'You have previously used this discount', status: false });
     discount.usedBy.push({ user: req.user.id });
+    discount.limit -= 1;
     discount.save();
-    discount.amount ? res.status(200).send({ amount: discount.amount, success: true }) : res.status(200).send({ percentage: discount.percentage, success: true });
+    discount.amount ? res.status(200).send({ code: discount.code, amount: discount.amount }) : res.status(200).send({ code: discount.code, percentage: discount.percentage });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: 'Something went wrong', status: false });
@@ -82,8 +83,9 @@ export const abandonDiscount = ({ db }) => async (req, res) => {
     const discount = await db.findOne({ table: Discount, key: { code: req.query.code, paginate: false } });
     const newUsedBy = discount.usedBy.filter((user) => { return user.user.toString() !== req.user.id; });
     discount.usedBy = newUsedBy;
+    discount.limit += 1;
     discount.save();
-    return res.status(200).send({ success: true, message: 'Coupon removed' });
+    res.status(200).send({ success: true, message: 'Coupon removed' });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: 'Something went wrong', status: false });

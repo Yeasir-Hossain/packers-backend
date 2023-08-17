@@ -14,7 +14,12 @@ const schema = new Schema({
       type: Schema.Types.ObjectId, ref: 'Request'
     },
     requestQuantity: { type: Number },
-  }]
+  }],
+  discountApplied: {
+    amount: { type: String },
+    percentage: { type: String },
+    code: { type: String }
+  },
 });
 
 schema.plugin(paginate);

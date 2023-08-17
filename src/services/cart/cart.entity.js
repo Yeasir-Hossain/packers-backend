@@ -5,11 +5,10 @@ import Cart from './cart.schema';
  * @param {Object} req This is the req object.
  * @returns the cart
  */
-export const userCart = ({ db }) => async (req, res) => {
+export const registerCart = ({ db }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) return res.status(400).send({ message: 'Bad Request', status: false });
-    console.log(req.body);
     const previousCart = await db.findOne({ table: Cart, key: { user: req.user.id, paginate: false } });
     if (previousCart) {
       if (req.body.products) {
@@ -56,6 +55,23 @@ export const userCart = ({ db }) => async (req, res) => {
 export const getUserCart = ({ db }) => async (req, res) => {
   try {
     const cart = await db.findOne({ table: Cart, key: { user: req.user.id, paginate: false, populate: { path: 'products.product requests.request' } } });
+    cart ? res.status(200).send(cart) : res.status(400).send({ message: 'Bad Request', status: false });
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send({ message: 'Something went wrong', status: false });
+  }
+};
+
+
+/**
+ * @param addDiscount function is used to get user cart
+ * @param {Object} req This is the req object.
+ * @returns the cart
+ */
+export const addDiscount = ({ db }) => async (req, res) => {
+  try {
+    const cart = await db.update({ table: Cart, key: { user: req.user.id, body: req.body } });
     cart ? res.status(200).send(cart) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {

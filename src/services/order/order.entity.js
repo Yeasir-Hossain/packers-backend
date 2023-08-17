@@ -24,6 +24,8 @@ export const registerOrder = ({ db, sslcz, settings }) => async (req, res) => {
   try {
     const validobj = Object.keys(req.body).every((k) => req.body[k] !== '' || req.body[k] !== undefined);
     if (!validobj) return res.status(400).send({ message: 'Bad Request', status: false });
+    const cart = await db.findOne({ table: Cart, key: { user: req.user.id, body: req.body } });
+    req.body = { ...req.body, products: cart.products, requests: cart.requests, discountApplied: cart.discountApplied.code };
 
     // Fetch products and requests
     const { products, requests, discountApplied } = req.body;
