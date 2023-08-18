@@ -186,10 +186,9 @@ export const orderSuccess = ({ db, ws, mail, sslcz, settings }) => async (req, r
         logStream.write(logMessage);
         logStream.end();
       }
-      // if (req.body.val_id) {
-      //   res.redirect('http://localhost:5173');
-      // }
-      res.status(200).send(order);
+      if (req.body.val_id) {
+        res.redirect(process.env.frontendURL + 'home/checkout?order=success?orderid=' + order.id);
+      }
     });
   }
   catch (err) {

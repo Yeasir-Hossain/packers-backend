@@ -1,5 +1,5 @@
 import { auth, checkAccess } from '../middlewares';
-import { getAllCategory, registerCategory, removeCategory } from './category.entity';
+import { getAllCategory, registerCategory, removeCategory, updateCategory } from './category.entity';
 
 export default function category() {
   /**
@@ -15,6 +15,13 @@ export default function category() {
    * @response all the categories.
    */
   this.route.get('/category', auth, getAllCategory(this));
+
+  /**
+   * PATHC /category
+   * @description this route is used to get all category.
+   * @response all the categories.
+   */
+  this.route.patch('/category', auth, updateCategory(this));
 
   /**
  * GET /deletecategory

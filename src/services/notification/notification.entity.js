@@ -1,6 +1,9 @@
 import Notification from './notification.schema';
 
 
+// these are the set to validate the query.
+const allowedQuery = new Set(['user']);
+
 /**
  * @param recieveNotification function is used to recieve all the notifications of the user
  * @param {Object} req This is the req object.
@@ -8,7 +11,7 @@ import Notification from './notification.schema';
  */
 export const recieveNotification = ({ db }) => async (req, res) => {
   try {
-    const notification = await db.findOne({ table: Notification, key: { user: req.user.id } });
+    const notification = await db.find({ table: Notification, key: { query: { user: req.user.id }, allowedQuery: allowedQuery, paginate: false } });
     notification ? res.status(200).send(notification) : res.status(400).send({ message: 'No Notifications Found', status: false });
   }
   catch (err) {
