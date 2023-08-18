@@ -7,7 +7,7 @@ import path from 'path';
 import { sendNotification } from '../notification/notification.function';
 
 // these are the set to validate the request body or query.
-const createAllowed = new Set(['name', 'link', 'note', 'quantity']);
+const createAllowed = new Set(['name', 'link', 'note', 'quantity', 'images']);
 const allowedQuery = new Set(['page', 'limit', 'id', '_id', 'paginate', 'status', 'date', 'requestNumber']);
 
 /**
@@ -208,7 +208,7 @@ export const acceptRequest = ({ db, ws }) => async (req, res) => {
       await cart.save();
       sendNotification(db, ws, [{ '_id': request.user }], 'Your request status has been updated check your cart', 'cart');
       // redirect to front end
-      res.status(200).send(cart);
+      return res.status(200).send(cart);
     }
     const createcart = {
       user: request.user,

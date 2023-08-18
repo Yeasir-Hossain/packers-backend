@@ -1,5 +1,6 @@
 import { auth } from '../middlewares';
 import { recieveNotification, removeNotification } from './notification.entity';
+import { sendNotification } from './notification.function';
 
 
 export default function notification() {
@@ -9,7 +10,9 @@ export default function notification() {
    * @response the notification.
    */
   this.route.get('/notification', auth, recieveNotification(this));
-  // this.route.get('/moja', auth, sendNotification(this.db, this.ws, [{ id: { $in: ['64b4cbcbbb769ae707dbfb52'] } }, { role: 'admin' }], 'Hello its moja', 'cart'));
+  this.route.get('/moja', auth, async () => {
+    sendNotification(this.db, this.ws, [{ id: { $in: ['64b4cbc2bb769ae707dbfb4f'] } }], 'Hello its moja22', 'cart');
+  });
 
   /**
  * POST /notification/:id
