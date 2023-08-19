@@ -151,7 +151,7 @@ export const logout = ({ settings }) => async (req, res) => {
       expires: new Date(Date.now())
     });
     if (req.session) { req.session.destroy(); }
-    return res.status(200).send({ message: 'Logout successful', status: false });
+    return res.status(200).send({ message: 'Logout successful', status: true });
   }
   catch (err) {
     console.log(err);

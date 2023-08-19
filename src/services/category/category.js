@@ -17,11 +17,11 @@ export default function category() {
   this.route.get('/category', auth, getAllCategory(this));
 
   /**
-   * PATHC /category
+   * PATCH /category
    * @description this route is used to get all category.
    * @response all the categories.
    */
-  this.route.patch('/category', auth, updateCategory(this));
+  this.route.patch('/category/:id', auth, updateCategory(this));
 
   /**
  * GET /deletecategory

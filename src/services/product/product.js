@@ -15,7 +15,7 @@ export default function product() {
    * @description this route is used to get all products.
    * @response all the products.
    */
-  this.route.get('/products', auth, getAllProducts(this));
+  this.route.get('/products', getAllProducts(this));
 
   /**
    * GET /products/:id

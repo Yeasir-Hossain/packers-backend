@@ -67,7 +67,7 @@ export const getAllCategory = ({ db }) => async (req, res) => {
 export const updateCategory = ({ db }) => async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).send({ message: 'Bad Request', status: false });
-    const category = await db.update({ table: Category, key: { id: req.param.id, body: req.body } });
+    const category = await db.update({ table: Category, key: { id: req.params.id, body: req.body } });
     category ? res.status(200).send(category) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
