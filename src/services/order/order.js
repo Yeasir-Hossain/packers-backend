@@ -1,5 +1,5 @@
 import { auth, checkAccess, checkRole } from '../middlewares';
-import { getAllOrders, getSingleOrder, getUserOrder, orderFail, orderSuccess, refundOrder, refundStatus, registerOrder, removeOrder, transactionStatus, updateOrder } from './order.entity';
+import { getAllOrders, getCustomer, getSingleOrder, getUserOrder, orderFail, orderSuccess, refundOrder, refundStatus, registerOrder, removeOrder, transactionStatus, updateOrder } from './order.entity';
 
 export default function order() {
 
@@ -47,6 +47,13 @@ export default function order() {
   this.route.get('/order', auth, getAllOrders(this));
 
   /**
+ * GET /userorder/:id
+ * @description this route is used to get order of a user.
+ * @response all the orders user is looking for.
+ */
+  this.route.get('/userorder/me', auth, getUserOrder(this));
+
+  /**
    * GET /order/:id
    * @description this route is used to get a single order.
    * @response the order that the user is looking for.
@@ -54,18 +61,18 @@ export default function order() {
   this.route.get('/order/:id', auth, getSingleOrder(this));
 
   /**
-   * GET /userorder/:id
-   * @description this route is used to get order of a user.
-   * @response all the orders user is looking for.
-   */
-  this.route.get('/userorder/me', auth, getUserOrder(this));
-
-  /**
    * PATCH /order/:id
    * @response the order that has been updated.
    * @description this route is used to update a single order.
    */
   this.route.patch('/order/:id', auth, checkAccess('staff', 'order'), updateOrder(this));
+
+  /**
+   * GET /getcustomer
+   * @response the order that has been updated.
+   * @description this route is used to update a single order.
+   */
+  this.route.get('/getcustomer', auth, checkRole('admin', 'super-admin'), getCustomer(this));
 
   /**
    * DELETE /deleteorder/:id

@@ -213,8 +213,8 @@ const setPassword = async ({ oldPass, newPass, user }) => {
  */
 export const updateOwn = ({ db, imageUp }) => async (req, res) => {
   try {
+    if (req.body.data) req.body = JSON.parse(req.body.data || '{}');
     if (req.files?.avatar?.path) {
-      req.body = JSON.parse(req.body.data || '{}');
       req.body.avatar = await imageUp(req.files?.avatar.path);
     }
     const isValid = Object.keys(req.body).every(k => ownUpdateAllowed.has(k));

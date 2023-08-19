@@ -3,13 +3,14 @@ import Products from '../product/product.schema';
 import Request from '../request/request.schema';
 import Discount from '../discount/discount.schema';
 import Cart from '../cart/cart.schema';
+import User from '../user/user.schema';
 import Orders from './order.schema';
 import fs from 'fs';
 import path from 'path';
 import { sendNotification } from '../notification/notification.function';
 
 //   these are the set to validate the request query.
-const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', 'status', 'date', '_id', 'id']);
+const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', 'status', 'date', '_id', 'id', 'user']);
 
 /**
  * This function is for payment through ssl commerz
@@ -187,7 +188,7 @@ export const orderSuccess = ({ db, ws, mail, sslcz, settings }) => async (req, r
         logStream.end();
       }
       if (req.body.val_id) {
-        res.redirect(process.env.frontendURL + 'home/checkout?order=success?orderid=' + order.id);
+        res.redirect(settings.frontendURL + 'home/checkout?order=success?orderid=' + order.id);
       }
     });
   }
@@ -353,7 +354,7 @@ export const getSingleOrder = ({ db }) => async (req, res) => {
  */
 export const getUserOrder = ({ db }) => async (req, res) => {
   try {
-    const order = await db.findOne({ table: Orders, key: { user: req.user.id, populate: { path: 'user products.product' } } });
+    const order = await db.find({ table: Orders, key: { query: { ...req.query, user: req.user.id }, allowedQuery: allowedQuery, populate: { path: 'user products.product requests.request' } } });
     order ? res.status(200).send(order) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
@@ -391,6 +392,50 @@ export const removeOrder = ({ db }) => async (req, res) => {
     if (!req.body.id.length) return res.send(400).send({ message: 'Bad Request', status: false });
     const order = await db.removeAll({ table: Orders, key: { id: { '$in': req.body.id } } });
     order.deletedCount < 1 ? res.status(400).send({ message: 'Order not found', status: false }) : res.status(200).send({ message: 'Deleted Successfully', status: true });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: 'Something went wrong', status: false });
+  }
+};
+
+/**
+ * @param getCustomer function gets the customers details in the admin dashboar
+ * @returns the customers data
+ */
+export const getCustomer = () => async (req, res) => {
+  try {
+    const pipeline = [
+      {
+        $lookup: {
+          from: User.collection.name,
+          localField: 'user',
+          foreignField: '_id',
+          as: 'userData',
+        },
+      },
+      {
+        $unwind: '$userData',
+      },
+      {
+        $group: {
+          _id: '$user',
+          customerName: { $first: '$userData.fullName' },
+          phone: { $first: '$userData.phone' },
+          location: { $first: '$userData.address' },
+          orders: {
+            $push: {
+              products: '$products',
+              requests: '$requests',
+              total: '$total',
+            },
+          },
+          totalAmountSpent: { $sum: '$total' },
+          totalItems: { $sum: { $add: [{ $size: '$products' }, { $size: '$requests' }] } },
+        },
+      },
+    ];
+    const customers = await Orders.aggregate(pipeline);
+    customers ? res.status(200).send(customers) : res.status(400).send({ message: 'Bad Request', status: false });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: 'Something went wrong', status: false });
