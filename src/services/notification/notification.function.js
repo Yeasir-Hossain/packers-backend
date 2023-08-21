@@ -11,7 +11,7 @@ const allowedQuery = new Set(['$or']);
 export const sendNotification = async (db, ws, query, message, type) => {
   try {
     const users = await db.find({ table: User, key: { query: { '$or': query }, allowedQuery: allowedQuery, paginate: false } });
-    const docs = new Set(users.map(user => ({ user: user._id.toString(), message, type })));
+    const docs = new Set(users.map(user => ({ user: user._id.toString(), message, type, time: Date.now() })));
     const notification = await db.bulkCreate({ table: Notification, docs: [...docs] });
     if (!notification.length) return false;
     ws.to([...docs].map(doc => doc.user)).emit('notification', { message, type, time: Date.now() });

@@ -10,7 +10,7 @@ import path from 'path';
 import { sendNotification } from '../notification/notification.function';
 
 //   these are the set to validate the request query.
-const allowedQuery = new Set(['page', 'limit', 'sort', 'orderNumber', 'status', 'date', '_id', 'id', 'user']);
+const allowedQuery = new Set(['page', 'limit', 'sortBy', 'orderNumber', 'status', 'date', '_id', 'id', 'user']);
 
 /**
  * This function is for payment through ssl commerz
@@ -354,7 +354,7 @@ export const getSingleOrder = ({ db }) => async (req, res) => {
  */
 export const getUserOrder = ({ db }) => async (req, res) => {
   try {
-    const order = await db.find({ table: Orders, key: { query: { ...req.query, user: req.user.id }, allowedQuery: allowedQuery, populate: { path: 'user products.product requests.request' } } });
+    const order = await db.find({ table: Orders, key: { query: { ...req.query, user: req.user.id, }, allowedQuery: allowedQuery, populate: { path: 'user products.product requests.request' } } });
     order ? res.status(200).send(order) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {

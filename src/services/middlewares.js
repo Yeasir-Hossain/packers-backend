@@ -75,7 +75,7 @@ export async function passportMiddleware(req, res, next) {
  */
 export async function socketAuth(socket, next) {
   try {
-    const token = socket?.handshake?.headers?.coredevs?.replace('Bearer ', '');
+    const token = socket?.handshake?.headers?.cookie.split('=')[1]?.replace('; connect.sid', '') || socket?.handshake?.headers?.coredevs?.replace('Bearer ', '');
     if (!token) throw new Error({ message: 'Unauthorized', status: false });
     const user = await decodeAuthToken(token);
     if (!user) throw new Error({ message: 'Unauthorized', status: false });

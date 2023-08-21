@@ -2,7 +2,7 @@ import Notification from './notification.schema';
 
 
 // these are the set to validate the query.
-const allowedQuery = new Set(['user']);
+const allowedQuery = new Set(['user', 'sortBy']);
 
 /**
  * @param recieveNotification function is used to recieve all the notifications of the user
@@ -11,7 +11,7 @@ const allowedQuery = new Set(['user']);
  */
 export const recieveNotification = ({ db }) => async (req, res) => {
   try {
-    const notification = await db.find({ table: Notification, key: { query: { user: req.user.id }, allowedQuery: allowedQuery, paginate: false } });
+    const notification = await db.find({ table: Notification, key: { query: { user: req.user.id, sortBy: 'time:desc' }, allowedQuery: allowedQuery, paginate: false } });
     notification ? res.status(200).send(notification) : res.status(400).send({ message: 'No Notifications Found', status: false });
   }
   catch (err) {
