@@ -45,14 +45,14 @@ export default function user() {
   * @description this route is used to used get all user.
   * @response {Object} 200 - the users.
   */
-  this.route.get('/user', auth, getAll(this));
+  this.route.get('/user', auth, checkRole(['admin', 'super-admin']) ,getAll(this));
 
   /**
   * GET user/profile/:id
   * @description this route is used to get a user profile by id.
   * @response {Object} 200 - the user.
   */
-  this.route.get('/user/profile/:id', auth, userProfile(this));
+  this.route.get('/user/profile/:id', auth, checkRole(['admin', 'super-admin']), userProfile(this));
 
   /**
   * PATCH ‘/user/me’
