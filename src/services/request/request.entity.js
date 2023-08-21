@@ -66,7 +66,7 @@ export const getAllRequests = ({ db }) => async (req, res) => {
  */
 export const getSingleRequest = ({ db }) => async (req, res) => {
   try {
-    const request = await db.findOne({ table: Request, key: { id: req.params.id } });
+    const request = await db.findOne({ table: Request, key: { id: req.params.id, populate: { path: 'user', select: 'fullName email address phone' } } });
     request ? res.status(200).send(request) : res.status(400).send({ message: 'Bad Request', status: false });
   }
   catch (err) {
